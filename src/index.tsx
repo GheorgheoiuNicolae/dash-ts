@@ -9,7 +9,7 @@ import * as injectTapEventPlugin from 'react-tap-event-plugin';
 
 import App from './App';
 import Login from './components/login/';
-import Register from './components/register/Register';
+import Register from './components/register';
 import Authentication from './App/Authentication';
 import Dashboard from './components/dashboard/dashboard';
 import NotFound from './App/notFound';

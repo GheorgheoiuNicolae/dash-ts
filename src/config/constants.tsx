@@ -11,10 +11,9 @@ var config = {
 };
 firebase.initializeApp(config);
 
-export const ref = firebase.database().ref()
+export const DBRef = firebase.database().ref()
 export const storage = firebase.storage();
 export let firebaseAuth = firebase.auth;
-// window.firebaseAuth = firebaseAuth;
 
 // Export db paths
 export const fb = firebase;

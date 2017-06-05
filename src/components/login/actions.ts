@@ -30,7 +30,7 @@ export function login(user:any, pass: any){
 
 // runs on firebaseAuth.onAuthStateChange
 export function checkAuthState(data:any){
-  console.log('checkAuthState: ', data)
+  console.log('checkAuthState: ', data, firebaseAuth().currentUser)
   if (data) {
     browserHistory.push('/dashboard')
   } else {
@@ -41,26 +41,3 @@ export function checkAuthState(data:any){
     payload: data
   }
 }
-
-// export function registerUser (email, pw) {
-//   return dispatch => {
-//     // Register with FB api
-//     firebaseAuth().createUserWithEmailAndPassword(email, pw)
-//       .then((user) => {
-//         // Save the user to a users collection
-//         ref.child(`users/${user.uid}/info`)
-//         .set({
-//           email: user.email,
-//           uid: user.uid
-//         }).then(() => {
-//           // user was successfully saved into the collection
-//           browserHistory.push('/dashboard')
-//           dispatch({
-//             type: 'LOGIN',
-//             payload: user
-//           })
-//         });  
-//       })
-//       .catch((error) => console.log('Oops', error))
-//   }
-// }

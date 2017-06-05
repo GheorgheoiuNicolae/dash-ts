@@ -8,12 +8,8 @@ import styled from 'styled-components';
 import { login } from './actions';
 
 interface Props {
-  auth: any;
   login: Function,
-  form?: any;
   handleSubmit: any;
-  onSubmit: any;
-  dispatch: Function;
 }
 interface OwnProps {}
 
@@ -27,35 +23,37 @@ export default class Login extends React.Component<Props, OwnProps> {
     const { handleSubmit } = this.props;
     return (
       <LoginWrap>
-        <h1> Login </h1>
-        <form onSubmit={handleSubmit(this.submitForm)} className="login-form">
-          <InputWrap>
-            <Field
-              component={TextField}
-              floatingLabelFixed
-              floatingLabelText={'Email'}
-              fullWidth
-              name="email"
-            />
-          </InputWrap>
-          <InputWrap>
-            <Field
-              type="password"
-              component={TextField}
-              floatingLabelFixed
-              floatingLabelText={'Password'}
-              fullWidth
-              name="password"
-            />
-          </InputWrap>
-          <RaisedButton type="submit" label="Login" primary={true} />
-          <Footer>
-            {/*<Link to="/register" activeClassName="active">Register</Link>
-            <Link to="/register" activeClassName="active">Reset password</Link>*/}
-            <StyledRouterLink to="/register" activeClassName="active">Register</StyledRouterLink>
-            <StyledRouterLink to="/register" activeClassName="active">*Reset password</StyledRouterLink>
-          </Footer>
-        </form>
+        <Header>
+          <h1> Login </h1>
+        </Header>
+        <Content>
+          <form onSubmit={handleSubmit(this.submitForm)}>
+            <InputWrap>
+              <Field
+                component={TextField}
+                floatingLabelFixed
+                floatingLabelText={'Email'}
+                fullWidth
+                name="email"
+              />
+            </InputWrap>
+            <InputWrap>
+              <Field
+                type="password"
+                component={TextField}
+                floatingLabelFixed
+                floatingLabelText={'Password'}
+                fullWidth
+                name="password"
+              />
+            </InputWrap>
+            <RaisedButton type="submit" label="Login" primary={true} />
+          </form>
+        </Content>
+        <Footer>
+          <StyledRouterLink to="/register" activeClassName="active">Register</StyledRouterLink>
+          <StyledRouterLink to="/register" activeClassName="active">*Reset password</StyledRouterLink>
+        </Footer>
       </LoginWrap>
     )
   }
@@ -63,14 +61,21 @@ export default class Login extends React.Component<Props, OwnProps> {
 
 const LoginWrap = styled.div`
   background: #fff;
-  padding: 30px;
   width: 300px;
+`
+const Content = styled.div`
+  padding: 0 30px;
+`
+const Header = styled.div`
+  padding: 0 30px;
 `
 const InputWrap = styled.div`
   margin-bottom: 10px;
 `
 const Footer = styled.footer`
-  margin-top: 15px;
+  margin-top: 20px;
+  padding: 20px;
+  font-size: 12px;
   display: flex;
   flex-direction: row;
   align-items: center;

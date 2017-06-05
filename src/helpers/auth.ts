@@ -1,4 +1,4 @@
-import { ref, firebaseAuth } from '../config/constants'
+import { DBRef, firebaseAuth } from '../config/constants'
 
 export function auth (email:any, pw:any) {
   return firebaseAuth().createUserWithEmailAndPassword(email, pw)
@@ -16,7 +16,7 @@ export function login (email:any, pw:any) {
 }
 
 export function saveUser (user:any) {
-  return ref.child(`users/${user.uid}/info`)
+  return DBRef.child(`users/${user.uid}/info`)
     .set({
       email: user.email,
       uid: user.uid

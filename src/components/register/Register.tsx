@@ -1,39 +1,91 @@
-import { connect } from 'react-redux';
 import * as React from 'react';
-import { PureComponent } from 'react';
 
-export interface StyledComponentProps {
-  style?: string;
+import {Field} from 'redux-form';
+import { TextField } from 'redux-form-material-ui';
+import { Link } from 'react-router';
+import RaisedButton from 'material-ui/RaisedButton';
+import styled from 'styled-components';
+import { register } from './actions';
+
+interface Props {
+  auth: any;
+  form?: any;
+  handleSubmit: any;
+  onSubmit: any;
+  dispatch: Function;
 }
+interface OwnProps {}
 
-// @autobind
-class Register<P, S> extends PureComponent<P & StyledComponentProps, S> {
-  // handleSubmit = (e:any) => {
-  //   e.preventDefault()
-  //   // this.props.dispatch(action.registerUser(this.email.value, this.pw.value));
-  // }
+
+export default class Register extends React.Component<Props, OwnProps> {
+  submitForm = (v: any) => {
+    register(v.email, v.password)
+  }
   
   render () {
+    console.log('props', this.props);
+    const { handleSubmit } = this.props;
     return (
-      <div className="col-sm-6 col-sm-offset-3">
-        <h1>Register</h1>
-        {/*<form onSubmit={this.handleSubmit}>
-          <div className="form-group">
-            <label>Email</label>
-            <input className="form-control" ref={(email) => this.email = email} placeholder="Email"/>
-          </div>
-          <div className="form-group">
-            <label>Password</label>
-            <input type="password" className="form-control" placeholder="Password" ref={(pw) => this.pw = pw} />
-          </div>
-          <button type="submit" className="btn btn-primary">Register</button>
-        </form>*/}
-      </div>
+      <RegisterWrap>
+        <Header>
+          <h1> Register </h1>
+        </Header>
+        <Content>
+          <form onSubmit={handleSubmit(this.submitForm)}>
+            <InputWrap>
+              <Field
+                component={TextField}
+                floatingLabelFixed
+                floatingLabelText={'Email'}
+                fullWidth
+                name="email"
+              />
+            </InputWrap>
+            <InputWrap>
+              <Field
+                type="password"
+                component={TextField}
+                floatingLabelFixed
+                floatingLabelText={'Password'}
+                fullWidth
+                name="password"
+              />
+            </InputWrap>
+            <RaisedButton type="submit" label="Register" primary={true} />
+          </form>
+        </Content>
+        <Footer>
+          <StyledRouterLink to="/login" activeClassName="active">Login</StyledRouterLink>
+        </Footer>
+      </RegisterWrap>
     );
   }
 }
-export default connect((store) => {
-    return {
-        entries: store.entries
-    };
-})(Register);
+
+const RegisterWrap = styled.div`
+  background: #fff;
+  width: 300px;
+`
+const Content = styled.div`
+  padding: 0 30px;
+`
+const Header = styled.div`
+  padding: 0 30px;
+`
+const InputWrap = styled.div`
+  margin-bottom: 10px;
+`
+const Footer = styled.footer`
+  margin-top: 20px;
+  padding: 20px;
+  font-size: 12px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background: ghostwhite;
+`
+const StyledRouterLink = styled(Link)`
+	color: palevioletred;
+  display:flex;
+  flex: 1;
+`;
