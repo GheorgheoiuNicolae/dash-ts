@@ -1,56 +1,52 @@
+import * as types from '../actions/types';
+
 export default function reducer(state={
-    isLoggedIn: false,
-    email: null,
-    emailVerified: null,
-    uid: null,
-    displayName: null,
-    photoURL: null,
-    isAnonymous: null,
     isLoading: false,
-}, action: any){
-    switch(action.type){
-        case 'CHECK_AUTH_STATE_START': {
-            return {...state, isLoading: true}
+    user: null,
+    requestedPasswordReset: false,
+}, action: any) {
+    switch(action.type) {
+
+        case types.LOGIN_FIREBASE_USER: {
+          return {
+            ...state,
+            isLoading: false,
+            user: action.payload
+          };
         }
-        case 'UPDATE_AUTH_STATE': {
-            if(action.payload){
-                localStorage.setItem('is_logged_in', 'true');
-                const user = {
-                    email: action.payload.email,
-                    emailVerified: action.payload.emailVerified,
-                    uid: action.payload.uid,
-                    displayName: action.payload.displayName,
-                    photoURL: action.payload.photoURL,
-                    isAnonymous: action.payload.isAnonymous,
-                    isLoading: false
-                }
-                return {...state, ...user, isLoggedIn: true}
-            } else {
-                localStorage.setItem('is_logged_in', 'false');
-                let newState = {
-                    isLoggedIn: false, 
-                    user: null,
-                    isLoading: false
-                }
-                return newState;
-            }
+
+        case types.FETCH_FIREBASE_USER: {
+          return {... state, user: action.payload};
         }
-        case 'LOGIN': {
-            const user = {
-                email: action.payload.email,
-                emailVerified: action.payload.emailVerified,
-                uid: action.payload.uid,
-                displayName: action.payload.displayName,
-                photoURL: action.payload.photoURL,
-                isAnonymous: action.payload.isAnonymous
-            }
-            return {...state, ...user, isLoggedIn: true}
+
+        case types.REGISTER_FIREBASE_USER: {
+          return {
+            ...state,
+            isLoading: false,
+            user: action.payload
+          };
         }
-        case 'LOGOUT': {
-            return {...state, isLoggedIn: false}
+
+        case types.FIREBASE_PASSWORD_RESET_EMAIL: {
+          return { 
+            ...state,
+            requestedPasswordReset: true,
+          };
         }
+
+        case types.CHECK_AUTH: {
+          return { 
+            ...state,
+            user: action.payload,
+          };
+        }
+
+        case types.ON_AUTH_STATE_CHANGE: {
+          return { ...state };
+        }
+        
         default: {
-            return state
+            return state;
         }
     }
 }

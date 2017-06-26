@@ -1,25 +1,30 @@
-import { connect } from 'react-redux';
 import * as React from 'react';
-import { PureComponent } from 'react';
+import styled from 'styled-components';
+import TopBar from './topbar/TopBar';
+
+interface Props {}
+interface OwnProps {}
 
 export interface StyledComponentProps {
   style?: string;
   store: any;
 }
 
-class Dashboard<P, S> extends PureComponent<P & StyledComponentProps, S> {
+export default class Dashboard extends React.Component<Props, OwnProps> {
   render () {
     return (
-      <div className='dashboard'>
+      <DashboardWrap>
+        <TopBar />
+        <h3>Dashboard</h3>
         <div className="dashboard-content">
           {this.props.children}
         </div>
-      </div>
-    )
+      </DashboardWrap>
+    );
   }
 }
-export default connect((store) => {
-  return {
-    store: store
-  }
-})(Dashboard);
+
+const DashboardWrap = styled.div`
+  height: 100%;
+  width: 100%;
+`;

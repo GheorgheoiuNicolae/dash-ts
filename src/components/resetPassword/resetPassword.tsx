@@ -6,39 +6,30 @@ import { Link } from 'react-router';
 import RaisedButton from 'material-ui/RaisedButton';
 import styled from 'styled-components';
 
-interface UserData {
-  email: string;
-  password: string;
-}
-
 interface Props {
-  registerUser: (user: UserData) => {};
+  resetPasswordEmail: (email: any) => {};
   handleSubmit: any;
+  requestedPasswordReset: boolean;
 }
 interface OwnProps {}
 
-export default class Register extends React.Component<Props, OwnProps> {
+export default class ResetPasword extends React.Component<Props, OwnProps> {
   submitForm = (v: any) => {
-    // register(v.email, v.password);
-    const { registerUser } = this.props;
-
-    const user = {
-      email: v.email,
-      password: v.password,
-    };
-    registerUser(user);
+    const { resetPasswordEmail } = this.props;
+    resetPasswordEmail(v.email);
   }
   
   render () {
     // console.log('props', this.props);
-    const { handleSubmit } = this.props;
+    const { handleSubmit, requestedPasswordReset } = this.props;
     return (
       <RegisterWrap>
         <Header>
-          <h1> Register </h1>
+          <h1> Reset password </h1>
         </Header>
         <Content>
-          <form onSubmit={handleSubmit(this.submitForm)}>
+          {!requestedPasswordReset 
+          ? <form onSubmit={handleSubmit(this.submitForm)}>
             <InputWrap>
               <Field
                 component={TextField}
@@ -48,18 +39,9 @@ export default class Register extends React.Component<Props, OwnProps> {
                 name="email"
               />
             </InputWrap>
-            <InputWrap>
-              <Field
-                type="password"
-                component={TextField}
-                floatingLabelFixed={true}
-                floatingLabelText={'Password'}
-                fullWidth={true}
-                name="password"
-              />
-            </InputWrap>
-            <RaisedButton type="submit" label="Register" primary={true} />
+            <RaisedButton type="submit" label="Reset" primary={true} />
           </form>
+          : <p>Check your email.</p> }
         </Content>
         <Footer>
           <StyledRouterLink to="/login" activeClassName="active">Login</StyledRouterLink>

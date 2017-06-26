@@ -2,18 +2,18 @@ import { createStore, applyMiddleware } from 'redux';
 import { syncHistoryWithStore } from 'react-router-redux';
 import { browserHistory } from 'react-router';
 import thunk from 'redux-thunk';
-import {appReducers} from '../reducers/index';
+import { appReducers } from '../reducers/index';
+import * as ReduxPromise from 'redux-promise';
+import * as logger from 'redux-logger';
 
-const middleware = applyMiddleware(thunk);
-console.log('middleware:', middleware);
+const loggerOptions: logger.ReduxLoggerOptions = {
+  collapsed: true,
+};
+
+const middleware = applyMiddleware(thunk, ReduxPromise, logger(loggerOptions));
+
 const store = createStore(appReducers, middleware);
 
 export const history = syncHistoryWithStore(browserHistory, store);
 
 export default store;
-
-store.subscribe(function(){
-    console.log('store', store.getState())
-});
-
-// , window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()

@@ -4,13 +4,13 @@ export default function reducer(state={
 }, action: any){
     switch(action.type){
         case 'ADD_LABEL_TO_LIST': {
-            return {...state}
+            return {...state };
         }
         case 'UPDATE_LABELS_LIST': {
             return {...state, labels_initial_load: false, list: action.payload}
         }
         default: {
-            return {...state}
+            return {...state };
         }
     }
 }

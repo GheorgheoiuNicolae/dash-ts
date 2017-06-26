@@ -1,8 +1,10 @@
 import * as React from 'react';
 import styled from 'styled-components';
 
-
 export default class App extends React.Component<any, any> {
+  // componentWillReceiveProps(next: any) {
+  //   console.log('next', next.children);
+  // }
   render() {
     return (
       <Wrapper className="app">
@@ -14,17 +16,16 @@ export default class App extends React.Component<any, any> {
   }
 }
 
-
 const Wrapper = styled.section`
-  background: #1fa2ff; /* fallback for old browsers */
-  background: -webkit-linear-gradient(to right, #1fa2ff, #12d8fa, #a6ffcb); /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to right, #1fa2ff, #12d8fa, #a6ffcb); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-`
+  background: #1fa2ff; 
+  background: -webkit-linear-gradient(to right, #1fa2ff, #12d8fa, #a6ffcb);
+  background: linear-gradient(to right, #1fa2ff, #12d8fa, #a6ffcb);
+`;
 
 const MainWrapper = styled.div`
-  justify-content: center;
   align-items: center;
   display: flex;
   flex: 1;
   height: 100%;
-`
+  justify-content: center;
+`;

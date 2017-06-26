@@ -5,18 +5,22 @@ import { TextField } from 'redux-form-material-ui';
 import { Link } from 'react-router';
 import RaisedButton from 'material-ui/RaisedButton';
 import styled from 'styled-components';
-import { login } from './actions';
 
 interface Props {
-  login: Function,
+  loginUser: (user: any) => {};
   handleSubmit: any;
 }
-interface OwnProps {}
 
+interface OwnProps {}
 
 export default class Login extends React.Component<Props, OwnProps> {
   submitForm = (v: any) => {
-    login(v.email, v.password)
+    const { loginUser } = this.props;
+    const user = {
+      email: v.email, 
+      password: v.password
+    };
+    loginUser(user);
   }
 
   render () {
@@ -31,9 +35,9 @@ export default class Login extends React.Component<Props, OwnProps> {
             <InputWrap>
               <Field
                 component={TextField}
-                floatingLabelFixed
+                floatingLabelFixed={true}
                 floatingLabelText={'Email'}
-                fullWidth
+                fullWidth={true}
                 name="email"
               />
             </InputWrap>
@@ -41,9 +45,9 @@ export default class Login extends React.Component<Props, OwnProps> {
               <Field
                 type="password"
                 component={TextField}
-                floatingLabelFixed
+                floatingLabelFixed={true}
                 floatingLabelText={'Password'}
-                fullWidth
+                fullWidth={true}
                 name="password"
               />
             </InputWrap>
@@ -52,26 +56,26 @@ export default class Login extends React.Component<Props, OwnProps> {
         </Content>
         <Footer>
           <StyledRouterLink to="/register" activeClassName="active">Register</StyledRouterLink>
-          <StyledRouterLink to="/register" activeClassName="active">*Reset password</StyledRouterLink>
+          <StyledRouterLink to="/resetPassword" activeClassName="active">*Reset password</StyledRouterLink>
         </Footer>
       </LoginWrap>
-    )
+    );
   }
 }
 
 const LoginWrap = styled.div`
   background: #fff;
   width: 300px;
-`
+`;
 const Content = styled.div`
   padding: 0 30px;
-`
+`;
 const Header = styled.div`
   padding: 0 30px;
-`
+`;
 const InputWrap = styled.div`
   margin-bottom: 10px;
-`
+`;
 const Footer = styled.footer`
   margin-top: 20px;
   padding: 20px;
@@ -80,7 +84,7 @@ const Footer = styled.footer`
   flex-direction: row;
   align-items: center;
   background: ghostwhite;
-`
+`;
 const StyledRouterLink = styled(Link)`
 	color: palevioletred;
   display:flex;

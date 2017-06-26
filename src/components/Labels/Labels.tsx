@@ -1,8 +1,8 @@
 import * as React from 'react';
 
 export default class Labels extends React.Component<any, any> {
-  componentWillMount(){
-    console.log('this', this)
+  componentWillMount() {
+    console.log('this', this);
   }
   
   render() {

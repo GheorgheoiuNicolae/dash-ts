@@ -10,11 +10,12 @@ import * as injectTapEventPlugin from 'react-tap-event-plugin';
 import App from './App';
 import Login from './components/login/';
 import Register from './components/register';
+import ResetPassword from './components/resetPassword';
 import Authentication from './App/Authentication';
 import Dashboard from './components/dashboard/dashboard';
 import NotFound from './App/notFound';
 import Entries from './components/Entries';
-import Labels from './components/Labels'
+import Labels from './components/Labels';
 
 import './index.css';
 
@@ -24,12 +25,12 @@ export const routeList = {
   index: '/',
   login: '/login',
   register: '/register',
-  dashboard: '/dashboard',
+  resetPassword: 'resetPassword',
+  dashboard: 'dashboard',
   entries: '/entries',
   labels: '/labels',
   notFound: '/notFound',
 };
-
 
 const router = (
   <MuiThemeProvider>
@@ -39,6 +40,7 @@ const router = (
           <IndexRedirect to={routeList.dashboard} />
           <Route path={routeList.login} component={Login} />
           <Route path={routeList.register} component={Register} />
+          <Route path={routeList.resetPassword} component={ResetPassword} />
           <Route component={Authentication}>
             <Route path={routeList.dashboard} component={Dashboard}>
               <Route path={routeList.entries} component={Entries} />
@@ -53,9 +55,8 @@ const router = (
   </MuiThemeProvider>
 );
 
-
 ReactDOM.render(
   router,
-  document.getElementById('root') as HTMLElement
+  document.getElementById('root')
 );
 registerServiceWorker();
