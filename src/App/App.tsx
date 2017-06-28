@@ -2,9 +2,6 @@ import * as React from 'react';
 import styled from 'styled-components';
 
 export default class App extends React.Component<any, any> {
-  // componentWillReceiveProps(next: any) {
-  //   console.log('next', next.children);
-  // }
   render() {
     return (
       <Wrapper className="app">

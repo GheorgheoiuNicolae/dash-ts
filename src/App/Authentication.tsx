@@ -3,16 +3,17 @@ import * as React from 'react';
 import { InjectedRouter, RouterState } from 'react-router';
 import { ApplicationState } from '../reducers';
 import { fetchUser } from '../actions/firebase_actions';
+import { AuthState } from '../reducers/auth';
 
 interface StateProps {
-  auth: any;
-  fetchUser: () => {};
+  auth: AuthState;
+  fetchUser: Function;
 }
 
 interface RequiredProps {
   router: InjectedRouter;
   children: JSX.Element;
-  dispatch: any;
+  dispatch: Function;
 }
 
 interface OptionalProps {

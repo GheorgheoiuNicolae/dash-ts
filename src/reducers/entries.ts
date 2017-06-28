@@ -1,7 +1,14 @@
-export default function reducer(state={
+import { BaseAction, Entry } from '../types/';
+
+export interface EntriesState {
+    entries_initial_load: boolean;
+    list: Entry[];
+}
+
+export default function reducer(state: EntriesState = {
     entries_initial_load: true,
     list: []
-}, action: any) {
+}, action: BaseAction) {
     switch(action.type) {
         case 'ADD_ENTRY_TO_LIST': {
             return {...state};

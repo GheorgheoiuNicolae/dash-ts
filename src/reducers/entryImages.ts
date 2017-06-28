@@ -1,10 +1,20 @@
-export default function reducer(state={
+import { BaseAction } from '../types';
+
+interface EntryImagesState {
+  isUploading: boolean;
+  uploadProgress: null;
+  uploadError: null;
+  downloadError: null;
+  images?: string[];
+}
+
+export default function reducer(state: EntryImagesState = {
     isUploading: false,
     uploadProgress: null,
     uploadError: null,
     downloadError: null,
     images: []
-}, action: any) {
+}, action: BaseAction) {
   switch(action.type) {
     case 'UPLOAD_PROGRESS': {
         return {...state, 

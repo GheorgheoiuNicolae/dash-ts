@@ -1,19 +1,14 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import RaisedButton from 'material-ui/RaisedButton';
+import Icon from '../../../App/Icon';
 
 interface Props {}
 interface OwnProps {}
 
 export default class TopBar extends React.Component<Props, OwnProps> {
-  constructor(props: any) {
-    super(props);
-    this.state = {
-      open: false,
-    };
-  }
-
   logoutUser() {
+    console.log('logout');
     // this.props.dispatch(action.logout());
   }
 
@@ -40,21 +35,24 @@ export default class TopBar extends React.Component<Props, OwnProps> {
             className="sort-entries-button"
             children={
               <div className="sort-entries">
-                {/*<svg className="icon icon-filter_list"><use xlinkHref={`${sprites}#icon-filter_list`}></use></svg>*/}
+                {/*<svg className="icon icon-filter_list"><use xlinkHref={`${sprites}#icon-filter_list`}/></svg>*/}
+                <Icon kind="calendar"/>
                 <span>Sort entries</span>
               </div>
             }
           />
         </div>
-        <div className="topbar-link add-entry-wrap">
+        <TopbarLink>
           {/*<AddEntry />*/}
-        </div>
+        </TopbarLink>
         
-        <div className="brand">
-          {/*<img src={logo} className="logo" alt="logo" />*/}
-        </div>
+        <Brand>
+          <Logo>
+            {/*<img src={logo} className="logo" alt="logo" />*/}
+          </Logo>
+        </Brand>
 
-        <div className="user-account-dropdown">
+        <UserAccountDropdown>
           <RaisedButton
             onTouchTap={this.handleTouchTap}
             children={
@@ -80,7 +78,7 @@ export default class TopBar extends React.Component<Props, OwnProps> {
               <MenuItem primaryText="Sign out" onClick={this.logoutUser.bind(this)} />
             </Menu>
           </Popover>*/}
-        </div>
+        </UserAccountDropdown>
       </Topbar>
     );
   }
@@ -88,5 +86,35 @@ export default class TopBar extends React.Component<Props, OwnProps> {
 
 const Topbar = styled.div`
 	height: 50px;
-  width: 100%,
+  width: 100%;
+  box-sizing: border-box;
+  background-color: #fff;
+	box-shadow: 0px 0px 15px 0px #bdbdbd;
+  position: absolute;
+  z-index: 2;
+  padding-left: 50px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+`;
+const Brand = styled.div`
+	flex: 1;
+  text-align: center;
+`;
+const Logo = styled.div`
+	max-width: 160px;
+`;
+const TopbarLink = styled.div`
+  border-right: 1px solid @topbar-link-separator;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  height: 100%;
+`;
+const UserAccountDropdown = styled.div`
+  height: 100%;
+  display: flex;
+  align-items: center;
 `;

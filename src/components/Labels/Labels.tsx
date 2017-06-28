@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-export default class Labels extends React.Component<any, any> {
+export default class Labels extends React.Component<{}, {}> {
   componentWillMount() {
     console.log('this', this);
   }

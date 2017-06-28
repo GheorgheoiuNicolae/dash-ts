@@ -18,7 +18,6 @@ import Entries from './components/Entries';
 import Labels from './components/Labels';
 
 import './index.css';
-
 injectTapEventPlugin();
 
 export const routeList = {
@@ -43,6 +42,7 @@ const router = (
           <Route path={routeList.resetPassword} component={ResetPassword} />
           <Route component={Authentication}>
             <Route path={routeList.dashboard} component={Dashboard}>
+              <IndexRedirect to={routeList.entries} />
               <Route path={routeList.entries} component={Entries} />
               <Route path={routeList.labels} component={Labels} />
             </Route>

@@ -1,23 +1,28 @@
+import { connect } from 'react-redux';
 import * as React from 'react';
+import { ApplicationState } from '../../reducers';
 import styled from 'styled-components';
 import TopBar from './topbar/TopBar';
 
-interface Props {}
-interface OwnProps {}
+interface StateProps {}
 
-export interface StyledComponentProps {
-  style?: string;
-  store: any;
+interface RequiredProps {
+  children: JSX.Element;
 }
 
-export default class Dashboard extends React.Component<Props, OwnProps> {
-  render () {
+interface OptionalProps {}
+
+type Props = StateProps & RequiredProps & OptionalProps;
+
+class Dashboard extends React.Component<Props, {}> {
+  render() {
+    const { children } = this.props;
     return (
       <DashboardWrap>
         <TopBar />
         <h3>Dashboard</h3>
         <div className="dashboard-content">
-          {this.props.children}
+          {children}
         </div>
       </DashboardWrap>
     );
@@ -28,3 +33,8 @@ const DashboardWrap = styled.div`
   height: 100%;
   width: 100%;
 `;
+
+export default connect<StateProps, {}, RequiredProps & OptionalProps>(
+  (state: ApplicationState) => ({
+  }),
+)(Dashboard);
