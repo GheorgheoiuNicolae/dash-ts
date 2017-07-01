@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 
-export default class App extends React.Component<any, any> {
+export default class App extends React.Component<{}, {}> {
   render() {
     return (
       <Wrapper className="app">

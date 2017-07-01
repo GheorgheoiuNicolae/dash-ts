@@ -1,12 +1,19 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import RaisedButton from 'material-ui/RaisedButton';
-import Icon from '../../../App/Icon';
+import { Menu, MenuItem, RaisedButton } from 'material-ui';
+import Popover, {PopoverAnimationVertical} from 'material-ui/Popover';
+import { logoutUser } from '../../../actions/firebase_actions';
+console.log('logoutUser: ', logoutUser);
 
 interface Props {}
-interface OwnProps {}
 
-export default class TopBar extends React.Component<Props, OwnProps> {
+export default class TopBar extends React.Component<Props, any> {
+  constructor() {
+    super();
+    this.state = {
+      open: false,
+    };
+  }
   logoutUser() {
     console.log('logout');
     // this.props.dispatch(action.logout());
@@ -28,21 +35,11 @@ export default class TopBar extends React.Component<Props, OwnProps> {
   }
   
   render () {
+    const { open, anchorEl } = this.state;
     return (
       <Topbar>
-        <div className="topbar-link sort-entries-wrap">
-          <RaisedButton
-            className="sort-entries-button"
-            children={
-              <div className="sort-entries">
-                {/*<svg className="icon icon-filter_list"><use xlinkHref={`${sprites}#icon-filter_list`}/></svg>*/}
-                <Icon kind="calendar"/>
-                <span>Sort entries</span>
-              </div>
-            }
-          />
-        </div>
         <TopbarLink>
+          aa
           {/*<AddEntry />*/}
         </TopbarLink>
         
@@ -63,21 +60,21 @@ export default class TopBar extends React.Component<Props, OwnProps> {
               </div>
             }
           />
-          {/*<Popover
-            open={this.state.open}
-            anchorEl={this.state.anchorEl}
+          <Popover
+            open={open}
+            anchorEl={anchorEl}
             anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
             targetOrigin={{horizontal: 'left', vertical: 'top'}}
-            onRequestClose={this.handleRequestClose}
+            onRequestClose={() => this.handleRequestClose()}
             animation={PopoverAnimationVertical}
           >
             <Menu>
               <MenuItem primaryText="Refresh" />
               <MenuItem primaryText="Help &amp; feedback" />
               <MenuItem primaryText="Settings" />
-              <MenuItem primaryText="Sign out" onClick={this.logoutUser.bind(this)} />
+              <MenuItem primaryText="Sign out" onClick={() => this.logoutUser} />
             </Menu>
-          </Popover>*/}
+          </Popover>
         </UserAccountDropdown>
       </Topbar>
     );

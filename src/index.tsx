@@ -36,7 +36,7 @@ const router = (
     <Provider store={store}>
       <Router history={history}>
         <Route path={routeList.index} component={App}>
-          <IndexRedirect to={routeList.dashboard} />
+          <IndexRedirect to={routeList.entries} />
           <Route path={routeList.login} component={Login} />
           <Route path={routeList.register} component={Register} />
           <Route path={routeList.resetPassword} component={ResetPassword} />

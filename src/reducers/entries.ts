@@ -14,7 +14,7 @@ export default function reducer(state: EntriesState = {
             return {...state};
         }
         case 'UPDATE_ENTRY_LIST': {
-            return {...state, entries_initial_load: false, list: action.payload}
+            return {...state, entries_initial_load: false, list: action.payload};
         }
         default: {
             return {...state};
