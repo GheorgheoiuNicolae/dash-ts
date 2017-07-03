@@ -5,15 +5,12 @@ import { TextField } from 'redux-form-material-ui';
 import { Link } from 'react-router';
 import RaisedButton from 'material-ui/RaisedButton';
 import styled from 'styled-components';
+import { StateProps, DispatchProps, OwnProps } from './LoginContainer';
+import { browserHistory } from 'react-router';
 
-interface Props {
-  loginUser: (user: any) => {};
-  handleSubmit: any;
-}
+export type Props = StateProps & OwnProps & DispatchProps;
 
-interface OwnProps {}
-
-export default class Login extends React.Component<Props, OwnProps> {
+export default class Login extends React.Component<Props, {} > {
   submitForm = (v: any) => {
     const { loginUser } = this.props;
     const user = {
@@ -21,6 +18,13 @@ export default class Login extends React.Component<Props, OwnProps> {
       password: v.password
     };
     loginUser(user);
+  }
+  componentWillReceiveProps(nextProps: any) {
+    console.log('login next', nextProps);
+    if (nextProps.auth.user) {
+      console.log('go to dashboard');
+      browserHistory.push('/authentication');
+    }
   }
 
   render () {

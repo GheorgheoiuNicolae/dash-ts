@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import * as React from 'react';
 import { ApplicationState } from '../../reducers';
 import styled from 'styled-components';
-import TopBar from './topbar/TopBar';
+import TopBar from './topbar';
 
 interface StateProps {}
 

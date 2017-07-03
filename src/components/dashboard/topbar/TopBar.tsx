@@ -2,21 +2,35 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { Menu, MenuItem, RaisedButton } from 'material-ui';
 import Popover, {PopoverAnimationVertical} from 'material-ui/Popover';
-import { logoutUser } from '../../../actions/firebase_actions';
-console.log('logoutUser: ', logoutUser);
+import { StateProps, DispatchProps, OwnProps } from './TopBarContainer';
+import { browserHistory } from 'react-router';
 
-interface Props {}
+const logo = require('../../../assets/logo.png');
 
-export default class TopBar extends React.Component<Props, any> {
+export type Props = StateProps & OwnProps & DispatchProps;
+
+interface OtherProps {
+  open: boolean;
+  anchorEl: any;
+}
+export default class TopBar extends React.Component<Props, OtherProps> {
   constructor() {
     super();
     this.state = {
       open: false,
+      anchorEl: null
     };
   }
-  logoutUser() {
-    console.log('logout');
-    // this.props.dispatch(action.logout());
+
+  logoutUser = () => {
+    const {auth, logoutUser } = this.props;
+    logoutUser(auth.user);
+  }
+
+  componentWillReceiveProps(nextProps: any) {
+    if(!nextProps.auth.user) {
+      browserHistory.push('/login');
+    }
   }
 
   handleTouchTap = (event: any) => {
@@ -45,7 +59,7 @@ export default class TopBar extends React.Component<Props, any> {
         
         <Brand>
           <Logo>
-            {/*<img src={logo} className="logo" alt="logo" />*/}
+            <img src={logo} alt="logo" />
           </Logo>
         </Brand>
 
@@ -72,7 +86,7 @@ export default class TopBar extends React.Component<Props, any> {
               <MenuItem primaryText="Refresh" />
               <MenuItem primaryText="Help &amp; feedback" />
               <MenuItem primaryText="Settings" />
-              <MenuItem primaryText="Sign out" onClick={() => this.logoutUser} />
+              <MenuItem primaryText="Sign out" onClick={() => this.logoutUser()} />
             </Menu>
           </Popover>
         </UserAccountDropdown>
@@ -97,10 +111,10 @@ const Topbar = styled.div`
 `;
 const Brand = styled.div`
 	flex: 1;
-  text-align: center;
+  
 `;
 const Logo = styled.div`
-	max-width: 160px;
+	width: 160px;
 `;
 const TopbarLink = styled.div`
   border-right: 1px solid @topbar-link-separator;

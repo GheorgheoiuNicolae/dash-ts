@@ -2,7 +2,9 @@ import registerServiceWorker from './registerServiceWorker';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import { Redirect, IndexRedirect, Router, Route } from 'react-router';
+import { Redirect, 
+  IndexRedirect, 
+  Router, Route } from 'react-router';
 import { Provider } from 'react-redux';
 import store, { history } from './store/store';
 import * as injectTapEventPlugin from 'react-tap-event-plugin';
@@ -24,11 +26,12 @@ export const routeList = {
   index: '/',
   login: '/login',
   register: '/register',
-  resetPassword: 'resetPassword',
-  dashboard: 'dashboard',
+  resetPassword: '/resetPassword',
+  dashboard: '/dashboard',
   entries: '/entries',
   labels: '/labels',
   notFound: '/notFound',
+  authentication: '/authentication',
 };
 
 const router = (
@@ -36,12 +39,12 @@ const router = (
     <Provider store={store}>
       <Router history={history}>
         <Route path={routeList.index} component={App}>
-          <IndexRedirect to={routeList.entries} />
+          <IndexRedirect to={routeList.authentication} />
           <Route path={routeList.login} component={Login} />
           <Route path={routeList.register} component={Register} />
           <Route path={routeList.resetPassword} component={ResetPassword} />
-          <Route component={Authentication}>
-            <Route path={routeList.dashboard} component={Dashboard}>
+          <Route component={Authentication} path={routeList.authentication}>
+            <Route component={Dashboard}>
               <IndexRedirect to={routeList.entries} />
               <Route path={routeList.entries} component={Entries} />
               <Route path={routeList.labels} component={Labels} />

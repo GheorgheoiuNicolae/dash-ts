@@ -4,6 +4,7 @@ import { InjectedRouter, RouterState } from 'react-router';
 import { ApplicationState } from '../reducers';
 import { fetchUser } from '../actions/firebase_actions';
 import { AuthState } from '../reducers/auth';
+import { browserHistory } from 'react-router';
 
 interface StateProps {
   auth: AuthState;
@@ -32,6 +33,12 @@ class Authentication extends React.Component<Props, {}> {
     const { dispatch, fetchUser} = this.props;
     dispatch(fetchUser());
   }
+  componentWillReceiveProps(nextProps: any){
+    if(!nextProps.auth.user) {
+      browserHistory.push('/login');
+    } 
+  }
+
   render() {
     const { auth, children } = this.props;
     return auth.user && auth.user.uid ? children : null;

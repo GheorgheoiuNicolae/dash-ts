@@ -8,6 +8,10 @@ html, body, .root, .app {
 body > div {
   height: 100%;
 }
+img {
+  width: 100%;
+  height: auto;
+}
 /* change input autocompleted style */
 input:-webkit-autofill,
 input:-webkit-autofill:hover,

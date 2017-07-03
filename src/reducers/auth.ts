@@ -26,6 +26,14 @@ export default function reducer(state: AuthState={
           };
         }
 
+        case types.LOGOUT_FIREBASE_USER: {
+          return {
+            ...state,
+            isLoading: false,
+            user: null,
+          };
+        }
+
         case types.FETCH_FIREBASE_USER: {
           return {... state, user: action.payload};
         }
