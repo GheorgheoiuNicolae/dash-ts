@@ -1,9 +1,19 @@
 import * as React from 'react';
+import { StateProps, DispatchProps, OwnProps } from './EntriesContainer';
 
-export default class Entries extends React.Component<{}, {}> {
+export type Props = StateProps & OwnProps & DispatchProps;
+interface OtherProps {
+  // component state props here
+}
+
+export default class Entries extends React.Component<Props, OtherProps> {
   componentWillMount() {
-    console.log('entries');
+    const { getEntries, user } = this.props;
+    if(user) {
+      getEntries(user.uid);
+    }
   }
+
   render() {
     return (
       <div className="entries">

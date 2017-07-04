@@ -1,3 +1,3 @@
-import Entries from './Entries';
+import EntriesContainer from './EntriesContainer';
 
-export default Entries;
+export default EntriesContainer;

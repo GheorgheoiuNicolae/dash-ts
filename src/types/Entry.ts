@@ -1,5 +1,8 @@
 interface Entry {
-  name: string;
+  id: string;
+  title: string;
+  description: string;
+  date: Date;
   createdAt: Date;
 }
 
