@@ -1,5 +1,4 @@
-import AllTypes from './AllTypes';
-
+import { Any } from './Any';
 /*
  * {
     type: "UPDATE_USER_EMAIL",
@@ -9,7 +8,7 @@ import AllTypes from './AllTypes';
 
 export interface BaseAction {
   type: string;
-  payload: AllTypes;
+  payload: Any;
   meta?: {} | Function;
 }
 

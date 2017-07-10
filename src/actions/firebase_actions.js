@@ -1,7 +1,6 @@
 import FireBaseTools, { firebaseDb } from '../utils/firebase';
 import * as types from './types';
 
-
 export function loginWithProvider(provider) {
   const request = FireBaseTools.loginWithProvider(provider);
   return {

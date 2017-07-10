@@ -5,11 +5,11 @@ import { FormState } from 'redux-form';
 import entries from './entries';
 import auth from './auth';
 import { AuthState } from './auth';
-import { EntriesState } from './entries';
+import { EntriesInitialState } from './entries';
 
 export interface ApplicationState {
   routing: RouterState;
-  entries: EntriesState;
+  entries: EntriesInitialState;
   auth: AuthState;
   form: FormState;
 }

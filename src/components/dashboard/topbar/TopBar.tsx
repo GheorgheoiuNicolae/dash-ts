@@ -4,6 +4,7 @@ import { Menu, MenuItem, RaisedButton } from 'material-ui';
 import Popover, {PopoverAnimationVertical} from 'material-ui/Popover';
 import { StateProps, DispatchProps, OwnProps } from './TopBarContainer';
 import { browserHistory } from 'react-router';
+import { Any } from '../../../types/';
 
 const logo = require('../../../assets/logo.png');
 
@@ -11,7 +12,7 @@ export type Props = StateProps & OwnProps & DispatchProps;
 
 interface OtherProps {
   open: boolean;
-  anchorEl: any;
+  anchorEl: Any;
 }
 export default class TopBar extends React.Component<Props, OtherProps> {
   constructor() {
@@ -27,13 +28,13 @@ export default class TopBar extends React.Component<Props, OtherProps> {
     logoutUser(auth.user);
   }
 
-  componentWillReceiveProps(nextProps: any) {
+  componentWillReceiveProps(nextProps: Any) {
     if(!nextProps.auth.user) {
       browserHistory.push('/login');
     }
   }
 
-  handleTouchTap = (event: any) => {
+  handleTouchTap = (event: Any) => {
     event.preventDefault();
 
     this.setState({

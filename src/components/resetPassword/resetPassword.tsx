@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Any } from '../../types';
 
 import {Field} from 'redux-form';
 import { TextField } from 'redux-form-material-ui';
@@ -7,14 +8,14 @@ import RaisedButton from 'material-ui/RaisedButton';
 import styled from 'styled-components';
 
 interface Props {
-  resetPasswordEmail: (email: any) => {};
-  handleSubmit: any;
+  resetPasswordEmail: (email: Any) => {};
+  handleSubmit: Any;
   requestedPasswordReset: boolean;
 }
 interface OwnProps {}
 
 export default class ResetPasword extends React.Component<Props, OwnProps> {
-  submitForm = (v: any) => {
+  submitForm = (v: Any) => {
     const { resetPasswordEmail } = this.props;
     resetPasswordEmail(v.email);
   }

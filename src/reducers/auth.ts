@@ -59,10 +59,6 @@ export default function reducer(state: AuthState={
             user: action.payload,
           };
         }
-
-        case types.ON_AUTH_STATE_CHANGE: {
-          return { ...state };
-        }
         
         default: {
             return state;

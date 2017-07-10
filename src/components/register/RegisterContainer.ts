@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import { ApplicationState } from '../../reducers';
+import { Any } from '../../types';
 import Register from './Register';
 import {reduxForm} from 'redux-form';
 import { registerUser } from '../../actions/firebase_actions';
@@ -9,7 +10,7 @@ export interface StateProps {
 }
 
 export interface DispatchProps {
-  registerUser: (user: any) => {};
+  registerUser: (user: Any) => {};
 }
 
 export interface OwnProps {}

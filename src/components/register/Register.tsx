@@ -1,5 +1,5 @@
 import * as React from 'react';
-
+import { Any } from '../../types';
 import {Field} from 'redux-form';
 import { TextField } from 'redux-form-material-ui';
 import { Link } from 'react-router';
@@ -13,12 +13,12 @@ interface UserData {
 
 interface Props {
   registerUser: (user: UserData) => {};
-  handleSubmit: any;
+  handleSubmit: Any;
 }
 interface OwnProps {}
 
 export default class Register extends React.Component<Props, OwnProps> {
-  submitForm = (v: any) => {
+  submitForm = (v: Any) => {
     // register(v.email, v.password);
     const { registerUser } = this.props;
 

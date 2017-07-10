@@ -1,22 +1,50 @@
-import { BaseAction, Entry } from '../types/';
+import { BaseAction, Any, EntriesFilterBy } from '../types/';
 import * as types from '../actions/types';
 
-export interface EntriesState {
-  entries_initial_load: boolean;
-  list: Entry[];
+export interface EntriesInitialState {
+  allIds: number[] | string[];
+  ui: {
+    entry: Any;
+    didInvalidate: boolean;
+    showModal: string | null;
+    filterBy: EntriesFilterBy;
+    error: boolean;
+  };
+  byId: Any;
 }
 
-export default function reducer(state: EntriesState = {
-  entries_initial_load: true,
-  list: []
+export default function reducer(state: EntriesInitialState = {
+  ui: {
+    entry: null,
+    didInvalidate: false,
+    showModal: null,
+    filterBy: {
+      date: {
+        from: null,
+        to: null,
+      },
+      kind: '',
+      labels: [],
+    },
+    error: false,
+  },
+  byId: {},
+  allIds: [],
 }, action: BaseAction) {
   switch (action.type) {
+
     case types.RECEIVE_ENTRY: {
+      let newEntry = {};
+      newEntry[action.payload.id] = {...action.payload};
       return {
         ...state,
-        list: [
-          ...state.list,
-          action.payload
+        byId: {
+          ...state.byId,
+          ...newEntry,
+        },
+        allIds: [
+          ...state.allIds,
+          action.payload.id,
         ]
       };
     }

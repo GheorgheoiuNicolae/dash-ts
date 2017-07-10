@@ -7,11 +7,12 @@ import RaisedButton from 'material-ui/RaisedButton';
 import styled from 'styled-components';
 import { StateProps, DispatchProps, OwnProps } from './LoginContainer';
 import { browserHistory } from 'react-router';
+import { Any } from '../../types';
 
 export type Props = StateProps & OwnProps & DispatchProps;
 
 export default class Login extends React.Component<Props, {} > {
-  submitForm = (v: any) => {
+  submitForm = (v: Any) => {
     const { loginUser } = this.props;
     const user = {
       email: v.email, 
@@ -19,7 +20,7 @@ export default class Login extends React.Component<Props, {} > {
     };
     loginUser(user);
   }
-  componentWillReceiveProps(nextProps: any) {
+  componentWillReceiveProps(nextProps: Any) {
     console.log('login next', nextProps);
     if (nextProps.auth.user) {
       console.log('go to dashboard');
