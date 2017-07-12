@@ -147,7 +147,6 @@ const FireBaseTools = {
    * @returns {!firebase.database.Reference|firebase.database.Reference}
    */
     getDatabaseReference: path => firebaseDb.ref(path),
-
 };
 
 export default FireBaseTools;

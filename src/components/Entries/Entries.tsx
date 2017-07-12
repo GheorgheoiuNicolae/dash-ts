@@ -1,6 +1,10 @@
 import * as React from 'react';
+import * as moment from 'moment';
 import { StateProps, DispatchProps, OwnProps } from './EntriesContainer';
 import EntryListItem from './EntryListItem/EntryListItem';
+import { Any } from '../../types';
+import styled from 'styled-components';
+
 export type Props = StateProps & OwnProps & DispatchProps;
 interface OtherProps {
   // component state props here
@@ -13,17 +17,33 @@ export default class Entries extends React.Component<Props, OtherProps> {
       getEntries(user.uid);
     }
   }
-  componentWillReceiveProps(nextProps: any) {
-    const { entries } = nextProps;
-    console.log('next: ', entries);
-  }
 
   render() {
+    const { entries } = this.props;
+    let mappedDays = entries.map((day: Any, index) => {
+      let mappedEntries = day.entries.map( (entry: Any) => {
+        return <EntryListItem entry={entry} key={entry.id} />;
+      });
+      return (
+        <div key={index}>
+          <p>---{moment(day.date).format('dddd, D')} {moment(day.date).format('MMMM YYYY')}</p>
+          {mappedEntries}
+        </div>
+      );
+    });
+    
     return (
-      <div className="entries">
-        <h3>Entries</h3>
-        <EntryListItem />
-      </div>
+      <EntryList>
+        {mappedDays}
+      </EntryList>
     );
   }
 }
+
+const EntryList = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow: scroll;
+  marginTop: 50px;
+`;

@@ -98,7 +98,17 @@ export const getEntries = (uid) => {
   }
 }
 
+export const saveEntry = (data, uid) => {
+  return function (dispatch) {
+    let entriesRef = firebaseDb.ref().child(`entries/${uid}`).push();
+    const pushkey = entriesRef.getKey();
+    
+    data.id = pushkey;
+    entriesRef.set(data);
+  };
+};
+
 export const reveiveEntry = (entry) => ({
   type: types.RECEIVE_ENTRY,
   payload: entry,
-})
+});

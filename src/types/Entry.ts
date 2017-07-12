@@ -4,8 +4,8 @@ interface Entry {
   id: number;
   title: string;
   description: string; // should support markup at some point
-  date: string; // timestamp of the date where the entry appears on the list.
-  createdAt: string;
+  date: number; // timestamp of the date where the entry appears on the list.
+  createdAt: number;
   // array of label ids
   // if I delete a label, will it be deleted from the entry?
   labels: number[] | null; 
@@ -13,7 +13,7 @@ interface Entry {
   checklistItems: ChecklistItem[] | null;
   geoPlace: { // if the entry has a place assigned. else we can populate with the users location?
     lat: string;
-    lang: string;
+    long: string;
   } | null;
   kind?: 'regular'  | 'reccurent'; // possibly one way to make reccurent entries
 }
