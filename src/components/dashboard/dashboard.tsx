@@ -2,13 +2,19 @@ import { connect } from 'react-redux';
 import * as React from 'react';
 import { ApplicationState } from '../../reducers';
 import styled from 'styled-components';
-import TopBar from './topbar';
 import Sidebar from './sidebar';
+import { Any, Entry } from '../../types/';
+import { getEntries } from '../../actions/firebase_actions';
+import { getAllEntries } from '../Entries/selectors';
 
-interface StateProps {}
+interface StateProps {
+  user: Any;
+  entries: Entry[];
+}
 
 interface RequiredProps {
   children: JSX.Element;
+  getEntries: Any;
 }
 
 interface OptionalProps {}
@@ -16,11 +22,16 @@ interface OptionalProps {}
 type Props = StateProps & RequiredProps & OptionalProps;
 
 class Dashboard extends React.Component<Props, {}> {
+  componentWillMount() {
+    const { getEntries, user } = this.props;
+    if(user) {
+      getEntries(user.uid);
+    }
+  }
   render() {
     const { children } = this.props;
     return (
       <DashboardWrap>
-        <TopBar />
         <Sidebar />
         {children}
       </DashboardWrap>
@@ -32,9 +43,17 @@ const DashboardWrap = styled.div`
   height: 100%;
   width: 100%;
   overflow: scroll;
+  background: #f3f5f7;
 `;
 
 export default connect<StateProps, {}, RequiredProps & OptionalProps>(
-  (state: ApplicationState) => ({
-  }),
+  (state: ApplicationState) => {
+    return {
+      user: state.auth.user,
+      entries: getAllEntries(state),
+    };
+  },
+  {
+    getEntries,
+  },
 )(Dashboard);

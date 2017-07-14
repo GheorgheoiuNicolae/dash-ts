@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { ApplicationState } from '../../../reducers';
-import TopBar from './TopBar';
+import UserCard from './UserCard';
 import { logoutUser } from '../../../actions/firebase_actions';
 import { Any } from '../../../types';
 
@@ -29,4 +29,4 @@ export default connect<StateProps, DispatchProps, OwnProps>(
   {
     logoutUser,
   },
-)(TopBar);
+)(UserCard);

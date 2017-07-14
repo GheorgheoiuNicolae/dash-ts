@@ -11,13 +11,6 @@ interface OtherProps {
 }
 
 export default class Entries extends React.Component<Props, OtherProps> {
-  componentWillMount() {
-    const { getEntries, user } = this.props;
-    if(user) {
-      getEntries(user.uid);
-    }
-  }
-
   render() {
     const { entries } = this.props;
     let mappedDays = entries.map((day: Any, index) => {
@@ -26,7 +19,7 @@ export default class Entries extends React.Component<Props, OtherProps> {
       });
       return (
         <div key={index}>
-          <p>{moment(day.date).format('dddd, D')} {moment(day.date).format('MMMM YYYY')}</p>
+          <Date>{moment(day.date).format('dddd, D')} {moment(day.date).format('MMMM YYYY')}</Date>
           {mappedEntries}
         </div>
       );
@@ -35,6 +28,7 @@ export default class Entries extends React.Component<Props, OtherProps> {
     return (
       <Wrap>
         <EntryList>
+          <TimelineBar />
           {mappedDays}
         </EntryList>
       </Wrap>
@@ -47,8 +41,6 @@ const EntryList = styled.div`
   flex-direction: column;
   flex: 1;
   overflow: scroll;
-  margin-top: 50px;
-  max-width: 800px;
 `;
 
 const Wrap = styled.div`
@@ -56,4 +48,17 @@ const Wrap = styled.div`
   flex-direction: column;
   flex: 1;
   overflow: scroll;
+  padding: 0 30px 0 230px;
+`;
+
+const TimelineBar = styled.div`
+  position: absolute;
+  width: 7px;
+  height: 100%;
+  background: #fff;
+  left: 264px;
+`;
+
+const Date = styled.p`
+  margin-left: 50px;
 `;
