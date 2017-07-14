@@ -34,7 +34,6 @@ export default function reducer(state: EntriesInitialState = {
   switch (action.type) {
 
     case types.RECEIVE_ENTRY: {
-      console.log('received', state, action.payload);
       let newEntry = {};
       newEntry[action.payload.id] = {...action.payload};
       return {

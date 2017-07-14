@@ -1,11 +1,12 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { Menu, MenuItem, RaisedButton } from 'material-ui';
+import { Menu, MenuItem, FlatButton } from 'material-ui';
 import Popover, {PopoverAnimationVertical} from 'material-ui/Popover';
 import { StateProps, DispatchProps, OwnProps } from './TopBarContainer';
 import { browserHistory } from 'react-router';
 import { Any } from '../../../types/';
-
+import Avatar from 'material-ui/Avatar';
+const userAvatar = require('../../../assets/user-avatar.png');
 const logo = require('../../../assets/logo.png');
 
 export type Props = StateProps & OwnProps & DispatchProps;
@@ -14,7 +15,7 @@ interface OtherProps {
   open: boolean;
   anchorEl: Any;
 }
-export default class TopBar extends React.Component<Props, OtherProps> {
+export default class TopBar extends React.PureComponent<Props, OtherProps> {
   constructor() {
     super();
     this.state = {
@@ -24,7 +25,7 @@ export default class TopBar extends React.Component<Props, OtherProps> {
   }
 
   logoutUser = () => {
-    const {auth, logoutUser } = this.props;
+    const { auth, logoutUser } = this.props;
     logoutUser(auth.user);
   }
 
@@ -51,10 +52,11 @@ export default class TopBar extends React.Component<Props, OtherProps> {
   
   render () {
     const { open, anchorEl } = this.state;
+    const { auth } = this.props;
     return (
       <Topbar>
         <TopbarLink>
-          aa
+          Add Entry
           {/*<AddEntry />*/}
         </TopbarLink>
         
@@ -65,14 +67,17 @@ export default class TopBar extends React.Component<Props, OtherProps> {
         </Brand>
 
         <UserAccountDropdown>
-          <RaisedButton
+          <StyledFlatButton
             onTouchTap={this.handleTouchTap}
             children={
-              <div className="username">
-                <div className="avatar">
-                  {/*<Avatar src={`${userAvatar}`} size={35} />*/}
+              <UserDropdown>
+                <AvatarWrap>
+                  <Avatar src={`${userAvatar}`} size={35} />
+                </AvatarWrap>
+                <div className="user">
+                  {auth.user.displayName ? auth.user.displayName : auth.user.email}
                 </div>
-              </div>
+              </UserDropdown>
             }
           />
           <Popover
@@ -111,11 +116,12 @@ const Topbar = styled.div`
   justify-content: space-between;
 `;
 const Brand = styled.div`
+  display: flex;
 	flex: 1;
-  
+  justify-content: center;
 `;
 const Logo = styled.div`
-	width: 160px;
+	max-width: 160px;
 `;
 const TopbarLink = styled.div`
   border-right: 1px solid @topbar-link-separator;
@@ -129,4 +135,20 @@ const UserAccountDropdown = styled.div`
   height: 100%;
   display: flex;
   align-items: center;
+`;
+const UserDropdown = styled.div`
+  display: flex;
+  padding: 0 5px;
+`;
+const AvatarWrap = styled.div`
+  padding: 0 10px;
+  display: flex;
+  align-items: center;
+`;
+
+const StyledFlatButton = styled(FlatButton)`
+  height: 100%;
+  min-height: 100%;
+  padding: 0 10px !important;
+  border-radius: 0px!important;
 `;

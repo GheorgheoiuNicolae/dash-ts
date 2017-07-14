@@ -1,0 +1,12 @@
+.Sidebar.collapsed {
+  width: 50px;  
+}
+.Sidebar.expanded {
+  width: 230px;
+}
+.Sidebar.collapsed .button-text {
+  display: none;
+}
+.Sidebar.expanded button span {
+  padding-left: 18px;
+}

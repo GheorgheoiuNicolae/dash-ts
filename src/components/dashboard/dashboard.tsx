@@ -3,7 +3,7 @@ import * as React from 'react';
 import { ApplicationState } from '../../reducers';
 import styled from 'styled-components';
 import TopBar from './topbar';
-import AdminTools from '../adminTools/';
+import Sidebar from './sidebar';
 
 interface StateProps {}
 
@@ -20,8 +20,8 @@ class Dashboard extends React.Component<Props, {}> {
     const { children } = this.props;
     return (
       <DashboardWrap>
-        <AdminTools />
         <TopBar />
+        <Sidebar />
         {children}
       </DashboardWrap>
     );

@@ -11,9 +11,6 @@ interface Props {
 interface StateProps {}
 
 export default class EntryListItem extends React.Component<Props, StateProps> {
-  componentWillMount() {
-    console.log('EntryListItem', this.props.entry);
-  }
 
   render() {
     const { entry } = this.props;

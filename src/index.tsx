@@ -18,6 +18,7 @@ import Dashboard from './components/dashboard/dashboard';
 import NotFound from './App/notFound';
 import Entries from './components/Entries';
 import Labels from './components/Labels';
+import IconsGrid from './App/IconsGrid';
 
 import './index.css';
 injectTapEventPlugin();
@@ -32,6 +33,7 @@ export const routeList = {
   labels: '/labels',
   notFound: '/notFound',
   authentication: '/authentication',
+  icons: '/icons',
 };
 
 const router = (
@@ -41,6 +43,7 @@ const router = (
         <Route path={routeList.index} component={App}>
           <IndexRedirect to={routeList.authentication} />
           <Route path={routeList.login} component={Login} />
+          <Route path={routeList.icons} component={IconsGrid} />
           <Route path={routeList.register} component={Register} />
           <Route path={routeList.resetPassword} component={ResetPassword} />
           <Route component={Authentication} path={routeList.authentication}>

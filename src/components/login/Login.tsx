@@ -21,9 +21,7 @@ export default class Login extends React.Component<Props, {} > {
     loginUser(user);
   }
   componentWillReceiveProps(nextProps: Any) {
-    console.log('login next', nextProps);
     if (nextProps.auth.user) {
-      console.log('go to dashboard');
       browserHistory.push('/authentication');
     }
   }

@@ -1,15 +1,13 @@
 import * as React from 'react';
 import { StateProps, DispatchProps, OwnProps } from './container';
 import styled from 'styled-components';
-// import { Any } from '../../types/';
+import { FlatButton } from 'material-ui';
 
 export type Props = StateProps & OwnProps & DispatchProps;
 interface State {
   isAdmin: boolean;
   dummyEntryNames: string[];
   dummyEntryDescriptions: string[];
-  // dummyLabelNames: string[];
-  // dummyLabelColors: string[];
 }
 
 export default class AdminTools extends React.Component<Props, State> {
@@ -39,19 +37,6 @@ export default class AdminTools extends React.Component<Props, State> {
         Even those who live in the City must wear spectacles night and day. They are all locked on, for Oz 
         so ordered it when the City was first built, and I have the only key that will unlock them.`
       ],
-      // dummyLabelNames: [
-      //   'Finance',
-      //   'Travel',
-      //   'Work',
-      //   'Family time',
-      //   'Spendings',
-      // ],
-      // dummyLabelColors: [
-      //   'coral',
-      //   'cornflowerblue',
-      //   'orange',
-      //   'crimson',
-      // ],
     };
   }
 
@@ -106,19 +91,29 @@ export default class AdminTools extends React.Component<Props, State> {
   render() {
     const { isAdmin } = this.state;
     return isAdmin ? (
-      <Wrap>
-        <h3>Admin tools</h3>
-        <button onClick={() => this.generateEntries(10)}>generate entries</button>
+      <Wrap >
+        <H3>Admin tools</H3>
+        <FlatButton
+           label="Generate entries"
+           primary={true}
+           onTouchTap={() => this.generateEntries(10)}
+        />
       </Wrap>
     ) : null;
   }
 }
 
+const H3 = styled.h4`
+  color: #15cbfb;
+  text-align: center;
+`;
+
 const Wrap = styled.div`
   position: absolute;
-  top: 0px;
-  right: 120px;
+  bottom: 0px;
+  width: 100%;
   z-index: 9;
-  background: aquamarine;
-  padding: 30px;
+  background: #353535;
+  padding: 10px 30px;
+  box-sizing: border-box;
 `;

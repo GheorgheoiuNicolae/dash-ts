@@ -26,16 +26,18 @@ export default class Entries extends React.Component<Props, OtherProps> {
       });
       return (
         <div key={index}>
-          <p>---{moment(day.date).format('dddd, D')} {moment(day.date).format('MMMM YYYY')}</p>
+          <p>{moment(day.date).format('dddd, D')} {moment(day.date).format('MMMM YYYY')}</p>
           {mappedEntries}
         </div>
       );
     });
     
     return (
-      <EntryList>
-        {mappedDays}
-      </EntryList>
+      <Wrap>
+        <EntryList>
+          {mappedDays}
+        </EntryList>
+      </Wrap>
     );
   }
 }
@@ -45,5 +47,13 @@ const EntryList = styled.div`
   flex-direction: column;
   flex: 1;
   overflow: scroll;
-  marginTop: 50px;
+  margin-top: 50px;
+  max-width: 800px;
+`;
+
+const Wrap = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow: scroll;
 `;

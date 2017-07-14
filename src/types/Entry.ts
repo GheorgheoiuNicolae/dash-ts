@@ -25,26 +25,4 @@ interface ChecklistItem {
   position: number | null; // bullet items should be movable in the list at some point
 }
 
-// const entrySample: Entry = {
-//   id: 319,
-//   title: 'Go to Malaga',
-//   description: 'and have some time off',
-//   checklistItems: [{
-//     completed: false,
-//     text: 'Buy keychain',
-//     completedAt: null,
-//     position: 1,
-//   }],
-//   date: '12352353532',
-//   createdAt: '29483252032',
-//   labels: [44, 92],
-//   photos: [],
-//   geoPlace: {
-//     lat: '29.5282',
-//     lang: '44,218',
-//   },
-//   kind: 'regular',
-// };
-// console.log('entrySample', entrySample);
-
 export default Entry;
