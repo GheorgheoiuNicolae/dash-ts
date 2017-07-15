@@ -70,7 +70,6 @@ export default class UserCard extends React.PureComponent<Props, OtherProps> {
         >
           <FontAwesome
             name="cog"
-            size="10px"
             style={{ color: '73909d' }}
           />
         </StyledIconButton>

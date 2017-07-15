@@ -88,14 +88,20 @@ export function onAuthStateChange() {
 }
 
 export const getEntries = (uid) => {
+  console.log('get ')
   return function (dispatch) {
     firebaseDb.ref()
     .child(`entries/${uid}`)
     .orderByChild("date")
     .on('child_added', (snapshot) => {
-      dispatch(reveiveEntry(snapshot.val()))
+      dispatch(receiveEntry(snapshot.val()))
     });
   }
+}
+
+export const removeAllCollections = () => {
+  console.log('removeAllCollections: ')
+  firebaseDb.ref().remove()
 }
 
 export const saveEntry = (data, uid) => {
@@ -108,7 +114,24 @@ export const saveEntry = (data, uid) => {
   };
 };
 
-export const reveiveEntry = (entry) => ({
+export const removeEntry = (data, uid) => {
+  console.log('remove', data)
+  return function (dispatch) {
+    let entriesRef = firebaseDb.ref().child(`entries/${uid}`).push();
+    const pushkey = entriesRef.getKey();
+    
+    data.id = pushkey;
+    entriesRef.set(data);
+  };
+};
+
+export const receiveEntry = (entries) => ({
   type: types.RECEIVE_ENTRY,
-  payload: entry,
+  payload: entries,
 });
+
+export const reveiveEntries = (entries) => ({
+  type: types.RECEIVE_ENTRIES,
+  payload: entries,
+});
+

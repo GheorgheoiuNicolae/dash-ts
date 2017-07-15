@@ -31,8 +31,21 @@ export default function reducer(state: EntriesInitialState = {
   byId: {},
   allIds: [],
 }, action: BaseAction) {
+  console.log(action);
   switch (action.type) {
 
+    case types.RECEIVE_ENTRIES: {
+      return {
+        ...state,
+        byId: action.payload,
+        allIds: [
+          ...state.allIds,
+          ...Object.keys(action.payload).map((key) => {
+            return key;
+          }),
+        ]
+      };
+    }
     case types.RECEIVE_ENTRY: {
       let newEntry = {};
       newEntry[action.payload.id] = {...action.payload};

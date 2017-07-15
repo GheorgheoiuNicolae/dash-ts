@@ -4,16 +4,22 @@ import { Any } from '../../../types';
 import EntrySingle from './EntrySingle/EntrySingle';
 import styled from 'styled-components';
 import Icon from '../../../App/Icon';
-
+import { removeEntry } from '../../../actions/firebase_actions';
+import ConfirmRemoveEntryDialog from './confirmRemove';
 interface Props {
   entry: Any;
+  user: Any;
 }
 interface StateProps {}
 
 export default class EntryListItem extends React.Component<Props, StateProps> {
+  removeEntry() {
+    const { user, entry } = this.props;
+    removeEntry(user.uid, entry);
+  }
 
   render() {
-    const { entry } = this.props;
+    const { entry, user } = this.props;
     return (
       <Wrapper>
         <Time> {moment(new Date(entry.date)).format('hh:mm')} </Time>
@@ -21,6 +27,11 @@ export default class EntryListItem extends React.Component<Props, StateProps> {
           <Icon kind="calendar" />
         </MainLabel>
         <EntrySingle entry={entry} />
+        <ConfirmRemoveEntryDialog 
+          user={user}
+          removeEntry={() => this.removeEntry()} 
+          entry={entry}
+        />
       </Wrapper>
     );
   }

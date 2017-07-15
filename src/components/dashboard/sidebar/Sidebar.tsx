@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { FlatButton, Divider } from 'material-ui';
+import { FlatButton, Divider, RaisedButton } from 'material-ui';
 import { StateProps, DispatchProps, OwnProps } from './SidebarContainer';
 import { Link } from 'react-router';
 import AdminTools from '../../adminTools/';
@@ -64,6 +64,20 @@ export default class Sidebar extends React.Component<Props, OtherProps> {
           }
         />
 
+        <Divider />
+
+        <AddButtonWrapper>
+          <RaisedButton 
+            primary={true} 
+            label="Add Entry"
+            labelPosition="after"
+          >
+            <FontAwesome
+              name="plus"
+            />
+          </RaisedButton>
+        </AddButtonWrapper>
+
         <AdminTools />
       </SidebarWrap>
     );
@@ -109,4 +123,10 @@ const Logo = styled.div`
 	max-width: 160px;
   margin-left: 30px;
   margin-top: 10px;
+`;
+const AddButtonWrapper = styled.div`
+	display: flex;
+  justify-content: center;
+  padding-top: 20px;
+  flex-direction: row;
 `;

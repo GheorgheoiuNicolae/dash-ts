@@ -6,20 +6,22 @@ const getAllEntries = (state: Any): Any[] => {
   const entryList: Any = [];
 
   entries.map((entry: Any) => {
-    const date = new Date(entry.date);
-    const YMD = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    if (entry) {
+      const date = new Date(entry.date);
+      const YMD = new Date(date.getFullYear(), date.getMonth(), date.getDate());
 
-    const day: Any = _.find(entryList, {
-      date: YMD,
-    });
-
-    if (day) {
-      day.entries.push(entry);
-    } else {
-      entryList.push({
+      const day: Any = _.find(entryList, {
         date: YMD,
-        entries: [entry]
       });
+
+      if (day) {
+        day.entries.push(entry);
+      } else {
+        entryList.push({
+          date: YMD,
+          entries: [entry]
+        });
+      }
     }
   });
 

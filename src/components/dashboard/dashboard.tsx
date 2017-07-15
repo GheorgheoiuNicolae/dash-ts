@@ -23,7 +23,7 @@ type Props = StateProps & RequiredProps & OptionalProps;
 
 class Dashboard extends React.Component<Props, {}> {
   componentWillMount() {
-    const { getEntries, user } = this.props;
+    const { user, getEntries } = this.props;
     if(user) {
       getEntries(user.uid);
     }
