@@ -1,4 +1,5 @@
 import { BaseAction, Any, EntriesFilterBy } from '../types/';
+import { deleteFromById, deleteFromAllIds} from '../utils/deleteFromState';
 import * as types from '../actions/types';
 
 export interface EntriesInitialState {
@@ -31,7 +32,6 @@ export default function reducer(state: EntriesInitialState = {
   byId: {},
   allIds: [],
 }, action: BaseAction) {
-  console.log(action);
   switch (action.type) {
 
     case types.RECEIVE_ENTRIES: {
@@ -59,6 +59,13 @@ export default function reducer(state: EntriesInitialState = {
           ...state.allIds,
           action.payload.id,
         ]
+      };
+    }
+    case types.REMOVE_ENTRY_SUCCESS: {
+      return {
+        ...state,
+        byId: deleteFromById(state.byId, action.payload),
+        allIds: deleteFromAllIds(state.allIds, action.payload),
       };
     }
     default: {

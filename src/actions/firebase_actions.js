@@ -88,7 +88,6 @@ export function onAuthStateChange() {
 }
 
 export const getEntries = (uid) => {
-  console.log('get ')
   return function (dispatch) {
     firebaseDb.ref()
     .child(`entries/${uid}`)
@@ -106,7 +105,11 @@ export const removeAllCollections = () => {
 
 export const saveEntry = (data, uid) => {
   return function (dispatch) {
-    let entriesRef = firebaseDb.ref().child(`entries/${uid}`).push();
+    let entriesRef = firebaseDb
+      .ref()
+      .child(`entries/${uid}`)
+      .push();
+
     const pushkey = entriesRef.getKey();
     
     data.id = pushkey;
@@ -117,11 +120,18 @@ export const saveEntry = (data, uid) => {
 export const removeEntry = (data, uid) => {
   console.log('remove', data)
   return function (dispatch) {
-    let entriesRef = firebaseDb.ref().child(`entries/${uid}`).push();
-    const pushkey = entriesRef.getKey();
-    
-    data.id = pushkey;
-    entriesRef.set(data);
+    firebaseDb
+      .ref()
+      .child(`entries/${uid}/${data.id}`)
+      .remove()
+      .then(function() {
+        console.log("Remove succeeded.")
+        dispatch(removeEntrySuccess(data));
+      })
+      .catch(function(error) {
+        console.log("Remove failed: " + error.message)
+        dispatch(registerError('Could not remove entry', error))
+      });
   };
 };
 
@@ -133,5 +143,18 @@ export const receiveEntry = (entries) => ({
 export const reveiveEntries = (entries) => ({
   type: types.RECEIVE_ENTRIES,
   payload: entries,
+});
+
+export const removeEntrySuccess = (entry) => ({
+  type: types.REMOVE_ENTRY_SUCCESS,
+  payload: entry,
+});
+
+export const registerError = (reason, error) => ({
+  type: types.RECEIVE_ENTRIES,
+  payload: {
+    reason: reason,
+    error: error,
+  }
 });
 

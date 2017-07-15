@@ -12,10 +12,17 @@ interface OtherProps {
 
 export default class Entries extends React.Component<Props, OtherProps> {
   render() {
-    const { entries, user } = this.props;
+    const { entries, user, removeEntry } = this.props;
     let mappedDays = entries.map((day: Any, index) => {
       let mappedEntries = day.entries.map( (entry: Any) => {
-        return <EntryListItem user={user} entry={entry} key={entry.id} />;
+        return (
+          <EntryListItem 
+            user={user} 
+            entry={entry} 
+            key={entry.id}
+            removeEntry={removeEntry}
+          />
+        );
       });
       return (
         <div key={index}>

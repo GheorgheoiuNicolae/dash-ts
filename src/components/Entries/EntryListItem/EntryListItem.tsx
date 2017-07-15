@@ -4,18 +4,18 @@ import { Any } from '../../../types';
 import EntrySingle from './EntrySingle/EntrySingle';
 import styled from 'styled-components';
 import Icon from '../../../App/Icon';
-import { removeEntry } from '../../../actions/firebase_actions';
 import ConfirmRemoveEntryDialog from './confirmRemove';
 interface Props {
   entry: Any;
   user: Any;
+  removeEntry: Function;
 }
 interface StateProps {}
 
 export default class EntryListItem extends React.Component<Props, StateProps> {
   removeEntry() {
-    const { user, entry } = this.props;
-    removeEntry(user.uid, entry);
+    const { user, entry, removeEntry } = this.props;
+    removeEntry(entry, user.uid);
   }
 
   render() {

@@ -4,6 +4,7 @@ import Entries from './Entries';
 import { Entry } from '../../types/';
 import { getAllEntries } from './selectors';
 import {Any} from '../../types';
+import { removeEntry } from '../../actions/firebase_actions';
 
 export interface OwnOptionalProps {}
 
@@ -14,7 +15,9 @@ export interface StateProps {
   user: Any;
 }
 
-export interface DispatchProps {}
+export interface DispatchProps {
+  removeEntry: Any;
+}
 
 export default connect<StateProps, DispatchProps, OwnProps>(
   (state: ApplicationState) => {
@@ -24,6 +27,6 @@ export default connect<StateProps, DispatchProps, OwnProps>(
     };
   },
   {
-    
+    removeEntry,
   },
 )(Entries);
