@@ -1,10 +1,12 @@
-export function deleteFromById(state: any, data: any) {
+import { Any } from '../types';
+
+export function deleteFromById(state: Any, data: Any) {
   const newState = Object.assign({}, state);
   delete newState[data.id];
   return newState; 
 }
 
-export function deleteFromAllIds(state: any, data: any) {
+export function deleteFromAllIds(state: Any, data: Any) {
   const newState = [...state];
   const idx = newState.indexOf(data.id);
   newState.splice(idx, 1);

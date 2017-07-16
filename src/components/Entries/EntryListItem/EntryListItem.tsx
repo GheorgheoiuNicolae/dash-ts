@@ -1,10 +1,11 @@
 import * as React from 'react';
 import * as moment from 'moment';
 import { Any } from '../../../types';
-import EntrySingle from './EntrySingle/EntrySingle';
+import EntrySingle from './EntrySingle/';
 import styled from 'styled-components';
 import Icon from '../../../App/Icon';
 import ConfirmRemoveEntryDialog from './confirmRemove';
+
 interface Props {
   entry: Any;
   user: Any;

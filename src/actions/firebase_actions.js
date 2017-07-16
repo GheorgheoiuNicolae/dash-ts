@@ -31,6 +31,7 @@ function addUserData(data) {
     payload: data,
   };
 }
+
 export function fetchUser() {
   const request = FireBaseTools.fetchUser();
   return {
@@ -132,6 +133,17 @@ export const removeEntry = (data, uid) => {
         console.log("Remove failed: " + error.message)
         dispatch(registerError('Could not remove entry', error))
       });
+  };
+};
+
+export const setCurrentEntry = (data) => ({
+  type: types.SET_CURRENT_ENTRY,
+  payload: data,
+})
+
+export const saveEntryEdits = (data, uid) => {
+  return function (dispatch) {
+    console.log('save edits', data);
   };
 };
 

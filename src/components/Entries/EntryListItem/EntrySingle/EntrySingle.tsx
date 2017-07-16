@@ -1,12 +1,12 @@
 import * as React from 'react';
-// import EntryForm from '../../../EntryForm/EntryForm';
+import EditEntryForm from '../../forms/EditEntry';
 import { Any } from '../../../../types/';
-// import Dialog from 'material-ui/Dialog';
-// import FlatButton from 'material-ui/FlatButton';
+import Dialog from 'material-ui/Dialog';
+import FlatButton from 'material-ui/FlatButton';
+import { StateProps, DispatchProps, OwnProps } from './EntrySingleContainer';
 
-interface Props {
-  entry: Any;
-}
+type Props = StateProps & DispatchProps & OwnProps;
+
 interface OtherProps {
   // component state props here
   handleOpen: Any;
@@ -23,6 +23,9 @@ export default class EntrySingle extends React.Component<Props, OtherProps> {
   }
 
   handleOpen = () => {
+    const { setCurrentEntry, entry } = this.props;
+    setCurrentEntry(entry);
+
     this.setState({open: true});
   }
 
@@ -34,35 +37,37 @@ export default class EntrySingle extends React.Component<Props, OtherProps> {
 
   handleSubmit = (e: Any) => {
     e.preventDefault();
-    // const { user, currentEntry } = this.props;
-
-    // this.props.dispatch(action.editEntry(user.uid, currentEntry));
+    
     this.handleClose();    
   }
 
   render () {
     const { entry } = this.props;
-    // const actions = [(
-    //   <FlatButton
-    //     label="Cancel"
-    //     primary={true}
-    //     onTouchTap={this.handleClose}
-    //   />),(
-    //     <FlatButton
-    //       label="Submit"
-    //       primary={true}
-    //       keyboardFocused={true}
-    //       onTouchTap={this.handleSubmit}
-    //     />
-    //   ),
-    // ];
+    const actions = [(
+      <FlatButton
+        label="Cancel"
+        primary={true}
+        onTouchTap={this.handleClose}
+      />),(
+        <FlatButton
+          label="Submit"
+          primary={true}
+          keyboardFocused={true}
+          onTouchTap={this.handleSubmit}
+        />
+      ),
+    ];
 
     return (
       <div className="EntrySingle">
-        <h3 className="title" >{entry.title}</h3>
-        {/*<h3 className="title" onTouchTap={this.handleOpen} >{this.props.entry.title}</h3>*/}
+        <FlatButton 
+          className="title" 
+          onTouchTap={this.handleOpen}
+        >
+          {entry.title}
+        </FlatButton>
 
-        {/*<Dialog
+        <Dialog
           title="edit entry"
           actions={actions}
           modal={true}
@@ -71,9 +76,9 @@ export default class EntrySingle extends React.Component<Props, OtherProps> {
           autoScrollBodyContent={true}
         >
           
-          <EntryForm editMode={true} />
+          <EditEntryForm />
         
-        </Dialog>*/}
+        </Dialog>
       </div>
     );
   }

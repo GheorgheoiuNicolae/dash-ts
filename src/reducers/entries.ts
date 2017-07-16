@@ -5,7 +5,7 @@ import * as types from '../actions/types';
 export interface EntriesInitialState {
   allIds: number[] | string[];
   ui: {
-    entry: Any;
+    selectedEntry: Any;
     didInvalidate: boolean;
     showModal: string | null;
     filterBy: EntriesFilterBy;
@@ -16,7 +16,7 @@ export interface EntriesInitialState {
 
 export default function reducer(state: EntriesInitialState = {
   ui: {
-    entry: null,
+    selectedEntry: null,
     didInvalidate: false,
     showModal: null,
     filterBy: {
@@ -66,6 +66,15 @@ export default function reducer(state: EntriesInitialState = {
         ...state,
         byId: deleteFromById(state.byId, action.payload),
         allIds: deleteFromAllIds(state.allIds, action.payload),
+      };
+    }
+    case types.SET_CURRENT_ENTRY: {
+      return {
+        ...state,
+        ui: {
+          ...state.ui,
+          selectedEntry: action.payload,
+        }
       };
     }
     default: {
