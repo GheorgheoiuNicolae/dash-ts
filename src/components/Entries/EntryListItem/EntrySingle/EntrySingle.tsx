@@ -37,6 +37,7 @@ export default class EntrySingle extends React.Component<Props, OtherProps> {
 
   handleSubmit = (e: Any) => {
     e.preventDefault();
+    console.log('submit form?');
     
     this.handleClose();    
   }
@@ -68,7 +69,7 @@ export default class EntrySingle extends React.Component<Props, OtherProps> {
         </FlatButton>
 
         <Dialog
-          title="edit entry"
+          title="Edit Entry"
           actions={actions}
           modal={true}
           open={this.state.open}

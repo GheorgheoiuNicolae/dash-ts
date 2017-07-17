@@ -3,13 +3,17 @@ import { TextField } from 'redux-form-material-ui';
 import { Field } from 'redux-form';
 import { Any } from '../../../../types/';
 import styled from 'styled-components';
-import { StateProps, DispatchProps, OwnProps } from './EditEntryContainer';
+import { StateProps, DispatchProps, OwnProps } from './AddEntryContainer';
 
 export type Props = StateProps & OwnProps & DispatchProps;
 
-export default class EditEntryForm extends React.PureComponent<Props, {}> {
+export default class AddEntryForm extends React.PureComponent<Props, {}> {
   componentWillMount() {
     console.log('edit form');
+  }
+  
+  handleChange(event: Any) {
+    console.log('event', event);
   }
 
   submitForm = (v: Any) => {
@@ -17,7 +21,10 @@ export default class EditEntryForm extends React.PureComponent<Props, {}> {
   }
 
   render () {
-    const { handleSubmit } = this.props;
+    const { handleSubmit, 
+      entry,
+    } = this.props;
+    console.log('entry--', entry, );
     return (
       <div className="entry-form">
         <form onSubmit={handleSubmit(this.submitForm)}>
@@ -25,22 +32,20 @@ export default class EditEntryForm extends React.PureComponent<Props, {}> {
             <Field
               component={TextField}
               floatingLabelFixed={true}
-              floatingLabelText={'Title'}
+              floatingLabelText={'title'}
               fullWidth={true}
-              name={'title'}
+              name={'entry.title'}
             />
           </InputWrap>
-
-          <InputWrap>
-            <Field
-              component={TextField}
-              floatingLabelFixed={true}
-              floatingLabelText={'Description'}
-              fullWidth={true}
-              name={'description'}
-              multiLine={true}
-            />
-          </InputWrap>
+          
+          <TextField
+            hintText="Description"
+            /*defaultValue={description ? description : ''}*/
+            fullWidth={true}
+            onChange={(event) => this.handleChange(event)}
+            multiLine={true}
+            id="description"
+          />
 
           {/* <EntryLabels 
             labels={this.state.labels} 

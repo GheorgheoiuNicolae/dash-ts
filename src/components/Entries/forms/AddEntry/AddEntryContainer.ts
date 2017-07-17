@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { ApplicationState } from '../../../../reducers';
-import EditEntryForm from './EditEntry';
+import AddEntryForm from './AddEntry';
 import {reduxForm} from 'redux-form';
 import { Any }  from '../../../../types';
 import { saveEntryEdits } from '../../../../actions/firebase_actions';
@@ -27,12 +27,11 @@ export default connect<StateProps, DispatchProps, OwnProps>(
     return {
       auth: state.auth,
       entry: state.entries.ui.selectedEntry,
-      initialValues: state.entries.byId[state.entries.ui.selectedEntry.id],
     };
   },
   {
     saveEntryEdits,
   },
 )(reduxForm({
-  form: 'editEntry',
-})(EditEntryForm));
+  form: 'addEntry',
+})(AddEntryForm));
