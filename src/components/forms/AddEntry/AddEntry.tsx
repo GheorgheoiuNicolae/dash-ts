@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { TextField } from 'redux-form-material-ui';
 import { Field } from 'redux-form';
-import { Any } from '../../../../types/';
+import { Any } from '../../../types/';
 import styled from 'styled-components';
-import { StateProps, DispatchProps, OwnProps } from './EditEntryContainer';
+import { StateProps, DispatchProps, OwnProps } from './AddEntryContainer';
 
 export type Props = StateProps & OwnProps & DispatchProps;
 
-export default class EditEntryForm extends React.PureComponent<Props, {}> {
+export default class AddEntryForm extends React.PureComponent<Props, {}> {
   componentWillMount() {
     console.log('edit form');
   }
@@ -22,9 +22,9 @@ export default class EditEntryForm extends React.PureComponent<Props, {}> {
 
   render () {
     const { handleSubmit, 
-      entry 
+      entry,
     } = this.props;
-    console.log('entry', entry);
+    console.log('entry--', entry, );
     return (
       <div className="entry-form">
         <form onSubmit={handleSubmit(this.submitForm)}>
@@ -32,10 +32,9 @@ export default class EditEntryForm extends React.PureComponent<Props, {}> {
             <Field
               component={TextField}
               floatingLabelFixed={true}
-              floatingLabelText={'Title'}
+              floatingLabelText={'title'}
               fullWidth={true}
-              name="title"
-              value={entry.title}
+              name={'entry.title'}
             />
           </InputWrap>
           

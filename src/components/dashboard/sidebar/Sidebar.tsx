@@ -1,19 +1,68 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { FlatButton, Divider, RaisedButton } from 'material-ui';
+import { Dialog, FlatButton, Divider, RaisedButton } from 'material-ui';
 import { StateProps, DispatchProps, OwnProps } from './SidebarContainer';
 import { Link } from 'react-router';
+import AddEntryForm from '../../forms/AddEntry/';
 import AdminTools from '../../adminTools/';
 import UserCard from '../UserCard/';
+import { Any } from '../../../types/';
 var FontAwesome = require('react-fontawesome');
 const logo = require('../../../assets/logo.png');
 
 export type Props = StateProps & OwnProps & DispatchProps;
 
-interface OtherProps {}
+interface OtherProps {
+  // component state props here
+  handleOpen: Any;
+  open: boolean;
+  submitDisabled: boolean;
+}
 
 export default class Sidebar extends React.Component<Props, OtherProps> {
+  componentWillMount() {
+    this.setState({
+      open: false,
+      submitDisabled: false
+    });
+  }
+  handleOpen = () => {
+    this.setState({open: true});
+  }
+
+  handleClose = () => {
+    this.setState({
+      open: false,
+    });
+  }
+
+  handleSubmit = (e: Any) => {
+    e.preventDefault();
+    
+    this.handleClose();
+  }
+
+  closeModal = (modalName: string) => {
+    const { hideModal } = this.props;
+    hideModal(modalName);
+  }
+
   render () {
+    const { showAddModal, showModal } = this.props;
+    const actions = [(
+      <FlatButton
+        label="Cancel"
+        primary={true}
+        onTouchTap={this.handleClose}
+      />),(
+        <FlatButton
+          label="Submit"
+          primary={true}
+          keyboardFocused={true}
+          onTouchTap={this.handleSubmit}
+        />
+      ),
+    ];
     return (
       <SidebarWrap>
         <MenuToggle>
@@ -68,15 +117,31 @@ export default class Sidebar extends React.Component<Props, OtherProps> {
 
         <AddButtonWrapper>
           <RaisedButton 
+            style={{color: '#fff'}}
             primary={true} 
             label="Add Entry"
             labelPosition="after"
+            onTouchTap={() => showModal('addEntry')}
           >
             <FontAwesome
+              color="#fff"
               name="plus"
             />
           </RaisedButton>
         </AddButtonWrapper>
+
+        <Dialog
+          title="add entry"
+          actions={actions}
+          modal={true}
+          open={showAddModal}
+          onRequestClose={this.handleClose}
+          autoScrollBodyContent={true}
+        >
+          <button onClick={() => this.closeModal('addEntry')}>closeDialog</button>
+          <AddEntryForm />
+        
+        </Dialog>
 
         <AdminTools />
       </SidebarWrap>

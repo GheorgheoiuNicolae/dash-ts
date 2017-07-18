@@ -20,6 +20,7 @@ export default class Login extends React.Component<Props, {} > {
     };
     loginUser(user);
   }
+  
   componentWillReceiveProps(nextProps: Any) {
     if (nextProps.auth.user) {
       browserHistory.push('/authentication');
