@@ -1,3 +1,3 @@
-import Labels from './Labels';
+import LabelsContainer from './LabelsContainer';
 
-export default Labels;
+export default LabelsContainer;
