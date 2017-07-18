@@ -1,9 +1,9 @@
 import { connect } from 'react-redux';
-import { ApplicationState } from '../../../../reducers';
+import { ApplicationState } from '../../../reducers';
 import AddEntryForm from './AddEntry';
 import {reduxForm} from 'redux-form';
-import { Any }  from '../../../../types';
-import { saveEntryEdits } from '../../../../actions/firebase_actions';
+import { Any }  from '../../../types';
+import { saveEntryEdits } from '../../../actions/firebase_actions';
 
 export interface OwnOptionalProps {
   handleSubmit: Any;

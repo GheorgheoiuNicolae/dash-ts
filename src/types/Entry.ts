@@ -15,7 +15,7 @@ interface Entry {
     lat: string;
     long: string;
   } | null;
-  kind?: 'regular'  | 'reccurent'; // possibly one way to make reccurent entries
+  repeatEvery?: number | null; 
 }
 
 interface ChecklistItem {

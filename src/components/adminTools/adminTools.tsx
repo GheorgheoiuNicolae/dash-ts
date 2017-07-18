@@ -68,13 +68,14 @@ export default class AdminTools extends React.Component<Props, State> {
       new Date().getMonth(), this.makeRandom(0, 28), 
       this.makeRandom(0, 24), this.makeRandom(0, 59)).getTime(),
       labels: [this.makeRandom(0, 24), this.makeRandom(0, 24)],
-      photos: [],
+      photos: ['test'],
       checklistItems: [],
       geoPlace: {
         lat: '',
         long: '',
       },
       kind: 'regular',
+      repeatEvery: null,
     };
     return entry;
   }

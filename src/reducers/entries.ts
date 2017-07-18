@@ -7,7 +7,7 @@ export interface EntriesInitialState {
   ui: {
     selectedEntry: Any;
     didInvalidate: boolean;
-    showModal: string | null;
+    showAddModal: boolean;
     filterBy: EntriesFilterBy;
     error: boolean;
   };
@@ -18,7 +18,7 @@ export default function reducer(state: EntriesInitialState = {
   ui: {
     selectedEntry: null,
     didInvalidate: false,
-    showModal: null,
+    showAddModal: false,
     filterBy: {
       date: {
         from: null,
@@ -68,15 +68,46 @@ export default function reducer(state: EntriesInitialState = {
         allIds: deleteFromAllIds(state.allIds, action.payload),
       };
     }
-    case types.SET_CURRENT_ENTRY: {
+    case types.EDIT_ENTRY: {
+      const newState = {...state};
+      newState.byId[action.payload.id] = action.payload;
+
       return {
-        ...state,
-        ui: {
-          ...state.ui,
-          selectedEntry: action.payload,
-        }
+        ...newState,
       };
     }
+    case types.HIDE_MODAL: {
+      switch(action.payload) {
+        case 'addEntry': {
+          return {
+            ...state,
+            ui: {
+              showAddModal: false
+            }
+          };
+        }
+        default: {
+          return { ...state };
+        }
+      }
+    }
+
+    case types.SHOW_MODAL: {
+      switch(action.payload) {
+        case 'addEntry': {
+          return {
+            ...state,
+            ui: {
+              showAddModal: true
+            }
+          };
+        }
+        default: {
+          return { ...state };
+        }
+      }
+    }
+
     default: {
       return { ...state };
     }

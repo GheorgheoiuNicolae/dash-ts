@@ -118,8 +118,17 @@ export const saveEntry = (data, uid) => {
   };
 };
 
+export const editEntry = (data, uid) => {
+  return function (dispatch) {
+    let entriesRef = firebaseDb
+      .ref()
+      .child(`entries/${uid}/${data.id}`)
+      .update(data)
+    dispatch(saveEntryEdits(data));
+  };
+};
+
 export const removeEntry = (data, uid) => {
-  console.log('remove', data)
   return function (dispatch) {
     firebaseDb
       .ref()
@@ -136,16 +145,12 @@ export const removeEntry = (data, uid) => {
   };
 };
 
-export const setCurrentEntry = (data) => ({
-  type: types.SET_CURRENT_ENTRY,
+export const saveEntryEdits = (data) => ({
+  type: types.EDIT_ENTRY,
   payload: data,
-})
+});
 
-export const saveEntryEdits = (data, uid) => {
-  return function (dispatch) {
-    console.log('save edits', data);
-  };
-};
+
 
 export const receiveEntry = (entries) => ({
   type: types.RECEIVE_ENTRY,

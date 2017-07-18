@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { TextField } from 'redux-form-material-ui';
 import { Field } from 'redux-form';
-import { Any } from '../../../../types/';
+import { Any } from '../../../types/';
 import styled from 'styled-components';
 import { StateProps, DispatchProps, OwnProps } from './AddEntryContainer';
 

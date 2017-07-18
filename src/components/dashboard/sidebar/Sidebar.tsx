@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Dialog, FlatButton, Divider, RaisedButton } from 'material-ui';
 import { StateProps, DispatchProps, OwnProps } from './SidebarContainer';
 import { Link } from 'react-router';
-import AddEntryForm from '../../Entries/forms/AddEntry/';
+import AddEntryForm from '../../forms/AddEntry/';
 import AdminTools from '../../adminTools/';
 import UserCard from '../UserCard/';
 import { Any } from '../../../types/';
@@ -27,9 +27,6 @@ export default class Sidebar extends React.Component<Props, OtherProps> {
     });
   }
   handleOpen = () => {
-    // const { setCurrentEntry, entry } = this.props;
-    // setCurrentEntry(entry);
-
     this.setState({open: true});
   }
 
@@ -42,10 +39,16 @@ export default class Sidebar extends React.Component<Props, OtherProps> {
   handleSubmit = (e: Any) => {
     e.preventDefault();
     
-    this.handleClose();    
+    this.handleClose();
+  }
+
+  closeModal = (modalName: string) => {
+    const { hideModal } = this.props;
+    hideModal(modalName);
   }
 
   render () {
+    const { showAddModal, showModal } = this.props;
     const actions = [(
       <FlatButton
         label="Cancel"
@@ -118,7 +121,7 @@ export default class Sidebar extends React.Component<Props, OtherProps> {
             primary={true} 
             label="Add Entry"
             labelPosition="after"
-            onTouchTap={this.handleOpen}
+            onTouchTap={() => showModal('addEntry')}
           >
             <FontAwesome
               color="#fff"
@@ -131,11 +134,11 @@ export default class Sidebar extends React.Component<Props, OtherProps> {
           title="add entry"
           actions={actions}
           modal={true}
-          open={this.state.open}
+          open={showAddModal}
           onRequestClose={this.handleClose}
           autoScrollBodyContent={true}
         >
-          
+          <button onClick={() => this.closeModal('addEntry')}>closeDialog</button>
           <AddEntryForm />
         
         </Dialog>

@@ -1,0 +1,27 @@
+.entry-list-item:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 5px 25px rgba(0,0,0,.1);
+}
+.icon.icon-content {
+  background: #27B7F6;
+}
+
+.icon.icon-photo {
+  background: #FFC501;
+}
+
+.icon.icon-map {
+  background: #00C7C0;
+}
+
+.icon.icon-list {
+  background: #99A7CF;
+}
+
+.icon.icon-repeat {
+  background: #9012FE;
+}
+
+.entryIcons span {
+  padding: 0 10px;
+}
