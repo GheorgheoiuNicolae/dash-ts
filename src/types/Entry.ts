@@ -4,7 +4,7 @@ interface Entry {
   id: number;
   title: string;
   description: string; // should support markup at some point
-  date: number; // timestamp of the date where the entry appears on the list.
+  date: number | string; // date of the date where the entry appears on the list.
   createdAt: number;
   // array of label ids
   // if I delete a label, will it be deleted from the entry?

@@ -32,6 +32,7 @@ export default class EntryListItem extends React.Component<Props, StateProps> {
         <Time onClick={() => console.log('entry', entry)} > {moment(new Date(entry.date)).format('hh:mm')} </Time>
         {description && 
           !photos && 
+          geoPlace &&
           !geoPlace.lat && 
           !repeatEvery && 
           !checklistItems &&
@@ -40,7 +41,7 @@ export default class EntryListItem extends React.Component<Props, StateProps> {
             name="align-left"
           />
         </MainLabel>}
-        {geoPlace.lat && !checklistItems && <MainLabel className="icon icon-map">
+        {geoPlace && geoPlace.lat && !checklistItems && <MainLabel className="icon icon-map">
           <FontAwesome
             name="map-marker"
           />

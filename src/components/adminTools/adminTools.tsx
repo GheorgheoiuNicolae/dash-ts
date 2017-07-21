@@ -81,11 +81,11 @@ export default class AdminTools extends React.Component<Props, State> {
   }
 
   generateEntries(nr: number) {
-    const { saveEntry, user } = this.props;
+    const { createEntry, user } = this.props;
     for(let i = 0; i < nr; i++) {
       let entry = this.createDummyEntry();
       
-      saveEntry(entry, user.uid);
+      createEntry(entry, user.uid);
     }
   }
 

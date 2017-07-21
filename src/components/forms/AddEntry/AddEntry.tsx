@@ -1,66 +1,89 @@
 import * as React from 'react';
-import { TextField } from 'redux-form-material-ui';
-import { Field } from 'redux-form';
+import { 
+  TextField, 
+  DatePicker
+} from 'redux-form-material-ui';
+import { Dialog, FlatButton } from 'material-ui';
+import { Field, FieldArray } from 'redux-form';
 import { Any } from '../../../types/';
 import styled from 'styled-components';
 import { StateProps, DispatchProps, OwnProps } from './AddEntryContainer';
+import CheckList from '../../checkList/';
 
 export type Props = StateProps & OwnProps & DispatchProps;
 
 export default class AddEntryForm extends React.PureComponent<Props, {}> {
-  componentWillMount() {
-    console.log('edit form');
-  }
-  
-  handleChange(event: Any) {
-    console.log('event', event);
+  handleSubmit = (values: Any) => {
+    console.log('add - handleSubmit', values);
+    const { createEntry, auth } = this.props;
+    createEntry(values, auth.user.uid);
   }
 
-  submitForm = (v: Any) => {
-    console.log('submit form');
+  closeModal = (modalName: string) => {
+    const { hideModal } = this.props;
+    hideModal(modalName);
   }
 
   render () {
-    const { handleSubmit, 
-      entry,
-    } = this.props;
-    console.log('entry--', entry, );
+    const { handleSubmit, showAddModal, array: { push, insert } } = this.props;
+    console.log('aaa', handleSubmit);
     return (
-      <div className="entry-form">
-        <form onSubmit={handleSubmit(this.submitForm)}>
+      <Dialog
+        title="add entry"
+        modal={true}
+        open={showAddModal}
+        onRequestClose={() => this.closeModal('addEntry')}
+        autoScrollBodyContent={true}
+      >
+        <form onSubmit={handleSubmit(this.handleSubmit.bind(this))}>
           <InputWrap>
             <Field
               component={TextField}
               floatingLabelFixed={true}
               floatingLabelText={'title'}
               fullWidth={true}
-              name={'entry.title'}
+              name={'title'}
             />
           </InputWrap>
           
-          <TextField
-            hintText="Description"
-            /*defaultValue={description ? description : ''}*/
-            fullWidth={true}
-            onChange={(event) => this.handleChange(event)}
-            multiLine={true}
-            id="description"
-          />
+          <InputWrap>
+            <Field
+              component={TextField}
+              floatingLabelFixed={true}
+              floatingLabelText={'Description'}
+              fullWidth={true}
+              name={'description'}
+              multiLine={true}
+            />
+          </InputWrap>
 
-          {/* <EntryLabels 
-            labels={this.state.labels} 
-            updateLabelList={this.updateLabelList.bind(this)} 
+          <InputWrap>
+            <Field
+              component={DatePicker}
+              floatingLabelFixed={true}
+              floatingLabelText={'Date'}
+              fullWidth={true}
+              defaultDate={new Date()}
+              name={`date`}
+              format={(value: any, name: any) => value === '' ? new Date() : value}
+            />
+          </InputWrap>
+          
+          <FieldArray 
+            name="checklistItems" 
+            component={CheckList} 
+            push={push}
+            insert={insert}
           />
-
-          <EntryImages 
-            uid={this.props.store.user.uid} 
-            dispatch={this.props.dispatch}
-            updateEntryImageList={this.updateEntryImageList.bind(this)}
-            images={this.state.images}
-            entry={this.props.entry}
-          />*/}
+          
+          <FlatButton 
+            label="Primary" 
+            primary={true} 
+            onClick={handleSubmit(this.handleSubmit.bind(this))}
+          />
         </form>
-      </div>
+      
+      </Dialog>
     );
   }
 }
