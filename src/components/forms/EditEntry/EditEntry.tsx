@@ -20,6 +20,7 @@ export default class EditEntryForm extends React.PureComponent<Props, OtherProps
 
   render () {
     const { handleSubmit } = this.props;
+    console.log('handleSubmit: ', handleSubmit);
     return (
       <div className="entry-form">
         <form onSubmit={handleSubmit(this.handleSubmit.bind(this))}>

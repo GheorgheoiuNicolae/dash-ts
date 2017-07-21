@@ -1,108 +1,89 @@
 import * as React from 'react';
 import { StateProps, DispatchProps, OwnProps } from './CheckListContainer';
-// import styled from 'styled-components';
-import { 
-  // TextField
-} from 'redux-form-material-ui';
-import { 
-  // Field,
-  // FieldArray
- } from 'redux-form';
+import { TextField } from 'redux-form-material-ui';
+import { FlatButton, 
+  List, ListItem, Subheader, Checkbox 
+} from 'material-ui';
+import { Field } from 'redux-form';
+import styled from 'styled-components';
 
 export type Props = StateProps & OwnProps & DispatchProps;
 interface OtherProps {
-  // component state props here
   fields: any;
   push: any;
-  list: any;
-  array: any;
-  insert: any;
-  value: string;
-  checkListItems: any[];
 }
 
 export default class Entries extends React.PureComponent<Props & OtherProps, OtherProps> {
-  componentWillMount() {
-    this.setState({
-      checkListItems: [],
-    });
-  }
-  
-  pushToState(code: number,value: any) {
-    const { push, list } = this.props;
-    if(code === 13) {
-      // console.log('register value', value, list);
-      let checkListItem = {
-        desc: value,
-        checked: false,
-      };
-
-      let arr = this.state.checkListItems;
-      arr.push(checkListItem);
-
-      this.setState({ checkListItems: [...arr]});
-      
-      push('list', ...this.state.checkListItems);
-      console.log('checkListItems: ', this.state.checkListItems, list);
-    }
-  }
-
   render() {
-    const { fields, 
-      list, 
-      push,
-      insert,
-    } = this.props;
+    const { fields } = this.props;
+    const items = fields.getAll();
     
-    // push('list', { desc: e.target.value });
-
     return (
-      <ul>
-        <input
-          type="text"
-          onKeyUp={(e: any) => {
-            console.log('list: ', list);
-            // return push('list', { desc: e.target.value });
-            if(e.keyCode === 13) {
-              if(list) {
-                return push(`list`, { desc: e.target.value });
-              } else {
-                return insert(`list`, { desc: e.target.value });
-              }
-              
-            } else {
-              return false; 
-            }
-          }}
-          // onKeyUp={(e: any) => {
-          //  e.preventDefault();
-          //  this.pushToState(e.keyCode, e.target.value);
-          // }}
+      <Wrap>
+        <FlatButton 
+          label="Add Checklist" 
+          primary={true}  
+          onClick={() => fields.push({completed: false, text: ''})} 
         />
-        {list && list.map((todo: any, index: number) => {
-          return (
+        <List>
+          <Subheader>Checklist</Subheader>
+          {fields.map((member: any, index: any) => (
+            <div key={index}>
+              <ListItem 
+                primaryText={items[index].text}
+                rightIconButton={
+                  <FlatButton 
+                    label="Remove"
+                    onClick={() => fields.remove(index)}
+                  />
+                }
+                leftCheckbox={<Checkbox onChange={() => console.log('checkbox')} />}
+              >
+                {fields.length -1 === index && (
+                  <Field
+                    name={`${member}.text`}
+                    type="text"
+                    component={TextField}
+                    label="Todo"
+                    onKeyUp={(e: any) => e.keyCode === 13 && fields.push({completed: false, text: ''})}
+                    autoFocus={true}
+                  />
+                )}
+              </ListItem>
+            </div>
+          ))}
+        </List>
+        {/*<ul>
+          {fields.map((member: any, index: any) => (
             <li key={index}>
-              <label>{todo.desc}</label>
-              <button onClick={() => fields.remove(index)}>
-                X
-              </button>
+              <button
+                type="button"
+                title="Remove Member"
+                onClick={() => fields.remove(index)}
+              />
+              
+              <h5>{items[index].text}</h5>
+
+              {fields.length -1 === index && (
+                <div>
+                  <Field
+                    name={`${member}.text`}
+                    type="text"
+                    component={TextField}
+                    label="Todo"
+                    onKeyUp={(e: any) => e.keyCode === 13 && fields.push({completed: false, text: ''})}
+                    autoFocus={true}
+                  />
+                </div>
+              )}
             </li>
-          );
-        }
-        )}
-      </ul>
+          ))}
+        </ul>*/}
+      </Wrap>
     );
   }
 }
 
-// const Wrap = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   flex: 1;
-//   overflow: scroll;
-//   padding: 0 30px 0 230px;
-// `;
-
-// const InputWrap = styled.div`
-//   margin-bottom: 10px;
-// `;
+const Wrap = styled.div`
+  margin-bottom: 10px;
+`;

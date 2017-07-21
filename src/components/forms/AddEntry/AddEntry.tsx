@@ -14,9 +14,9 @@ export type Props = StateProps & OwnProps & DispatchProps;
 
 export default class AddEntryForm extends React.PureComponent<Props, {}> {
   handleSubmit = (values: Any) => {
-    console.log('handleSubmit', values.entry);
+    console.log('add - handleSubmit', values);
     const { createEntry, auth } = this.props;
-    createEntry(values.entry, auth.user.uid);
+    createEntry(values, auth.user.uid);
   }
 
   closeModal = (modalName: string) => {
@@ -25,7 +25,8 @@ export default class AddEntryForm extends React.PureComponent<Props, {}> {
   }
 
   render () {
-    const { handleSubmit, showAddModal, array: { push, insert }, list } = this.props;
+    const { handleSubmit, showAddModal, array: { push, insert } } = this.props;
+    console.log('aaa', handleSubmit);
     return (
       <Dialog
         title="add entry"
@@ -69,11 +70,10 @@ export default class AddEntryForm extends React.PureComponent<Props, {}> {
           </InputWrap>
           
           <FieldArray 
-            name="list" 
+            name="checklistItems" 
             component={CheckList} 
             push={push}
             insert={insert}
-            list={list}
           />
           
           <FlatButton 
