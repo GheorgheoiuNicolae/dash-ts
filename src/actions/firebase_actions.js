@@ -94,7 +94,10 @@ export const getEntries = (uid) => {
     .child(`entries/${uid}`)
     .orderByChild("date")
     .on('child_added', (snapshot) => {
-      dispatch(receiveEntry(snapshot.val()))
+      const entry = snapshot.val();
+      // convert timestamp to date
+      entry.date = new Date(entry.date);
+      dispatch(receiveEntry(entry))
     });
   }
 }
@@ -104,7 +107,14 @@ export const removeAllCollections = () => {
   firebaseDb.ref().remove()
 }
 
-export const saveEntry = (data, uid) => {
+export const createEntry = (data, uid) => {
+  // add missing fields before saving
+  data.geoPlace = {
+    lat: '',
+    long: '',
+  }
+  data.date = new Date().toString();
+
   return function (dispatch) {
     let entriesRef = firebaseDb
       .ref()
@@ -149,8 +159,6 @@ export const saveEntryEdits = (data) => ({
   type: types.EDIT_ENTRY,
   payload: data,
 });
-
-
 
 export const receiveEntry = (entries) => ({
   type: types.RECEIVE_ENTRY,

@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { ApplicationState } from '../../reducers';
 import { Any } from '../../types/';
 import AdminTools from './adminTools';
-import { saveEntry } from '../../actions/firebase_actions';
+import { createEntry } from '../../actions/firebase_actions';
 
 export interface OwnOptionalProps {}
 
@@ -15,7 +15,7 @@ export interface StateProps {
 }
 
 export interface DispatchProps {
-  saveEntry: Any;
+  createEntry: Any;
 }
 
 export default connect<StateProps, DispatchProps, OwnProps>(
@@ -25,6 +25,6 @@ export default connect<StateProps, DispatchProps, OwnProps>(
     };
   },
   {
-   saveEntry, 
+   createEntry, 
   },
 )(AdminTools);

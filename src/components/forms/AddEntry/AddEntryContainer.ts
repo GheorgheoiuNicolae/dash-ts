@@ -1,36 +1,43 @@
 import { connect } from 'react-redux';
 import { ApplicationState } from '../../../reducers';
 import AddEntryForm from './AddEntry';
-import {reduxForm} from 'redux-form';
-import { Any }  from '../../../types';
-import { saveEntryEdits } from '../../../actions/firebase_actions';
+import {reduxForm, formValueSelector} from 'redux-form';
+import { createEntry } from '../../../actions/firebase_actions';
+import { hideModal } from '../../../actions/local';
 
 export interface OwnOptionalProps {
-  handleSubmit: Any;
+  handleSubmit: any;
+  array: any;
 }
 
 export interface OwnProps extends Partial<OwnOptionalProps> {}
 
 export interface StateProps {
-  auth: Any;
-  entry: Any;
+  auth: any;
+  showAddModal: boolean;
+  list: any[];
 }
 
 export interface DispatchProps {
-  saveEntryEdits: (entry: Any, user: Any) => {};
+  createEntry: (entry: any, user: any) => {};
+  hideModal: Function;
 }
 
 export interface OwnProps {}
 
 export default connect<StateProps, DispatchProps, OwnProps>(
   (state: ApplicationState) => {
+    const selector = formValueSelector('addEntry');
+
     return {
       auth: state.auth,
-      entry: state.entries.ui.selectedEntry,
+      showAddModal: state.entries.ui.showAddModal,
+      list: selector(state, 'list'),
     };
   },
   {
-    saveEntryEdits,
+    createEntry,
+    hideModal,
   },
 )(reduxForm({
   form: 'addEntry',

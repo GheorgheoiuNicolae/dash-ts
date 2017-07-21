@@ -10,9 +10,7 @@ export interface OwnProps extends Partial<OwnOptionalProps> {
   
 }
 
-export interface StateProps {
-  showAddModal: boolean;
-}
+export interface StateProps {}
 
 export interface DispatchProps {
   hideModal: Function;
@@ -24,7 +22,6 @@ export interface OwnProps {}
 export default connect<StateProps, DispatchProps, OwnProps>(
   (state: ApplicationState) => {
     return {
-      showAddModal: state.entries.ui.showAddModal,
     };
   },
   {

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { TextField,  } from 'redux-form-material-ui';
+import { TextField, DatePicker } from 'redux-form-material-ui';
 import { Field } from 'redux-form';
 import { Any } from '../../../types/';
 import styled from 'styled-components';
@@ -41,6 +41,16 @@ export default class EditEntryForm extends React.PureComponent<Props, OtherProps
               fullWidth={true}
               name={'description'}
               multiLine={true}
+            />
+          </InputWrap>
+          
+          <InputWrap>
+            <Field
+              component={DatePicker}
+              floatingLabelFixed={true}
+              floatingLabelText={'Date'}
+              fullWidth={true}
+              name={`date`}
             />
           </InputWrap>
           
