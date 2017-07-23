@@ -8,25 +8,50 @@ import { Field } from 'redux-form';
 import styled from 'styled-components';
 
 export type Props = StateProps & OwnProps & DispatchProps;
+
 interface OtherProps {
   fields: any;
   push: any;
+  itemInEdit: number | null;
 }
 
 export default class Entries extends React.PureComponent<Props & OtherProps, OtherProps> {
+
+  toggleCheck(index: number) {
+    const { fields } = this.props;
+    const items = fields.getAll();
+    items[index].completed = !items[index].completed;
+    console.log('toggle: ', items);
+    fields.remove(index);
+    fields.insert(index, items[index]);
+  }
+
+  createNewItem() {
+    const { fields } = this.props;
+    const items = fields.getAll();
+    if(!items || items.length === 0 || items && items.length > 0 && items[items.length -1].text) {
+      fields.push({completed: false, text: ''});
+    }
+  }
+
+  removeEmptyTodo (index: number) {
+    const { fields } = this.props;
+    const items = fields.getAll();
+    if(!items[index].text) {
+      fields.remove(index);
+    }
+  }
+
   render() {
     const { fields } = this.props;
     const items = fields.getAll();
-    
+
     return (
       <Wrap>
-        <FlatButton 
-          label="Add Checklist" 
-          primary={true}  
-          onClick={() => fields.push({completed: false, text: ''})} 
-        />
-        <List>
+        <div onClick={() => this.createNewItem()} >
           <Subheader>Checklist</Subheader>
+        </div>
+        <List>
           {fields.map((member: any, index: any) => (
             <div key={index}>
               <ListItem 
@@ -37,15 +62,16 @@ export default class Entries extends React.PureComponent<Props & OtherProps, Oth
                     onClick={() => fields.remove(index)}
                   />
                 }
-                leftCheckbox={<Checkbox onChange={() => console.log('checkbox')} />}
+                leftCheckbox={<Checkbox onCheck={() => this.toggleCheck(index)} />}
               >
-                {fields.length -1 === index && (
+                {items.length -1 === index && !items[items.length - 1].text && (
                   <Field
                     name={`${member}.text`}
                     type="text"
                     component={TextField}
                     label="Todo"
                     onKeyUp={(e: any) => e.keyCode === 13 && fields.push({completed: false, text: ''})}
+                    onBlur={() => this.removeEmptyTodo(index)}
                     autoFocus={true}
                   />
                 )}
@@ -53,32 +79,6 @@ export default class Entries extends React.PureComponent<Props & OtherProps, Oth
             </div>
           ))}
         </List>
-        {/*<ul>
-          {fields.map((member: any, index: any) => (
-            <li key={index}>
-              <button
-                type="button"
-                title="Remove Member"
-                onClick={() => fields.remove(index)}
-              />
-              
-              <h5>{items[index].text}</h5>
-
-              {fields.length -1 === index && (
-                <div>
-                  <Field
-                    name={`${member}.text`}
-                    type="text"
-                    component={TextField}
-                    label="Todo"
-                    onKeyUp={(e: any) => e.keyCode === 13 && fields.push({completed: false, text: ''})}
-                    autoFocus={true}
-                  />
-                </div>
-              )}
-            </li>
-          ))}
-        </ul>*/}
       </Wrap>
     );
   }

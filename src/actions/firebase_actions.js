@@ -95,8 +95,6 @@ export const getEntries = (uid) => {
     .orderByChild("date")
     .on('child_added', (snapshot) => {
       const entry = snapshot.val();
-      // convert timestamp to date
-      entry.date = new Date(entry.date);
       dispatch(receiveEntry(entry))
     });
   }
@@ -113,7 +111,6 @@ export const createEntry = (data, uid) => {
     lat: '',
     long: '',
   }
-  data.date = new Date().toString();
 
   return function (dispatch) {
     let entriesRef = firebaseDb

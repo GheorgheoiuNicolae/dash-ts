@@ -8,6 +8,8 @@ import { hideModal } from '../../../actions/local';
 export interface OwnOptionalProps {
   handleSubmit?: any;
   array: any;
+  initialValues: any;
+  destroy: any;
 }
 
 export interface OwnProps extends Partial<OwnOptionalProps> {}
@@ -38,4 +40,7 @@ export default connect<StateProps, DispatchProps, OwnProps>(
   },
 )(reduxForm({
   form: 'addEntry',
+  initialValues: {
+    date: new Date(),
+  }
 })(AddEntryForm));
