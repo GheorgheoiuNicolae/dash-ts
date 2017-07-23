@@ -15,3 +15,4 @@ export const REMOVE_ENTRY_SUCCESS = 'REMOVE_ENTRY_SUCCESS';
 export const EDIT_ENTRY = 'EDIT_ENTRY';
 export const HIDE_MODAL = 'HIDE_MODAL';
 export const SHOW_MODAL = 'SHOW_MODAL';
+export const ENTRY_SAVE_SUCCESS = 'ENTRY_SAVE_SUCCESS';

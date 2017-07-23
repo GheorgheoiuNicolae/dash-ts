@@ -9,14 +9,18 @@ import { Any } from '../../../types/';
 import styled from 'styled-components';
 import { StateProps, DispatchProps, OwnProps } from './AddEntryContainer';
 import CheckList from '../../checkList/';
+import * as moment from 'moment';
 
 export type Props = StateProps & OwnProps & DispatchProps;
 
 export default class AddEntryForm extends React.PureComponent<Props, {}> {
+
   handleSubmit = (values: Any) => {
-    console.log('add - handleSubmit', values);
-    const { createEntry, auth } = this.props;
+    const { createEntry, auth, destroy, hideModal } = this.props;
+    values.date = new Date(values.date).getTime();
     createEntry(values, auth.user.uid);
+    hideModal('addEntry');
+    destroy();
   }
 
   closeModal = (modalName: string) => {
@@ -26,7 +30,6 @@ export default class AddEntryForm extends React.PureComponent<Props, {}> {
 
   render () {
     const { handleSubmit, showAddModal, array: { push, insert } } = this.props;
-    console.log('aaa', handleSubmit);
     return (
       <Dialog
         title="add entry"
@@ -40,7 +43,7 @@ export default class AddEntryForm extends React.PureComponent<Props, {}> {
             <Field
               component={TextField}
               floatingLabelFixed={true}
-              floatingLabelText={'title'}
+              floatingLabelText={'Title'}
               fullWidth={true}
               name={'title'}
             />
@@ -63,9 +66,9 @@ export default class AddEntryForm extends React.PureComponent<Props, {}> {
               floatingLabelFixed={true}
               floatingLabelText={'Date'}
               fullWidth={true}
-              defaultDate={new Date()}
               name={`date`}
-              format={(value: any, name: any) => value === '' ? new Date() : value}
+              defaultValue={new Date()}
+              formatDate={(date: Date) => moment(date).format('ll')}
             />
           </InputWrap>
           
@@ -77,9 +80,14 @@ export default class AddEntryForm extends React.PureComponent<Props, {}> {
           />
           
           <FlatButton 
-            label="Primary" 
+            label="Add" 
             primary={true} 
             onClick={handleSubmit(this.handleSubmit.bind(this))}
+          />
+          <FlatButton 
+            label="Cancel" 
+            primary={false} 
+            onClick={() => this.closeModal('addEntry')}
           />
         </form>
       
