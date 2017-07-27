@@ -2,6 +2,7 @@ import registerServiceWorker from './registerServiceWorker';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import theme from './theme';
 import { Redirect, 
   IndexRedirect, 
   Router, Route } from 'react-router';
@@ -39,7 +40,7 @@ export const routeList = {
 };
 
 const router = (
-  <MuiThemeProvider>
+  <MuiThemeProvider muiTheme={theme}>
     <Provider store={store}>
       <Router history={history}>
         <Route path={routeList.index} component={App}>

@@ -8,8 +8,8 @@ import AdminTools from '../../adminTools/';
 import UserCard from '../UserCard/';
 
 var FontAwesome = require('react-fontawesome');
-const logo = require('../../../assets/logo.png');
-
+const logo = require('../../../assets/logo/full-dark.svg');
+import './sidebar.css';
 export type Props = StateProps & OwnProps & DispatchProps;
 
 interface OtherProps {
@@ -21,20 +21,14 @@ export default class Sidebar extends React.Component<Props, OtherProps> {
   render () {
     const { showModal } = this.props;
     return (
-      <SidebarWrap>
+      <SidebarWrap className="sidebar">
         <MenuToggle>
-          <StyledFlatButton
-            style={{maxWidth: '100%', minWidth: 'initial', width: '100%', height: '50px'}}
-            children={
-              <Logo>
-                <img src={logo} alt="logo" />
-              </Logo>
-            }
-          />
+          <Logo>
+            <img src={logo} alt="logo" className="logo" />
+          </Logo>
         </MenuToggle>
-        <Divider />
         <UserCard/>
-        <Divider />
+        <Divider style={{background: '#232527'}} />
         <StyledFlatButton
           style={{maxWidth: '100%', minWidth: 'initial', width: '100%', height: '50px'}}
           children={
@@ -70,7 +64,7 @@ export default class Sidebar extends React.Component<Props, OtherProps> {
           }
         />
 
-        <Divider />
+        <Divider style={{background: '#232527'}} />
 
         <AddEntryForm />
 
@@ -81,12 +75,12 @@ export default class Sidebar extends React.Component<Props, OtherProps> {
             label="Add Entry"
             labelPosition="after"
             onTouchTap={() => showModal('addEntry')}
-          >
-            <FontAwesome
-              color="#fff"
+            icon={<FontAwesome
               name="plus"
-            />
-          </RaisedButton>
+              style={{color: '#fff'}}
+            />}
+          />
+          
         </AddButtonWrapper>
 
         <AdminTools />
@@ -101,13 +95,15 @@ const SidebarWrap = styled.div`
   left: 0;
   bottom: 0;
   z-index: 3;
-  background: #fff;
   overflow: hidden;
   width: 200px;
 `;
 
 const MenuToggle = styled.div`
-  background-color: #fff;
+  background: rgba(255,255,255, .02);
+  position: absolute;
+  right: 0;
+  left: 0;
   height: 50px;
 `;
 const StyledFlatButton = styled(FlatButton)`
@@ -118,7 +114,7 @@ const StyledFlatButton = styled(FlatButton)`
 const StyledRouterLink = styled(Link)`
   display:flex;
   flex: 1;
-  color: #8ca4af;
+  color: #c1c4ce;
   text-decoration: none;
   justify-content: center;
   align-items: center;

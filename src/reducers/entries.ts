@@ -10,6 +10,7 @@ export interface EntriesInitialState {
     showAddModal: boolean;
     filterBy: EntriesFilterBy;
     error: boolean;
+    view: string;
   };
   byId: Any;
 }
@@ -19,6 +20,7 @@ export default function reducer(state: EntriesInitialState = {
     selectedEntry: null,
     didInvalidate: false,
     showAddModal: false,
+    view: 'list',
     filterBy: {
       date: {
         from: null,
@@ -106,6 +108,16 @@ export default function reducer(state: EntriesInitialState = {
           return { ...state };
         }
       }
+    }
+
+    case types.SWITCH_ENTRIES_VIEW: {
+      return {
+        ...state,
+        ui: {
+          ...state.ui,
+          view: action.payload,
+        }
+      };
     }
 
     default: {

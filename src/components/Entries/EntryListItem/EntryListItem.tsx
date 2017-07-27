@@ -146,5 +146,5 @@ const StyledRouterLink = styled(Link)`
 const ButtonText = styled.span`
 	display: flex;
   flex: 1;
-  margin-left: 10px;
+  margin: 0 10px;
 `;

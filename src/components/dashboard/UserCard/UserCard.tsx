@@ -8,6 +8,7 @@ import { Any } from '../../../types/';
 import Avatar from 'material-ui/Avatar';
 const userAvatar = require('../../../assets/user-avatar.png');
 var FontAwesome = require('react-fontawesome');
+import './UserCard.css';
 
 export type Props = StateProps & OwnProps & DispatchProps;
 
@@ -57,7 +58,7 @@ export default class UserCard extends React.PureComponent<Props, OtherProps> {
     return (
       <UserAccountDropdown>
         <AvatarWrap>
-          <Avatar src={`${userAvatar}`} size={100} />
+          <Avatar className="avatar" src={`${userAvatar}`} size={100} />
         </AvatarWrap>
         <StyledIconButton 
           iconClassName="muidocs-icon-custom-github" 
@@ -66,11 +67,12 @@ export default class UserCard extends React.PureComponent<Props, OtherProps> {
             width: 30,
             height: 30,
             padding: 0,
+            background: '#000',
           }}
         >
           <FontAwesome
             name="cog"
-            style={{ color: '73909d' }}
+            style={{ color: '#fff', fontSize: '12px' }}
           />
         </StyledIconButton>
         <UserName>
@@ -101,6 +103,7 @@ export default class UserCard extends React.PureComponent<Props, OtherProps> {
 
 const UserAccountDropdown = styled.div`
   padding: 20px;
+  margin-top: 50px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -114,8 +117,10 @@ const Text = styled.p`
   font-size: 14px;
 `;
 const UserEmail = styled.p`
-  font-size: 14px;
+  font-size: 12px;
   font-weight: bold;
+  color: #84838b;
+  text-shadow: 0px 0px 1px #000;
 `;
 const AvatarWrap = styled.div`
   padding: 0 10px;
@@ -126,7 +131,9 @@ const StyledIconButton = styled(IconButton)`
   position: absolute!important;
   top: 90px;
   right: 50px;
-  background-color: #fff!important;
+  background-color: #494b58!important;
   border-radius: 100%;
-  box-shadow: 2px 2px 10px #eee;
+  box-shadow: 2px 2px 10px #333;
 `;
+
+// #7c92ca

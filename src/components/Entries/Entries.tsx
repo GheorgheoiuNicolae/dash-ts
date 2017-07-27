@@ -4,6 +4,7 @@ import { StateProps, DispatchProps, OwnProps } from './EntriesContainer';
 import EntryListItem from './EntryListItem/EntryListItem';
 import { Any } from '../../types';
 import styled from 'styled-components';
+import Header from '../dashboard/Header/';
 
 export type Props = StateProps & OwnProps & DispatchProps;
 interface OtherProps {
@@ -12,7 +13,7 @@ interface OtherProps {
 
 export default class Entries extends React.Component<Props, OtherProps> {
   render() {
-    const { entries, user, removeEntry } = this.props;
+    const { entries, user, removeEntry, view } = this.props;
     let mappedDays = entries.map((day: Any, index) => {
       let mappedEntries = day.entries.map( (entry: Any) => {
         return (
@@ -34,7 +35,8 @@ export default class Entries extends React.Component<Props, OtherProps> {
     
     return (
       <Wrap>
-        <EntryList>
+        <Header />
+        <EntryList className={`view-boxes ${view}`}>
           <TimelineBar />
           {mappedDays}
         </EntryList>
@@ -48,6 +50,7 @@ const EntryList = styled.div`
   flex-direction: column;
   flex: 1;
   overflow: scroll;
+  margin-top: 50px;
 `;
 
 const Wrap = styled.div`

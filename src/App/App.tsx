@@ -14,9 +14,9 @@ export default class App extends React.Component<{}, {}> {
 }
 
 const Wrapper = styled.section`
-  background: #1fa2ff; 
-  background: -webkit-linear-gradient(to right, #1fa2ff, #12d8fa, #a6ffcb);
-  background: linear-gradient(to right, #1fa2ff, #12d8fa, #a6ffcb);
+  background-image: url(https://www.meistertask.com/images/wallpapers/RHwFy48z-blurred.jpg);
+  background-size: cover;
+  background-position: center center;
 `;
 
 const MainWrapper = styled.div`
