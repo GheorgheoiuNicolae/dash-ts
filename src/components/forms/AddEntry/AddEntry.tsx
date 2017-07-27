@@ -43,34 +43,37 @@ export default class AddEntryForm extends React.PureComponent<Props, {}> {
             <h3>Add new Entry</h3>
           </ModalHeader>
           <ModalContent>
-            <InputWrap>
+            <InputWrap className="input-wrap">
               <Field
                 component={TextField}
                 floatingLabelFixed={true}
                 floatingLabelText={'Title'}
                 fullWidth={true}
                 name={'title'}
+                className="input-field"
               />
             </InputWrap>
             
-            <InputWrap>
+            <InputWrap className="input-wrap">
               <Field
                 component={TextField}
                 floatingLabelFixed={true}
                 floatingLabelText={'Description'}
                 fullWidth={true}
                 name={'description'}
+                className="input-field"
                 multiLine={true}
               />
             </InputWrap>
 
-            <InputWrap>
+            <InputWrap className="input-wrap">
               <Field
                 component={DatePicker}
                 floatingLabelFixed={true}
                 floatingLabelText={'Date'}
                 fullWidth={true}
                 name={`date`}
+                className="input-field"
                 defaultValue={new Date()}
                 formatDate={(date: Date) => moment(date).format('ll')}
               />
