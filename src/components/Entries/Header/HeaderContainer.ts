@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { ApplicationState } from '../../../reducers';
 import Header from './Header';
-import { hideModal, showModal, switchEntriesView } from '../../../actions/local';
+import { hideModal, showModal } from '../../../actions/local';
 
 export interface OwnOptionalProps {}
 
@@ -12,7 +12,6 @@ export interface StateProps {}
 export interface DispatchProps {
   hideModal: Function;
   showModal: Function;
-  switchEntriesView: Function;
 }
 
 export interface OwnProps {}
@@ -25,6 +24,5 @@ export default connect<StateProps, DispatchProps, OwnProps>(
   {
     hideModal,
     showModal,
-    switchEntriesView,
   },
 )(Header);

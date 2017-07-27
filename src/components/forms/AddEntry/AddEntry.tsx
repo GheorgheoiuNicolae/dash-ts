@@ -32,65 +32,69 @@ export default class AddEntryForm extends React.PureComponent<Props, {}> {
     const { handleSubmit, showAddModal, array: { push, insert } } = this.props;
     return (
       <Dialog
-        title="add entry"
         modal={true}
         open={showAddModal}
         onRequestClose={() => this.closeModal('addEntry')}
         autoScrollBodyContent={true}
+        bodyStyle={{padding: '0'}}
       >
         <form onSubmit={handleSubmit(this.handleSubmit.bind(this))}>
-          <InputWrap>
-            <Field
-              component={TextField}
-              floatingLabelFixed={true}
-              floatingLabelText={'Title'}
-              fullWidth={true}
-              name={'title'}
-            />
-          </InputWrap>
-          
-          <InputWrap>
-            <Field
-              component={TextField}
-              floatingLabelFixed={true}
-              floatingLabelText={'Description'}
-              fullWidth={true}
-              name={'description'}
-              multiLine={true}
-            />
-          </InputWrap>
+          <ModalHeader>
+            <h3>Add new Entry</h3>
+          </ModalHeader>
+          <ModalContent>
+            <InputWrap>
+              <Field
+                component={TextField}
+                floatingLabelFixed={true}
+                floatingLabelText={'Title'}
+                fullWidth={true}
+                name={'title'}
+              />
+            </InputWrap>
+            
+            <InputWrap>
+              <Field
+                component={TextField}
+                floatingLabelFixed={true}
+                floatingLabelText={'Description'}
+                fullWidth={true}
+                name={'description'}
+                multiLine={true}
+              />
+            </InputWrap>
 
-          <InputWrap>
-            <Field
-              component={DatePicker}
-              floatingLabelFixed={true}
-              floatingLabelText={'Date'}
-              fullWidth={true}
-              name={`date`}
-              defaultValue={new Date()}
-              formatDate={(date: Date) => moment(date).format('ll')}
+            <InputWrap>
+              <Field
+                component={DatePicker}
+                floatingLabelFixed={true}
+                floatingLabelText={'Date'}
+                fullWidth={true}
+                name={`date`}
+                defaultValue={new Date()}
+                formatDate={(date: Date) => moment(date).format('ll')}
+              />
+            </InputWrap>
+            
+            <FieldArray 
+              name="checklistItems" 
+              component={CheckList} 
+              push={push}
+              insert={insert}
             />
-          </InputWrap>
-          
-          <FieldArray 
-            name="checklistItems" 
-            component={CheckList} 
-            push={push}
-            insert={insert}
-          />
-          
-          <FlatButton 
-            label="Add" 
-            primary={true} 
-            onClick={handleSubmit(this.handleSubmit.bind(this))}
-          />
-          <FlatButton 
-            label="Cancel" 
-            primary={false} 
-            onClick={() => this.closeModal('addEntry')}
-          />
+            
+            <FlatButton 
+              label="Add" 
+              primary={true} 
+              onClick={handleSubmit(this.handleSubmit.bind(this))}
+            />
+            <FlatButton 
+              label="Cancel" 
+              primary={false} 
+              onClick={() => this.closeModal('addEntry')}
+            />
+          </ModalContent>
         </form>
-      
       </Dialog>
     );
   }
@@ -98,4 +102,16 @@ export default class AddEntryForm extends React.PureComponent<Props, {}> {
 
 const InputWrap = styled.div`
   margin-bottom: 10px;
+`;
+const ModalHeader = styled.div`
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: center;
+  color: #fff;
+  background: #24c6dc; /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #24c6dc, #514a9d); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #24c6dc, #514a9d); 
+`;
+const ModalContent = styled.div`
+  padding: 20px;
 `;

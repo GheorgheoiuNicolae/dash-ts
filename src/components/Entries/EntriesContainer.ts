@@ -3,7 +3,6 @@ import { ApplicationState } from '../../reducers';
 import Entries from './Entries';
 import { Entry } from '../../types/';
 import { getAllEntries } from './selectors';
-import {Any} from '../../types';
 import { removeEntry } from '../../actions/firebase_actions';
 
 export interface OwnOptionalProps {}
@@ -12,11 +11,12 @@ export interface OwnProps extends Partial<OwnOptionalProps> {}
 
 export interface StateProps {
   entries: Entry[];
-  user: Any;
+  user: any;
+  view: String;
 }
 
 export interface DispatchProps {
-  removeEntry: Any;
+  removeEntry: any;
 }
 
 export default connect<StateProps, DispatchProps, OwnProps>(
@@ -24,6 +24,7 @@ export default connect<StateProps, DispatchProps, OwnProps>(
     return {
       entries: getAllEntries(state),
       user: state.auth.user,
+      view: state.entries.ui.view,
     };
   },
   {

@@ -2,7 +2,7 @@ import * as React from 'react';
 import { StateProps, DispatchProps, OwnProps } from './container';
 import styled from 'styled-components';
 import { FlatButton } from 'material-ui';
-
+import './adminTools.css';
 export type Props = StateProps & OwnProps & DispatchProps;
 interface State {
   isAdmin: boolean;
@@ -92,7 +92,7 @@ export default class AdminTools extends React.Component<Props, State> {
   render() {
     const { isAdmin } = this.state;
     return isAdmin ? (
-      <Wrap >
+      <Wrap className="adminTools" >
         <H3>Admin tools</H3>
         <FlatButton
            label="Generate entries"

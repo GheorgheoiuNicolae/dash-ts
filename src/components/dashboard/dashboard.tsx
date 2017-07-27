@@ -32,6 +32,9 @@ class Dashboard extends React.Component<Props, {}> {
     const { children } = this.props;
     return (
       <DashboardWrap>
+        <div className="bg0" />
+        <div className="bg1"/>
+        <div className="bg2" />
         <Sidebar />
         {children}
       </DashboardWrap>

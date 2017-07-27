@@ -1,0 +1,8 @@
+.actions {
+  display: flex;
+  flex: 1;
+}
+.header-item {
+  display: flex;
+  font-size: 12px;
+}
