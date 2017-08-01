@@ -7,12 +7,12 @@ import RaisedButton from 'material-ui/RaisedButton';
 import styled from 'styled-components';
 import { StateProps, DispatchProps, OwnProps } from './LoginContainer';
 import { browserHistory } from 'react-router';
-import { Any } from '../../types';
+const logo = require('../../assets/logo/complete-white.svg');
 
 export type Props = StateProps & OwnProps & DispatchProps;
 
 export default class Login extends React.Component<Props, {} > {
-  submitForm = (v: Any) => {
+  submitForm = (v: any) => {
     const { loginUser } = this.props;
     const user = {
       email: v.email, 
@@ -21,7 +21,7 @@ export default class Login extends React.Component<Props, {} > {
     loginUser(user);
   }
   
-  componentWillReceiveProps(nextProps: Any) {
+  componentWillReceiveProps(nextProps: any) {
     if (nextProps.auth.user) {
       browserHistory.push('/authentication');
     }
@@ -31,10 +31,13 @@ export default class Login extends React.Component<Props, {} > {
     const { handleSubmit } = this.props;
     return (
       <LoginWrap>
-        <Header>
-          <h1> Login </h1>
-        </Header>
+        <Logo>
+          <img src={logo} alt="logo" className="logo" />
+        </Logo>
         <Content>
+          <Header>
+            <h6 className="h6">Log into your account</h6>
+          </Header>
           <form onSubmit={handleSubmit(this.submitForm)}>
             <InputWrap>
               <Field
@@ -43,6 +46,7 @@ export default class Login extends React.Component<Props, {} > {
                 floatingLabelText={'Email'}
                 fullWidth={true}
                 name="email"
+                className="input-wrapper input"
               />
             </InputWrap>
             <InputWrap>
@@ -53,9 +57,16 @@ export default class Login extends React.Component<Props, {} > {
                 floatingLabelText={'Password'}
                 fullWidth={true}
                 name="password"
+                className="input-wrapper input"
               />
             </InputWrap>
-            <RaisedButton type="submit" label="Login" primary={true} />
+            <RaisedButton 
+              fullWidth={true} 
+              type="submit" 
+              label="Sign in" 
+              primary={true} 
+              style={{marginTop: '20px'}}
+            />
           </form>
         </Content>
         <Footer>
@@ -68,29 +79,38 @@ export default class Login extends React.Component<Props, {} > {
 }
 
 const LoginWrap = styled.div`
-  background: #fff;
-  width: 300px;
+  width: 400px;
 `;
 const Content = styled.div`
-  padding: 0 30px;
+  padding: 5px 30px 30px 30px;
+  text-align: center;
+  background: #fff;
 `;
 const Header = styled.div`
-  padding: 0 30px;
+  color: #6b7c93;
+  text-align: center;
+  border-bottom: 1px solid #f7f7f7;
 `;
 const InputWrap = styled.div`
-  margin-bottom: 10px;
+  
 `;
 const Footer = styled.footer`
-  margin-top: 20px;
   padding: 20px;
   font-size: 12px;
   display: flex;
   flex-direction: row;
   align-items: center;
-  background: ghostwhite;
+  background-color: #eee;
 `;
 const StyledRouterLink = styled(Link)`
-	color: palevioletred;
+	color: #333;
+  text-decoration: none;
   display:flex;
   flex: 1;
+  justify-content: center;
+`;
+const Logo = styled.div`
+	max-width: 160px;
+  margin-left: 50px;
+  position: absolute;
 `;

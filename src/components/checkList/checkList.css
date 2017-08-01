@@ -1,0 +1,16 @@
+h5.subheader {
+  margin-top: 0!important;
+  margin-bottom: 0!important;
+  display: flex;
+  flex-direction: row;
+  cursor: pointer;
+}
+h5.subheader p {
+  margin: 5px;
+}
+.checklist-item:hover .checklist-item-remove {
+  display: block!important;
+}
+.checklist-item-remove {
+  display: none!important;
+}

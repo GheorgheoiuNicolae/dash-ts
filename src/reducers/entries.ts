@@ -15,7 +15,7 @@ export interface EntriesInitialState {
   byId: Any;
 }
 
-export default function reducer(state: EntriesInitialState = {
+const initialState = {
   ui: {
     selectedEntry: null,
     didInvalidate: false,
@@ -33,7 +33,9 @@ export default function reducer(state: EntriesInitialState = {
   },
   byId: {},
   allIds: [],
-}, action: BaseAction) {
+};
+
+export default function reducer(state: EntriesInitialState = initialState, action: BaseAction) {
   switch (action.type) {
 
     case types.RECEIVE_ENTRIES: {
@@ -93,7 +95,6 @@ export default function reducer(state: EntriesInitialState = {
         }
       }
     }
-
     case types.SHOW_MODAL: {
       switch(action.payload) {
         case 'addEntry': {
@@ -109,7 +110,6 @@ export default function reducer(state: EntriesInitialState = {
         }
       }
     }
-
     case types.SWITCH_ENTRIES_VIEW: {
       return {
         ...state,
@@ -117,6 +117,11 @@ export default function reducer(state: EntriesInitialState = {
           ...state.ui,
           view: action.payload,
         }
+      };
+    }
+    case types.LOGOUT_FIREBASE_USER: {
+      return {
+        ...initialState
       };
     }
 

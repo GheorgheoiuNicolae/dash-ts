@@ -51,11 +51,12 @@ const FireBaseTools = {
    * @returns {any|!firebase.Thenable.<*>|firebase.Thenable<any>}
    */
     registerUser: user => firebaseAuth.createUserWithEmailAndPassword(user.email, user.password)
-        .then(userInfo => userInfo)
-        .catch(error => ({
-            errorCode: error.code,
-            errorMessage: error.message,
-        })),
+    .then(userInfo => userInfo)
+    .catch(error => ({
+        errorCode: error.code,
+        errorMessage: error.message,
+    })),
+        
 
   /**
    * Sign the user out
@@ -89,6 +90,7 @@ const FireBaseTools = {
     loginUser: user => firebaseAuth.signInWithEmailAndPassword(user.email, user.password)
         .then(userInfo => userInfo)
         .catch(error => ({
+            error: error,
             errorCode: error.code,
             errorMessage: error.message,
         })),
@@ -113,6 +115,7 @@ const FireBaseTools = {
     resetPasswordEmail: email => firebaseAuth.sendPasswordResetEmail(email).then(() => ({
         message: 'Email sent',
     }), error => ({
+        error: error,
         errorCode: error.code,
         errorMessage: error.message,
     })),
