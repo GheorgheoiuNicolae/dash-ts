@@ -5,8 +5,15 @@ import Register from './Register';
 import {reduxForm} from 'redux-form';
 import { registerUser } from '../../actions/firebase_actions';
 
+
+export interface OwnOptionalProps {
+  handleSubmit: Any;
+}
+
+export interface OwnProps extends Partial<OwnOptionalProps> {}
+
 export interface StateProps {
-  
+  auth: Any;
 }
 
 export interface DispatchProps {
@@ -15,12 +22,12 @@ export interface DispatchProps {
 
 export interface OwnProps {}
 
-const mapStateToProps = (state: ApplicationState) => ({
-
-});
-
-export default connect<StateProps, DispatchProps, {}>(
-  mapStateToProps,
+export default connect<StateProps, DispatchProps, OwnProps>(
+  (state: ApplicationState) => {
+    return {
+      auth: state.auth
+    };
+  },
   {
     registerUser,
   },

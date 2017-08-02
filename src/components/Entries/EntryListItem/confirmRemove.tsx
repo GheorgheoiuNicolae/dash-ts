@@ -49,11 +49,7 @@ export default class ConfirmRemoveEntryDialog extends React.Component<DispatchPr
 
     return (
       <div>
-        <FlatButton
-          label="X"
-          primary={true}
-          onTouchTap={() => this.handleOpen()}
-        />
+        
         <Dialog
           actions={actions}
           modal={false}

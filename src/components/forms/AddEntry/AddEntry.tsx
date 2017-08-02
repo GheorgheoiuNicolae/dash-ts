@@ -3,14 +3,16 @@ import {
   TextField, 
   DatePicker
 } from 'redux-form-material-ui';
-import { Dialog, FlatButton } from 'material-ui';
+import { Dialog, FlatButton, RaisedButton } from 'material-ui';
 import { Field, FieldArray } from 'redux-form';
 import { Any } from '../../../types/';
 import styled from 'styled-components';
 import { StateProps, DispatchProps, OwnProps } from './AddEntryContainer';
 import CheckList from '../../checkList/';
 import * as moment from 'moment';
+import Close from 'material-ui/svg-icons/navigation/close';
 
+import './AddEntry.css';
 export type Props = StateProps & OwnProps & DispatchProps;
 
 export default class AddEntryForm extends React.PureComponent<Props, {}> {
@@ -39,82 +41,110 @@ export default class AddEntryForm extends React.PureComponent<Props, {}> {
         bodyStyle={{padding: '0'}}
       >
         <form onSubmit={handleSubmit(this.handleSubmit.bind(this))}>
-          <ModalHeader>
-            <h3>Add new Entry</h3>
+          <ModalHeader className="modal-header">
+            <h5 className="h5">Add new Entry</h5>
+            <Close className="close-icon" onClick={() => this.closeModal('addEntry')} />
           </ModalHeader>
           <ModalContent>
-            <InputWrap className="input-wrap">
-              <Field
-                component={TextField}
-                floatingLabelFixed={true}
-                floatingLabelText={'Title'}
-                fullWidth={true}
-                name={'title'}
-                className="input-field"
+            <LeftSide>
+              <InputWrap>
+                <Field
+                  component={TextField}
+                  floatingLabelFixed={true}
+                  floatingLabelText={'Title'}
+                  fullWidth={true}
+                  name={'title'}
+                  className="input-wrapper input"
+                  autofocus={true}
+                />
+              </InputWrap>
+              
+              <InputWrap>
+                <Field
+                  component={TextField}
+                  floatingLabelFixed={true}
+                  floatingLabelText={'Description'}
+                  fullWidth={true}
+                  name={'description'}
+                  className="textarea-wrapper input"
+                  multiLine={true}
+                />
+              </InputWrap>
+              
+              <FieldArray 
+                name="checklistItems" 
+                component={CheckList} 
+                push={push}
+                insert={insert}
               />
-            </InputWrap>
-            
-            <InputWrap className="input-wrap">
-              <Field
-                component={TextField}
-                floatingLabelFixed={true}
-                floatingLabelText={'Description'}
-                fullWidth={true}
-                name={'description'}
-                className="input-field"
-                multiLine={true}
-              />
-            </InputWrap>
-
-            <InputWrap className="input-wrap">
-              <Field
-                component={DatePicker}
-                floatingLabelFixed={true}
-                floatingLabelText={'Date'}
-                fullWidth={true}
-                name={`date`}
-                className="input-field"
-                defaultValue={new Date()}
-                formatDate={(date: Date) => moment(date).format('ll')}
-              />
-            </InputWrap>
-            
-            <FieldArray 
-              name="checklistItems" 
-              component={CheckList} 
-              push={push}
-              insert={insert}
-            />
-            
-            <FlatButton 
-              label="Add" 
-              primary={true} 
-              onClick={handleSubmit(this.handleSubmit.bind(this))}
-            />
+            </LeftSide>
+            <RightSide>
+              <InputWrap>
+                <Field
+                  component={DatePicker}
+                  floatingLabelFixed={true}
+                  floatingLabelText={'Date'}
+                  fullWidth={true}
+                  name={`date`}
+                  className="datepicker-wrapper input"
+                  defaultValue={new Date()}
+                  formatDate={(date: Date) => moment(date).format('ll')}
+                />
+              </InputWrap>
+            </RightSide>
+          </ModalContent>
+          <ModalFooter>
             <FlatButton 
               label="Cancel" 
               primary={false} 
               onClick={() => this.closeModal('addEntry')}
+              style={{margin: '10px 10px 0 0'}}
             />
-          </ModalContent>
+            <RaisedButton 
+              label="Add" 
+              secondary={true}
+              className="successButton"
+              onClick={handleSubmit(this.handleSubmit.bind(this))}
+              style={{margin: '10px 10px 0 0'}}
+            />
+          </ModalFooter>
         </form>
       </Dialog>
     );
   }
 }
 
+const LeftSide = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 7;
+  padding: 20px;
+`;
+const RightSide = styled.div`
+  display: flex;
+  flex: 3;
+  padding: 20px;
+  border-left: 1px solid #eee;
+`;
 const InputWrap = styled.div`
   margin-bottom: 10px;
 `;
 const ModalHeader = styled.div`
-  margin-bottom: 10px;
   display: flex;
   justify-content: center;
-  color: #fff;
-  background: #24c6dc; /* fallback for old browsers */
-  background: -webkit-linear-gradient(to right, #24c6dc, #514a9d); /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to right, #24c6dc, #514a9d); 
+  color: #6b7c93;
+  text-align: center;
+  border-bottom: 1px solid #f7f7f7;
+`;
+const ModalFooter = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  color: #6b7c93;
+  text-align: center;
+  border-top: 1px solid #f7f7f7;
+  margin-bottom: 10px;
 `;
 const ModalContent = styled.div`
-  padding: 20px;
+  display: flex;
+  flex-direction: row;
 `;

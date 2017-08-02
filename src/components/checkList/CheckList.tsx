@@ -1,11 +1,14 @@
 import * as React from 'react';
 import { StateProps, DispatchProps, OwnProps } from './CheckListContainer';
 import { TextField } from 'redux-form-material-ui';
-import { FlatButton, 
-  List, ListItem, Subheader, Checkbox 
+import { IconButton, 
+  List, ListItem, Checkbox 
 } from 'material-ui';
 import { Field } from 'redux-form';
 import styled from 'styled-components';
+import Delete from 'material-ui/svg-icons/action/delete';
+import Add from 'material-ui/svg-icons/content/add';
+import './checkList.css';
 
 export type Props = StateProps & OwnProps & DispatchProps;
 
@@ -49,22 +52,34 @@ export default class Entries extends React.PureComponent<Props & OtherProps, Oth
     return (
       <Wrap>
         <div onClick={() => this.createNewItem()} >
-          <Subheader>Checklist</Subheader>
+          <h5 className="subheader">
+            <Add />
+            <p>Add checklist</p>
+          </h5>
         </div>
         <List>
           {fields.map((member: any, index: any) => (
             <div key={index}>
               <ListItem 
                 primaryText={items[index].text}
+                className="checklist-item"
                 rightIconButton={
-                  <FlatButton 
-                    label="Remove"
+                  <IconButton 
                     onClick={() => fields.remove(index)}
-                  />
+                    className="checklist-item-remove"
+                    style={{marginRight: '20px', color: 'crimson'}}
+                    iconStyle={{color: 'crimson'}}
+                  >
+                    <Delete />
+                  </IconButton>
                 }
-                leftCheckbox={<Checkbox onCheck={() => this.toggleCheck(index)} />}
+                leftCheckbox={
+                  <Checkbox 
+                    onCheck={() => this.toggleCheck(index)} 
+                    className="checklist-item-checkbox"
+                  />}
               >
-                {items.length -1 === index && !items[items.length - 1].text && (
+                {items.length -1 === index && !items[items.length - 1].text &&(
                   <Field
                     name={`${member}.text`}
                     type="text"
@@ -73,6 +88,7 @@ export default class Entries extends React.PureComponent<Props & OtherProps, Oth
                     onKeyUp={(e: any) => e.keyCode === 13 && fields.push({completed: false, text: ''})}
                     onBlur={() => this.removeEmptyTodo(index)}
                     autoFocus={true}
+                    className="input-wrapper no-label checklist-input"
                   />
                 )}
               </ListItem>

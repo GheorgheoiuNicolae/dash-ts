@@ -28,6 +28,15 @@ select:-webkit-autofill:focus,
 select:-webkit-autofill:active {
     transition: background-color 5000s ease-in-out 0s;
 }
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0px 1000px rgba(0, 0, 0, 0.1) inset!important;
+}
+
+
+.h6 {
+  color: #6b7c93;
+  margin: 15px 0;
+}
 
 
 .bg1, .bg2, .bg0 {
@@ -54,3 +63,109 @@ select:-webkit-autofill:active {
   background-size: cover;
   background-position: center center;
 }
+
+
+.successButton button {
+  background-color: #51D399!important;
+}
+.dangerButton button {
+  background-color: crimson!important;
+}
+
+
+
+
+/* Material rewrites  */
+.flex-1 {
+  display: flex!important;
+  flex:1;
+  flex-direction: column;
+}
+.flex-1 input {
+  width: 100%;
+}
+.input-wrapper {
+  margin-top: 10px;
+  font-size: 14px!important;
+  height: 62px !important;
+}
+.input-wrapper label {
+  color: rgb(109, 126, 148)!important;
+  top: 24px!important;
+}
+.input-wrapper input {
+  height: 60%!important;
+  margin-top: 23px!important;
+  padding: 0 10px!important;
+  background-color: rgba(0, 0, 0, 0.05)!important;
+}
+.input-wrapper hr {
+  bottom: 2px!important;
+}
+
+.textarea-wrapper {
+  margin-top: 10px;
+  font-size: 14px!important;
+  min-height: 62px !important;
+}
+.textarea-wrapper label {
+  color: rgb(109, 126, 148)!important;
+  top: 24px!important;
+}
+.textarea-wrapper textarea {
+  margin-top: 23px!important;
+  margin-bottom: 20px;
+  padding: 10px!important;
+  background-color: rgba(0, 0, 0, 0.05)!important;
+}
+.textarea-wrapper hr {
+  bottom: 25px!important;
+}
+
+.datepicker-wrapper {
+  font-size: 14px!important;
+  min-height: 62px !important;
+  cursor: pointer;
+}
+.datepicker-wrapper hr {
+  display: none !important;
+}
+.datepicker-wrapper label {
+  color: rgb(109, 126, 148)!important;
+  top: 24px!important;
+}
+.datepicker-wrapper input {
+  height: 50%!important;
+  margin-top: 23px!important;
+  margin-bottom: 20px;
+  padding: 10px!important;
+  border-radius: 20px;
+  border: 1px dashed #6b7c93!important;
+  background-color: rgba(0, 0, 0, 0.05)!important;
+  text-align: center;
+}
+.datepicker-wrapper hr {
+  bottom: 12px!important;
+}
+
+
+.input-wrapper.no-label {
+  margin-top: 0!important;
+  position: relative;
+  top: -10px;
+}
+.input-wrapper.no-label.checklist-input {
+  /* border: 1px solid red; */
+  width: 100%!important;
+  overflow: hidden;
+} 
+.input-wrapper.no-label input {
+  margin: 0!important;
+}
+.input-wrapper.no-label hr {
+  bottom: 24px!important;
+}
+
+
+
+
