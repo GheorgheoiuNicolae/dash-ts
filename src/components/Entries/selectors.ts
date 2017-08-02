@@ -2,7 +2,7 @@ import { Any } from '../../types/';
 import * as _ from 'lodash';
 
 const getAllEntries = (state: Any): Any[] => {
-  const entries = state.entries.allIds.map((id: string) => state.entries.byId[id]);
+  const entries = state.entries.allIds ? state.entries.allIds.map((id: string) => state.entries.byId[id]) : [];
   const entryList: Any = [];
 
   entries.map((entry: Any) => {

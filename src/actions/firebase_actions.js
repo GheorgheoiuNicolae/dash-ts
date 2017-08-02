@@ -88,14 +88,41 @@ export function onAuthStateChange() {
   };
 }
 
-export const getEntries = (uid) => {
+// export const getEntries = (uid) => {
+//   return function (dispatch) {
+//     firebaseDb.ref()
+//     .child(`entries/${uid}`)
+//     .orderByChild("date")
+//     .on('child_added', (snapshot) => {
+//       const entry = snapshot.val();
+//       dispatch(receiveEntry(entry))
+//     });
+//   }
+// }
+
+export const getEntryOnChildAdded = (uid) => {
+  return function (dispatch) {
+    firebaseDb.ref()
+    .child(`entries/${uid}`)
+    .limitToLast(1)
+    .on('child_added', (snapshot) => {
+      console.log('last entry: ', snapshot.val())
+      const entry = snapshot.val();
+      dispatch(receiveEntry(entry))
+    });
+  }
+}
+
+export const getInitialEntries = (uid) => {
   return function (dispatch) {
     firebaseDb.ref()
     .child(`entries/${uid}`)
     .orderByChild("date")
-    .on('child_added', (snapshot) => {
-      const entry = snapshot.val();
-      dispatch(receiveEntry(entry))
+    // .startAt(1500130620000)
+    // .endAt(1500809940000)
+    .once('value', (snapshot) => {
+      const entries = snapshot.val();
+      dispatch(reveiveEntries(entries))
     });
   }
 }

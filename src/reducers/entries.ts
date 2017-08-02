@@ -11,6 +11,7 @@ export interface EntriesInitialState {
     filterBy: EntriesFilterBy;
     error: boolean;
     view: string;
+    firstLoad: boolean;
   };
   byId: Any;
 }
@@ -21,6 +22,7 @@ const initialState = {
     didInvalidate: false,
     showAddModal: false,
     view: 'list',
+    firstLoad: true,
     filterBy: {
       date: {
         from: null,
@@ -42,18 +44,24 @@ export default function reducer(state: EntriesInitialState = initialState, actio
       return {
         ...state,
         byId: action.payload,
+
         allIds: [
           ...state.allIds,
           ...Object.keys(action.payload).map((key) => {
             return key;
           }),
-        ]
+        ],
+
+        ui: {
+          ...state.ui,
+          firstLoad: false,
+        }
       };
     }
     case types.RECEIVE_ENTRY: {
       let newEntry = {};
       newEntry[action.payload.id] = {...action.payload};
-      return {
+      return !state.ui.firstLoad ? {
         ...state,
         byId: {
           ...state.byId,
@@ -63,7 +71,7 @@ export default function reducer(state: EntriesInitialState = initialState, actio
           ...state.allIds,
           action.payload.id,
         ]
-      };
+      } : state;
     }
     case types.REMOVE_ENTRY_SUCCESS: {
       return {

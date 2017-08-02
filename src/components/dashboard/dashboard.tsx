@@ -3,18 +3,19 @@ import * as React from 'react';
 import { ApplicationState } from '../../reducers';
 import styled from 'styled-components';
 import Sidebar from './sidebar';
-import { Any, Entry } from '../../types/';
-import { getEntries } from '../../actions/firebase_actions';
+import { Entry } from '../../types/';
+import { getInitialEntries, getEntryOnChildAdded } from '../../actions/firebase_actions';
 import { getAllEntries } from '../Entries/selectors';
 
 interface StateProps {
-  user: Any;
+  user: any;
   entries: Entry[];
 }
 
 interface RequiredProps {
   children: JSX.Element;
-  getEntries: Any;
+  getInitialEntries: any;
+  getEntryOnChildAdded: any;
 }
 
 interface OptionalProps {}
@@ -23,9 +24,12 @@ type Props = StateProps & RequiredProps & OptionalProps;
 
 class Dashboard extends React.Component<Props, {}> {
   componentWillMount() {
-    const { user, getEntries } = this.props;
+    const { user, getInitialEntries, getEntryOnChildAdded } = this.props;
     if(user) {
-      getEntries(user.uid);
+      // get the initial entries
+      getInitialEntries(user.uid);
+      // get the newly added entry
+      getEntryOnChildAdded(user.uid);
     }
   }
   render() {
@@ -57,6 +61,7 @@ export default connect<StateProps, {}, RequiredProps & OptionalProps>(
     };
   },
   {
-    getEntries,
+    getInitialEntries,
+    getEntryOnChildAdded,
   },
 )(Dashboard);

@@ -12,6 +12,22 @@ interface OtherProps {
 }
 
 export default class Entries extends React.Component<Props, OtherProps> {
+  setScrollToDate() {
+    const wrap  = document.getElementById('entries-page-wrap');
+    setTimeout(() => {
+      const todayEntry  = document.getElementById('-Kp51e59EiotL60UI5J1');
+      if( wrap && todayEntry ) {
+        wrap.scrollTop = todayEntry.offsetTop;
+      }
+    }, 200);
+  }
+
+  componentWillReceiveProps(next: any) {
+    if(next.entries) {
+      this.setScrollToDate();
+    }
+  }
+
   render() {
     const { entries, user, removeEntry, view } = this.props;
     let mappedDays = entries.map((day: Any, index) => {
@@ -34,11 +50,11 @@ export default class Entries extends React.Component<Props, OtherProps> {
     });
     
     return (
-      <Wrap>
+      <Wrap id="entries-page-wrap">
         <Header />
         <EntryList className={`view-boxes ${view}`}>
           <TimelineBar />
-          {mappedDays}
+          {entries && mappedDays}
         </EntryList>
       </Wrap>
     );
@@ -49,7 +65,6 @@ const EntryList = styled.div`
   display: flex;
   flex-direction: column;
   flex: 1;
-  overflow: scroll;
   margin-top: 50px;
 `;
 
@@ -57,6 +72,7 @@ const Wrap = styled.div`
   display: flex;
   flex-direction: column;
   flex: 1;
+  height: 100%;
   overflow: scroll;
   padding: 0 30px 0 230px;
 `;
