@@ -2,21 +2,20 @@ import { connect } from 'react-redux';
 import { ApplicationState } from '../../reducers';
 import Login from './Login';
 import {reduxForm} from 'redux-form';
-import { Any }  from '../../types';
 import { loginUser } from '../../actions/firebase_actions';
 
 export interface OwnOptionalProps {
-  handleSubmit: Any;
+  handleSubmit: any;
 }
 
 export interface OwnProps extends Partial<OwnOptionalProps> {}
 
 export interface StateProps {
-  auth: Any;
+  auth: any;
 }
 
 export interface DispatchProps {
-  loginUser: (user: Any) => {};
+  loginUser: (user: any) => {};
 }
 
 export interface OwnProps {}

@@ -1,12 +1,11 @@
 import * as React from 'react';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
-import { Any } from '../../../types';
 
 interface DispatchProps {
-  removeEntry: Any;
-  entry: Any;
-  user: Any;
+  removeEntry: any;
+  entry: any;
+  user: any;
 }
 interface OwnProps {
   open: boolean;

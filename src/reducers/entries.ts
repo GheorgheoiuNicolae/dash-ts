@@ -1,19 +1,24 @@
-import { BaseAction, Any, EntriesFilterBy } from '../types/';
+import { BaseAction, EntriesFilterBy } from '../types/';
 import { deleteFromById, deleteFromAllIds} from '../utils/deleteFromState';
 import * as types from '../actions/types';
 
 export interface EntriesInitialState {
   allIds: number[] | string[];
   ui: {
-    selectedEntry: Any;
+    selectedEntry: any;
     didInvalidate: boolean;
     showAddModal: boolean;
     filterBy: EntriesFilterBy;
     error: boolean;
     view: string;
     firstLoad: boolean;
+    isLoading: boolean;
+    datesLoaded: {
+      past: any,
+      future: any,
+    }
   };
-  byId: Any;
+  byId: any;
 }
 
 const initialState = {
@@ -23,6 +28,11 @@ const initialState = {
     showAddModal: false,
     view: 'list',
     firstLoad: true,
+    isLoading: false,
+    datesLoaded: {
+      past: null,
+      future: null,
+    },
     filterBy: {
       date: {
         from: null,
@@ -43,11 +53,14 @@ export default function reducer(state: EntriesInitialState = initialState, actio
     case types.RECEIVE_ENTRIES: {
       return {
         ...state,
-        byId: action.payload,
+        byId: { 
+          ...state.byId,
+          ...action.payload.entries 
+        },
 
         allIds: [
           ...state.allIds,
-          ...Object.keys(action.payload).map((key) => {
+          ...Object.keys(action.payload.entries).map((key) => {
             return key;
           }),
         ],
@@ -55,9 +68,29 @@ export default function reducer(state: EntriesInitialState = initialState, actio
         ui: {
           ...state.ui,
           firstLoad: false,
+          isLoading: false,
+          datesLoaded: {
+            past: action.payload.dates.past 
+              ? action.payload.dates.past 
+              : state.ui.datesLoaded.past,
+            future: action.payload.dates.future 
+              ? action.payload.dates.future 
+              : state.ui.datesLoaded.future,
+          }
         }
       };
     }
+
+    case types.LOADING_ENTRIES_START: {
+      return {
+        ...state,
+        ui: {
+          ...state.ui,
+          isLoading: true,
+        }
+      };
+    }
+
     case types.RECEIVE_ENTRY: {
       let newEntry = {};
       newEntry[action.payload.id] = {...action.payload};

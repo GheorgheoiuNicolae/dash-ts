@@ -12,11 +12,7 @@ const logo = require('../../../assets/logo/full-dark.svg');
 import './sidebar.css';
 export type Props = StateProps & OwnProps & DispatchProps;
 
-interface OtherProps {
-  // component state props here
-}
-
-export default class Sidebar extends React.Component<Props, OtherProps> {
+export default class Sidebar extends React.Component<Props, {}> {
 
   render () {
     const { showModal } = this.props;

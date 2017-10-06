@@ -88,25 +88,12 @@ export function onAuthStateChange() {
   };
 }
 
-// export const getEntries = (uid) => {
-//   return function (dispatch) {
-//     firebaseDb.ref()
-//     .child(`entries/${uid}`)
-//     .orderByChild("date")
-//     .on('child_added', (snapshot) => {
-//       const entry = snapshot.val();
-//       dispatch(receiveEntry(entry))
-//     });
-//   }
-// }
-
 export const getEntryOnChildAdded = (uid) => {
   return function (dispatch) {
     firebaseDb.ref()
     .child(`entries/${uid}`)
     .limitToLast(1)
     .on('child_added', (snapshot) => {
-      console.log('last entry: ', snapshot.val())
       const entry = snapshot.val();
       dispatch(receiveEntry(entry))
     });
@@ -114,16 +101,88 @@ export const getEntryOnChildAdded = (uid) => {
 }
 
 export const getInitialEntries = (uid) => {
+  const today = new Date().setHours(0,0,0,0);
+
+  const dates = {
+    past: today - 1000 * 60 * 60 * 24 * 14,
+    future: today + 1000 * 60 * 60 * 24 * 14,
+  }
+
+  console.log('getInitialEntries for the period: ', new Date(dates.past), dates.past, ' - ', new Date(dates.future), dates.future);
+
   return function (dispatch) {
     firebaseDb.ref()
     .child(`entries/${uid}`)
     .orderByChild("date")
-    // .startAt(1500130620000)
-    // .endAt(1500809940000)
+    .startAt(dates.past)
+    .endAt(dates.future)
     .once('value', (snapshot) => {
       const entries = snapshot.val();
-      dispatch(reveiveEntries(entries))
+      if(entries) {
+        // check length for initial load
+        var size = 0, key;
+        for (key in entries) {
+          if (entries.hasOwnProperty(key)) size++;
+        }
+        console.log('size: ', size);
+        dispatch(reveiveEntries(entries, dates))
+        // dispatch(shouldLoadMoreEntries(dates))
+        console.log('getInitialEntries res: ', entries, size);
+      } else {
+        dispatch(reveiveEntries([], dates))
+      }
     });
+  }
+}
+
+export const loadMoreEntries = (uid, direction, date) => {
+  const fifteenDays = 1000*60*60*24 * 14;
+
+  if(direction === 'future') {
+    // load more future entries
+    return function (dispatch) {
+      dispatch(loadingEntriesStart());
+
+      firebaseDb.ref()
+      .child(`entries/${uid}`)
+      .orderByChild("date")
+      .startAt(date + 24 * 60 * 60 * 1000)
+      .endAt(date + fifteenDays)
+      .once('value', (snapshot) => {
+        const entries = snapshot.val();
+        // console.log('FUTURE - Getting entries for the period: ', new Date(date + fifteenDays), date + fifteenDays, ' - ', new Date(date + 24 * 60 * 60 * 1000), date + 24 * 60 * 60 * 1000);
+        if(entries) {
+          dispatch(reveiveEntries(entries, { future: date + fifteenDays})) 
+        } else {
+          dispatch(reveiveEntries([], { future: date + fifteenDays})) 
+        }
+      });
+    }
+  } else {
+    // load more entries from the past
+    return function (dispatch) {
+      dispatch(loadingEntriesStart());
+      console.log('initial date: ', new Date(date));
+      firebaseDb.ref()
+      .child(`entries/${uid}`)
+      .orderByChild("date")
+      .startAt(date - fifteenDays)
+      .endAt(date - 24 * 60 * 60 * 1000)
+      .once('value', (snapshot) => {
+        const entries = snapshot.val();
+        // console.log('PAST - Getting entries for the period: ', 
+        //   new Date(date - fifteenDays), 
+        //   date - fifteenDays, ' - ', 
+        //   new Date(date - 24 * 60 * 60 * 1000), 
+        //   date - 24 * 60 * 60 * 1000
+        // );
+        if(entries) {
+          dispatch(reveiveEntries(entries, { past: date - fifteenDays})) 
+        } else {
+          dispatch(reveiveEntries([], { past: date - fifteenDays})) 
+        }
+      });
+    }
   }
 }
 
@@ -189,14 +248,21 @@ export const receiveEntry = (entries) => ({
   payload: entries,
 });
 
-export const reveiveEntries = (entries) => ({
+export const reveiveEntries = (entries, dates) => ({
   type: types.RECEIVE_ENTRIES,
-  payload: entries,
+  payload: {
+    entries,
+    dates,
+  },
 });
 
 export const removeEntrySuccess = (entry) => ({
   type: types.REMOVE_ENTRY_SUCCESS,
   payload: entry,
+});
+
+export const loadingEntriesStart = () => ({
+  type: types.LOADING_ENTRIES_START,
 });
 
 export const registerError = (reason, error) => ({

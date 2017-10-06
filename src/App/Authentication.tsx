@@ -5,7 +5,6 @@ import { ApplicationState } from '../reducers';
 import { fetchUser } from '../actions/firebase_actions';
 import { AuthState } from '../reducers/auth';
 import { browserHistory } from 'react-router';
-import { Any } from '../types/';
 
 interface StateProps {
   auth: AuthState;
@@ -34,7 +33,7 @@ class Authentication extends React.Component<Props, {}> {
     const { dispatch, fetchUser} = this.props;
     dispatch(fetchUser());
   }
-  componentWillReceiveProps(nextProps: Any) {
+  componentWillReceiveProps(nextProps: any) {
     if(!nextProps.auth.user) {
       browserHistory.push('/login');
     } 

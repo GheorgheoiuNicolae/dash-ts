@@ -12,7 +12,6 @@ export default class Entry extends React.Component<Props, OtherProps> {
     const { entry } = this.props;
     return entry ? (
       <Wrap>
-        {entry.title}
         <EditEntryForm entry={entry} />
       </Wrap>
     ) : null;
@@ -24,5 +23,11 @@ const Wrap = styled.div`
   flex-direction: column;
   flex: 1;
   overflow: scroll;
-  padding: 0 30px 0 230px;
+  display: flex;
+  height: 100%;
+  background: #fff;
+  margin-left: 220px;
+  margin-right: 20px;
+  padding: 20px;
+  box-sizing: border-box;
 `;

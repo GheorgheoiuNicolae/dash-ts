@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { Any } from '../../types';
 import {Field} from 'redux-form';
 import { TextField } from 'redux-form-material-ui';
 import { Link } from 'react-router';
@@ -12,7 +11,7 @@ const logo = require('../../assets/logo/complete-white.svg');
 export type Props = StateProps & OwnProps & DispatchProps;
 
 export default class Login extends React.Component<Props, {} > {
-  submitForm = (v: Any) => {
+  submitForm = (v: any) => {
     const { registerUser } = this.props;
 
     const user = {
@@ -32,7 +31,7 @@ export default class Login extends React.Component<Props, {} > {
     return (
       <RegisterWrap>
         <Logo>
-          <img src={logo} alt="logo" className="logo" />
+          <LogoImg src={logo} alt="logo" className="logo" />
         </Logo>
         <Content>
           <Header>
@@ -112,4 +111,9 @@ const Logo = styled.div`
 	max-width: 160px;
   margin-left: 50px;
   position: absolute;
+`;
+const LogoImg = styled.img`
+  position: relative;
+  top: -50px;
+  left: 80px;
 `;

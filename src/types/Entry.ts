@@ -1,5 +1,3 @@
-import { Any } from './index';
-
 interface Entry {
   id: number;
   title: string;
@@ -9,7 +7,7 @@ interface Entry {
   // array of label ids
   // if I delete a label, will it be deleted from the entry?
   labels: number[] | null; 
-  photos: Any[] | null;
+  photos: any[] | null;
   checklistItems: ChecklistItem[] | null;
   geoPlace: { // if the entry has a place assigned. else we can populate with the users location?
     lat: string;

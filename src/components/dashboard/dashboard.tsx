@@ -10,16 +10,17 @@ import { getAllEntries } from '../Entries/selectors';
 interface StateProps {
   user: any;
   entries: Entry[];
+  datesLoaded: {
+    past: any,
+    future: any,
+  };
 }
-
 interface RequiredProps {
   children: JSX.Element;
   getInitialEntries: any;
   getEntryOnChildAdded: any;
 }
-
 interface OptionalProps {}
-
 type Props = StateProps & RequiredProps & OptionalProps;
 
 class Dashboard extends React.Component<Props, {}> {
@@ -32,6 +33,7 @@ class Dashboard extends React.Component<Props, {}> {
       getEntryOnChildAdded(user.uid);
     }
   }
+  
   render() {
     const { children } = this.props;
     return (
@@ -58,6 +60,7 @@ export default connect<StateProps, {}, RequiredProps & OptionalProps>(
     return {
       user: state.auth.user,
       entries: getAllEntries(state),
+      datesLoaded: state.entries.ui.datesLoaded,
     };
   },
   {

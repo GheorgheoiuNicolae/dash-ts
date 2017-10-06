@@ -1,4 +1,3 @@
-import { Any } from './Any';
 /*
  * {
     type: "UPDATE_USER_EMAIL",
@@ -8,7 +7,7 @@ import { Any } from './Any';
 
 export interface BaseAction {
   type: string;
-  payload: Any;
+  payload: any;
   meta?: {} | Function;
 }
 

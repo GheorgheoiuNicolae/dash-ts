@@ -1,12 +1,10 @@
-import { Any } from './Any';
-
 interface EntriesFilterBy {
   date: {
     from?: Date | null;
     to?: Date | null;
   };
-  kind: Any;
-  labels: Any[];
+  kind: any;
+  labels: any[];
 }
 
 export default EntriesFilterBy;

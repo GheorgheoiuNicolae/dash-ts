@@ -5,7 +5,6 @@ import {
 } from 'redux-form-material-ui';
 import { Dialog, FlatButton, RaisedButton } from 'material-ui';
 import { Field, FieldArray } from 'redux-form';
-import { Any } from '../../../types/';
 import styled from 'styled-components';
 import { StateProps, DispatchProps, OwnProps } from './AddEntryContainer';
 import CheckList from '../../checkList/';
@@ -17,9 +16,10 @@ export type Props = StateProps & OwnProps & DispatchProps;
 
 export default class AddEntryForm extends React.PureComponent<Props, {}> {
 
-  handleSubmit = (values: Any) => {
+  handleSubmit = (values: any) => {
     const { createEntry, auth, destroy, hideModal } = this.props;
-    values.date = new Date(values.date).getTime();
+    values.dateTime = new Date(values.date).getTime();
+    values.date = new Date(values.date).setHours(0,0,0,0);
     createEntry(values, auth.user.uid);
     hideModal('addEntry');
     destroy();
@@ -55,7 +55,7 @@ export default class AddEntryForm extends React.PureComponent<Props, {}> {
                   fullWidth={true}
                   name={'title'}
                   className="input-wrapper input"
-                  autofocus={true}
+                  autoFocus={true}
                 />
               </InputWrap>
               

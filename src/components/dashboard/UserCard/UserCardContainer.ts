@@ -2,7 +2,6 @@ import { connect } from 'react-redux';
 import { ApplicationState } from '../../../reducers';
 import UserCard from './UserCard';
 import { logoutUser } from '../../../actions/firebase_actions';
-import { Any } from '../../../types';
 
 export interface OwnOptionalProps {
   
@@ -11,11 +10,11 @@ export interface OwnOptionalProps {
 export interface OwnProps extends Partial<OwnOptionalProps> {}
 
 export interface StateProps {
-  auth: Any;
+  auth: any;
 }
 
 export interface DispatchProps {
-  logoutUser: (user: Any) => {};
+  logoutUser: (user: any) => {};
 }
 
 export interface OwnProps {}
