@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { ApplicationState } from '../../../reducers';
 import AddEntryForm from './AddEntry';
 import { reduxForm } from 'redux-form';
-import { createEntry } from '../../../actions/firebase_actions';
+import { createEntry } from '../../../redux/entries/creators';
 import { hideModal } from '../../../actions/local';
 
 export interface OwnOptionalProps {

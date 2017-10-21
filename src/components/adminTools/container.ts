@@ -1,13 +1,11 @@
 import { connect } from 'react-redux';
 import { ApplicationState } from '../../reducers';
 import AdminTools from './adminTools';
-import { createEntry } from '../../actions/firebase_actions';
+import { createEntry } from '../../redux/entries/creators';
 
 export interface OwnOptionalProps {}
 
-export interface OwnProps extends Partial<OwnOptionalProps> {
-
-}
+export interface OwnProps extends Partial<OwnOptionalProps> {}
 
 export interface StateProps {
   user: any;

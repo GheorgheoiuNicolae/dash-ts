@@ -12,13 +12,13 @@ export type Props = StateProps & OwnProps & DispatchProps;
 
 export default class Login extends React.Component<Props, {} > {
   submitForm = (v: any) => {
-    const { registerUser } = this.props;
+    const { register } = this.props;
 
     const user = {
       email: v.email,
       password: v.password,
     };
-    registerUser(user);
+    register(user);
   }
   componentWillReceiveProps(next: any) {
     if(next.auth.user) {

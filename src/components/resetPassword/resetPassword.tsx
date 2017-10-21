@@ -8,7 +8,7 @@ import styled from 'styled-components';
 const logo = require('../../assets/logo/complete-white.svg');
 
 interface Props {
-  resetPasswordEmail: (email: any) => {};
+  resetPasswordByEmail: (email: any) => {};
   handleSubmit: any;
   requestedPasswordReset: boolean;
 }
@@ -16,8 +16,8 @@ interface OwnProps {}
 
 export default class ResetPasword extends React.Component<Props, OwnProps> {
   submitForm = (v: any) => {
-    const { resetPasswordEmail } = this.props;
-    resetPasswordEmail(v.email);
+    const { resetPasswordByEmail } = this.props;
+    resetPasswordByEmail(v.email);
   }
   
   render () {

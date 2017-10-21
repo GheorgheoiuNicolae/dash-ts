@@ -1,57 +1,12 @@
-import { EntriesFilterBy } from '../types/';
-import { deleteFromById, deleteFromAllIds} from '../utils/deleteFromState';
-import * as types from '../actions/types';
-
-export interface EntriesInitialState {
-  allIds: number[] | string[];
-  ui: {
-    selectedEntry: any;
-    didInvalidate: boolean;
-    showAddModal: boolean;
-    filterBy: EntriesFilterBy;
-    error: boolean;
-    view: string;
-    firstLoad: boolean;
-    isLoading: boolean;
-    shouldLoadOneYear: boolean;
-    datesLoaded: {
-      past: any,
-      future: any,
-    }
-  };
-  byId: any;
-}
-
-const initialState = {
-  ui: {
-    selectedEntry: null,
-    didInvalidate: false,
-    showAddModal: false,
-    view: 'bla',
-    firstLoad: true,
-    isLoading: false,
-    shouldLoadOneYear: false,
-    datesLoaded: {
-      past: null,
-      future: null,
-    },
-    filterBy: {
-      date: {
-        from: null,
-        to: null,
-      },
-      kind: '',
-      labels: [],
-    },
-    error: false,
-  },
-  byId: {},
-  allIds: [],
-};
+import { deleteFromById, deleteFromAllIds} from '../../utils/deleteFromState';
+import * as types from './types';
+import * as uiTypes from '../ui/types';
+import * as authTypes from '../auth/types';
+import { initialState } from './initialState';
+import { EntriesInitialState } from './interface';
 
 export default function reducer(state: EntriesInitialState = initialState, action: any) {
   switch (action.type) {
-
     case types.SHOULD_LOAD_ONE_YEAR: {
       return {
         ...state,
@@ -61,6 +16,7 @@ export default function reducer(state: EntriesInitialState = initialState, actio
         }
       };
     }
+
     case types.DISABLE_LOAD_ONE_YEAR: {
       return {
         ...state,
@@ -72,6 +28,12 @@ export default function reducer(state: EntriesInitialState = initialState, actio
     }
     
     case types.RECEIVE_ENTRIES: {
+      const allIds = [...state.allIds];
+      let existingId = allIds.find((id: any) => id === action.payload.id);
+      if(existingId) {
+        console.log('entry already exists', state.byId[existingId]);
+      }
+
       return {
         ...state,
         byId: { 
@@ -89,7 +51,10 @@ export default function reducer(state: EntriesInitialState = initialState, actio
         ui: {
           ...state.ui,
           firstLoad: false,
-          isLoading: false,
+          isLoading: {
+            loading: false,
+            type: null,
+          },
           datesLoaded: {
             past: action.payload.dates.past 
               ? action.payload.dates.past 
@@ -102,12 +67,15 @@ export default function reducer(state: EntriesInitialState = initialState, actio
       };
     }
 
-    case types.LOADING_ENTRIES_START: {
+    case types.LOAD_ENTRIES_START: {
       return {
         ...state,
         ui: {
           ...state.ui,
-          isLoading: true,
+          isLoading: {
+            loading: true,
+            type: action.payload
+          },
         }
       };
     }
@@ -115,6 +83,7 @@ export default function reducer(state: EntriesInitialState = initialState, actio
     case types.RECEIVE_ENTRY: {
       let newEntry = {};
       newEntry[action.payload.id] = {...action.payload};
+
       return !state.ui.firstLoad ? {
         ...state,
         byId: {
@@ -127,6 +96,7 @@ export default function reducer(state: EntriesInitialState = initialState, actio
         ]
       } : state;
     }
+
     case types.REMOVE_ENTRY_SUCCESS: {
       return {
         ...state,
@@ -134,6 +104,7 @@ export default function reducer(state: EntriesInitialState = initialState, actio
         allIds: deleteFromAllIds(state.allIds, action.payload),
       };
     }
+
     case types.EDIT_ENTRY: {
       const newState = {...state};
       newState.byId[action.payload.id] = action.payload;
@@ -142,12 +113,14 @@ export default function reducer(state: EntriesInitialState = initialState, actio
         ...newState,
       };
     }
-    case types.HIDE_MODAL: {
+
+    case uiTypes.HIDE_MODAL: {
       switch(action.payload) {
         case 'addEntry': {
           return {
             ...state,
             ui: {
+              ...state.ui,
               showAddModal: false
             }
           };
@@ -157,12 +130,14 @@ export default function reducer(state: EntriesInitialState = initialState, actio
         }
       }
     }
-    case types.SHOW_MODAL: {
+
+    case uiTypes.SHOW_MODAL: {
       switch(action.payload) {
         case 'addEntry': {
           return {
             ...state,
             ui: {
+              ...state.ui,
               showAddModal: true
             }
           };
@@ -172,7 +147,8 @@ export default function reducer(state: EntriesInitialState = initialState, actio
         }
       }
     }
-    case types.SWITCH_ENTRIES_VIEW: {
+
+    case uiTypes.SWITCH_ENTRIES_VIEW: {
       return {
         ...state,
         ui: {
@@ -181,7 +157,8 @@ export default function reducer(state: EntriesInitialState = initialState, actio
         }
       };
     }
-    case types.LOGOUT_FIREBASE_USER: {
+
+    case authTypes.LOGOUT: {
       return {
         ...initialState
       };

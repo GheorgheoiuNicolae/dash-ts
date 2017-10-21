@@ -3,7 +3,7 @@ import { ApplicationState } from '../../reducers';
 import Entries from './Entries';
 import { Entry } from '../../types/';
 import { getAllEntries, closestToToday } from './selectors';
-import { removeEntry, loadMoreEntries } from '../../actions/firebase_actions';
+import { removeEntry, loadMoreEntries, loadOneYear } from '../../redux/entries/creators';
 
 export interface OwnOptionalProps {}
 
@@ -14,7 +14,8 @@ export interface StateProps {
   user: any;
   view: String;
   closestToToday: any;
-  isLoading: boolean;
+  isLoading: any;
+  shouldLoadOneYear: boolean;
   datesLoaded: {
     past: any,
     future: any,
@@ -24,6 +25,7 @@ export interface StateProps {
 export interface DispatchProps {
   removeEntry: any;
   loadMoreEntries: any;
+  loadOneYear: Function;
 }
 
 export default connect<StateProps, DispatchProps, OwnProps>(
@@ -35,10 +37,12 @@ export default connect<StateProps, DispatchProps, OwnProps>(
       closestToToday: closestToToday(state),
       datesLoaded: state.entries.ui.datesLoaded,
       isLoading: state.entries.ui.isLoading,
+      shouldLoadOneYear: state.entries.ui.shouldLoadOneYear,
     };
   },
   {
     removeEntry,
     loadMoreEntries,
+    loadOneYear,
   },
 )(Entries);

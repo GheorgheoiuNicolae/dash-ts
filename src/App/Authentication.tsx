@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import * as React from 'react';
 import { InjectedRouter, RouterState } from 'react-router';
 import { ApplicationState } from '../reducers';
-import { fetchUser } from '../actions/firebase_actions';
+import { fetchUser } from '../redux/auth/creators';
 import { AuthState } from '../reducers/auth';
 import { browserHistory } from 'react-router';
 

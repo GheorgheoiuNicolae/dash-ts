@@ -4,7 +4,7 @@ import { ApplicationState } from '../../reducers';
 import styled from 'styled-components';
 import Sidebar from './sidebar';
 import { Entry } from '../../types/';
-import { getInitialEntries, getEntryOnChildAdded } from '../../actions/firebase_actions';
+import { getInitialEntries, getEntryOnChildAdded } from '../../redux/entries/creators';
 import { getAllEntries } from '../Entries/selectors';
 
 interface StateProps {

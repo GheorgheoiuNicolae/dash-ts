@@ -2,6 +2,7 @@ import * as React from 'react';
 import { StateProps, DispatchProps, Props } from './EntryContainer';
 import styled from 'styled-components';
 import EditEntryForm from '../forms/EditEntry/';
+
 export type Props = StateProps & Props & DispatchProps;
 interface OtherProps {
   // component state props here

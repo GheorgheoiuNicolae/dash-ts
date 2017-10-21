@@ -1,0 +1,32 @@
+.entries-loader {
+  height: 0;
+  overflow: hidden;
+  background: rgba(255,255,255, .9);
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin-left: -25px;
+  margin-right: -25px;
+  z-index: 1;
+  /* height: 100%; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 1s linear;
+}
+
+@keyframes slideIn {
+  from {height: 0;}
+  to {height: 100%;}
+}
+@keyframes slideOut {
+  from {height: 100%;}
+  to {height: 10px;}
+}
+
+.showed {
+  animation: slideIn .2s ease 1s forwards;
+}
+.hidden {
+  animation: slideOut .1s ease 1s backwards;
+}

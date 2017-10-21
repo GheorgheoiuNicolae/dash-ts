@@ -1,20 +1,52 @@
 import * as React from 'react';
 import { 
   TextField, 
-  DatePicker
+  DatePicker,
+  TimePicker
 } from 'redux-form-material-ui';
 import { Dialog, FlatButton, RaisedButton } from 'material-ui';
 import { Field, FieldArray } from 'redux-form';
 import styled from 'styled-components';
+import Popover, {PopoverAnimationVertical} from 'material-ui/Popover';
 import { StateProps, DispatchProps, OwnProps } from './AddEntryContainer';
 import CheckList from '../../checkList/';
+import LablesPicker from './labelsPicker/';
 import * as moment from 'moment';
 import Close from 'material-ui/svg-icons/navigation/close';
+import Label from 'material-ui/svg-icons/action/label-outline';
+import ArrowDropDown from 'material-ui/svg-icons/navigation/arrow-drop-down';
 
 import './AddEntry.css';
-export type Props = StateProps & OwnProps & DispatchProps;
 
-export default class AddEntryForm extends React.PureComponent<Props, {}> {
+export type Props = StateProps & OwnProps & DispatchProps;
+interface OtherProps {
+  labelsPopoverOpen: boolean;
+  anchorEl: any;
+}
+
+export default class AddEntryForm extends React.PureComponent<Props, OtherProps> {
+  constructor() {
+    super();
+    this.state = {
+      labelsPopoverOpen: false,
+      anchorEl: null
+    };
+  }
+
+  handleLablelsPopoverClose = () => {
+    this.setState({
+      labelsPopoverOpen: false,
+    });
+  };
+
+  handleLablelsPopoverOpen = (event: any) => {    
+    event.preventDefault();
+
+    this.setState({
+      labelsPopoverOpen: true,
+      anchorEl: event.currentTarget,
+    });
+  }
 
   handleSubmit = (values: any) => {
     const { createEntry, auth, destroy, hideModal } = this.props;
@@ -91,6 +123,43 @@ export default class AddEntryForm extends React.PureComponent<Props, {}> {
                   formatDate={(date: Date) => moment(date).format('ll')}
                 />
               </InputWrap>
+              <InputWrap>
+                <Field
+                  component={(props: any) => <TimePicker {...props} />}
+                  autoOk={true}
+                  format={null}
+                  floatingLabelFixed={true}
+                  floatingLabelText={'Time'}
+                  fullWidth={true}
+                  name={`date`}
+                  className="datepicker-wrapper input"
+                />
+              </InputWrap>
+
+              <InputWrap>
+                <LabelsSelect onClick={(e: any) => this.handleLablelsPopoverOpen(e)}>
+                  <StyledLabelIcon className="label-icon" />
+                  <LabelTitle>Labels</LabelTitle>
+                  <ArrowDropDown className="label-icon-right" />
+                </LabelsSelect>
+                <Popover
+                  open={this.state.labelsPopoverOpen}
+                  anchorEl={this.state.anchorEl}
+                  anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
+                  targetOrigin={{horizontal: 'left', vertical: 'top'}}
+                  onRequestClose={() => this.handleLablelsPopoverClose()}
+                  animation={PopoverAnimationVertical}
+                >
+                  <LabelsPopover>
+                    <LabelsPopoverHeader>
+                      <strong>Assign labels</strong>
+                      <small className="link">Manage</small>
+                    </LabelsPopoverHeader>
+                    <LablesPicker/>
+                  </LabelsPopover>
+                </Popover>
+              </InputWrap>
+
             </RightSide>
           </ModalContent>
           <ModalFooter>
@@ -125,9 +194,34 @@ const RightSide = styled.div`
   flex: 3;
   padding: 20px;
   border-left: 1px solid #eee;
+  flex-direction: column;
 `;
 const InputWrap = styled.div`
   margin-bottom: 10px;
+  width: 100%;
+`;
+const LabelsPopover = styled.div`
+  padding: 5px;
+  min-width: 200px;
+  justify-content: space-around;
+`;
+const LabelsSelect = styled.div`
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+`;
+const LabelTitle = styled.span`
+  margin: 0 10px;
+`;
+const LabelsPopoverHeader = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  padding: 10px 0;
+`;
+const StyledLabelIcon = styled(Label)`
+  color: #673AB7!important;
 `;
 const ModalHeader = styled.div`
   display: flex;

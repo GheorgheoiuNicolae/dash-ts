@@ -1,5 +1,3 @@
-import { BaseAction } from '../types';
-
 interface EntryImagesState {
   isUploading: boolean;
   uploadProgress: null;
@@ -14,7 +12,7 @@ export default function reducer(state: EntryImagesState = {
     uploadError: null,
     downloadError: null,
     images: []
-}, action: BaseAction) {
+}, action: any) {
   switch(action.type) {
     case 'UPLOAD_PROGRESS': {
         return {...state, 

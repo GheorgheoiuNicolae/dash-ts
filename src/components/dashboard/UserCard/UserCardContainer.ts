@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { ApplicationState } from '../../../reducers';
 import UserCard from './UserCard';
-import { logoutUser } from '../../../actions/firebase_actions';
+import { logoutUser } from '../../../redux/auth/creators';
 
 export interface OwnOptionalProps {
   

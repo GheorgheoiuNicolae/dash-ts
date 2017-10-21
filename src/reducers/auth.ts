@@ -1,5 +1,4 @@
 import * as types from '../actions/types';
-import { BaseAction } from '../types/';
 
 export interface User {
   uid: string;
@@ -15,7 +14,7 @@ export default function reducer(state: AuthState={
     isLoading: false,
     user: null,
     requestedPasswordReset: false,
-}, action: BaseAction) {
+}, action: any) {
     switch(action.type) {
 
         case types.LOGIN_FIREBASE_USER: {

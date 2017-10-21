@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { ApplicationState } from '../../reducers';
 import Register from './Register';
 import {reduxForm} from 'redux-form';
-import { registerUser } from '../../actions/firebase_actions';
+import { register } from '../../redux/auth/creators';
 
 export interface OwnOptionalProps {
   handleSubmit: any;
@@ -15,7 +15,7 @@ export interface StateProps {
 }
 
 export interface DispatchProps {
-  registerUser: (user: any) => {};
+  register: (user: any) => Function;
 }
 
 export interface OwnProps {}
@@ -27,7 +27,7 @@ export default connect<StateProps, DispatchProps, OwnProps>(
     };
   },
   {
-    registerUser,
+    register,
   },
 )(reduxForm({
   form: 'register',

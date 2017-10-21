@@ -2,7 +2,7 @@ import { createStore, applyMiddleware } from 'redux';
 import { syncHistoryWithStore } from 'react-router-redux';
 import { browserHistory } from 'react-router';
 import thunk from 'redux-thunk';
-import { appReducers } from '../reducers/index';
+import { appReducers } from './reducers';
 import * as ReduxPromise from 'redux-promise';
 import * as logger from 'redux-logger';
 

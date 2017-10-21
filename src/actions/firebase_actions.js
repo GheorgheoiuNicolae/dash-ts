@@ -1,4 +1,4 @@
-import FireBaseTools, { firebaseDb } from '../utils/firebase';
+// import FireBaseTools, { firebaseDb } from '../utils/firebase';
 import * as types from './types';
 
 export function loginWithProvider(provider) {
@@ -25,15 +25,9 @@ export function loginUser(user) {
   };
 }
 
-function addUserData(data) {
-  return {
-    type: types.FETCH_FIREBASE_USER,
-    payload: data,
-  };
-}
-
 export function fetchUser() {
   const request = FireBaseTools.fetchUser();
+  console.log('does this run?');
   return {
     type: types.FETCH_FIREBASE_USER,
     payload: request,
@@ -124,7 +118,11 @@ export const getInitialEntries = (uid) => {
         for (key in entries) {
           if (entries.hasOwnProperty(key)) size++;
         }
-        console.log('size: ', size);
+        if(size < 10) {
+          // try to load more entries in the past
+          dispatch(loadMoreEntries(uid, 'past', dates.past));
+          dispatch(shouldLoadOneYear());
+        }
         dispatch(reveiveEntries(entries, dates))
         // dispatch(shouldLoadMoreEntries(dates))
         console.log('getInitialEntries res: ', entries, size);
@@ -162,7 +160,6 @@ export const loadMoreEntries = (uid, direction, date) => {
     // load more entries from the past
     return function (dispatch) {
       dispatch(loadingEntriesStart());
-      console.log('initial date: ', new Date(date));
       firebaseDb.ref()
       .child(`entries/${uid}`)
       .orderByChild("date")
@@ -170,12 +167,6 @@ export const loadMoreEntries = (uid, direction, date) => {
       .endAt(date - 24 * 60 * 60 * 1000)
       .once('value', (snapshot) => {
         const entries = snapshot.val();
-        // console.log('PAST - Getting entries for the period: ', 
-        //   new Date(date - fifteenDays), 
-        //   date - fifteenDays, ' - ', 
-        //   new Date(date - 24 * 60 * 60 * 1000), 
-        //   date - 24 * 60 * 60 * 1000
-        // );
         if(entries) {
           dispatch(reveiveEntries(entries, { past: date - fifteenDays})) 
         } else {
@@ -183,6 +174,28 @@ export const loadMoreEntries = (uid, direction, date) => {
         }
       });
     }
+  }
+}
+
+// load one year in the past to make sure the user does not have entries
+export const loadOneYear = (uid, direction, date) => {
+  const oneYear = 1000*60*60*24 * 365;
+  return function (dispatch) {
+    dispatch(loadingEntriesStart());
+    dispatch(disableLoadOneYear());
+    firebaseDb.ref()
+    .child(`entries/${uid}`)
+    .orderByChild("date")
+    .startAt(date - oneYear)
+    .endAt(date - 24 * 60 * 60 * 1000)
+    .once('value', (snapshot) => {
+      const entries = snapshot.val();
+      if(entries) {
+        dispatch(reveiveEntries(entries, { past: date - oneYear})) 
+      } else {
+        dispatch(reveiveEntries([], { past: date - oneYear})) 
+      }
+    });
   }
 }
 
@@ -254,6 +267,14 @@ export const reveiveEntries = (entries, dates) => ({
     entries,
     dates,
   },
+});
+
+export const shouldLoadOneYear = () => ({
+  type: types.SHOULD_LOAD_ONE_YEAR
+});
+
+export const disableLoadOneYear = () => ({
+  type: types.DISABLE_LOAD_ONE_YEAR
 });
 
 export const removeEntrySuccess = (entry) => ({

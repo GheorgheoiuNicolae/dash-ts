@@ -4,6 +4,7 @@ import { StateProps, DispatchProps, OwnProps } from './EntriesContainer';
 import EntryListItem from './EntryListItem/EntryListItem';
 import styled from 'styled-components';
 import Header from '../dashboard/Header/';
+import './entries.css';
 
 export type Props = StateProps & OwnProps & DispatchProps;
 interface OtherProps {
@@ -49,20 +50,15 @@ export default class Entries extends React.Component<Props, OtherProps> {
 
   handleScroll() {
     const { isLoading } = this.props;
-    const wrap  = document.getElementById('entries-page-wrap');
+    const wrap = document.getElementById('entries-page-wrap');
     
-    if( wrap && !isLoading ) {
+    if( wrap && !isLoading.loading ) {
       this.detectScrollDirection(this.state.pixelsFromTop, wrap.scrollTop);
-      console.log('wrap.scrollTop: ', wrap.scrollTop);
-      console.log('wrap.offsetHeight: ', wrap.offsetHeight);
-      console.log('wrap.scrollHeight: ', wrap.scrollHeight);
       
       if( wrap.scrollTop === 0 && this.state.scrollDirection === 'up' ) {
-        console.log('load more UP');
         this.loadMore();
       }
       if(wrap.scrollTop + wrap.offsetHeight === wrap.scrollHeight) {
-        console.log('reached bottom');
         this.loadMore();
       }
       
@@ -71,8 +67,9 @@ export default class Entries extends React.Component<Props, OtherProps> {
   }
 
   render() {
-    const { entries, user, removeEntry, view, closestToToday } = this.props;
-    let mappedDays = entries.map((day: any, index) => {
+    const { entries, user, removeEntry, view, closestToToday, isLoading } = this.props;
+    console.log('isLoading: ', isLoading);
+    let mappedDays = entries.map((day: any, index: any) => {
       let mappedEntries = day.entries.map( (entry: any) => {
         return (
           <EntryListItem 
@@ -95,6 +92,15 @@ export default class Entries extends React.Component<Props, OtherProps> {
       <Wrap id="entries-page-wrap"  onScroll={() => this.handleScroll()} >
         <Header />
         <EntryList className={`view-boxes ${view}`}>
+          
+          <div 
+            className={`${isLoading.loading && isLoading.type === 'initial' 
+              ? 'entries-loader showed' 
+              : 'entries-loader hidden' }`}
+          >
+            Loading...
+          </div>
+
           <TimelineBar />
           {entries && mappedDays}
         </EntryList>
@@ -108,6 +114,7 @@ const EntryList = styled.div`
   flex-direction: column;
   flex: 1;
   margin-top: 50px;
+  position: relative;
 `;
 
 const Wrap = styled.div`
@@ -120,7 +127,7 @@ const Wrap = styled.div`
 `;
 
 const TimelineBar = styled.div`
-  position: absolute;
+  position: fixed;
   width: 7px;
   height: 100%;
   background: #fff;

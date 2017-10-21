@@ -28,7 +28,7 @@ const getAllEntries = (state: any): any[] => {
     return o.date;
   }]);
 
-  return filteredByDate;
+  return filteredByDate.reverse();
 };
 
 const closestToToday = (state: any): string => {
