@@ -4,7 +4,6 @@ import { Menu, MenuItem, IconButton } from 'material-ui';
 import Popover, {PopoverAnimationVertical} from 'material-ui/Popover';
 import { StateProps, DispatchProps, OwnProps } from './UserCardContainer';
 import { browserHistory } from 'react-router';
-import { Any } from '../../../types/';
 import Avatar from 'material-ui/Avatar';
 const userAvatar = require('../../../assets/user-avatar.png');
 var FontAwesome = require('react-fontawesome');
@@ -14,7 +13,7 @@ export type Props = StateProps & OwnProps & DispatchProps;
 
 interface OtherProps {
   open: boolean;
-  anchorEl: Any;
+  anchorEl: any;
 }
 
 export default class UserCard extends React.PureComponent<Props, OtherProps> {
@@ -31,13 +30,13 @@ export default class UserCard extends React.PureComponent<Props, OtherProps> {
     logoutUser(auth.user);
   }
 
-  componentWillReceiveProps(nextProps: Any) {
+  componentWillReceiveProps(nextProps: any) {
     if(!nextProps.auth.user) {
       browserHistory.push('/login');
     }
   }
 
-  handleTouchTap = (event: Any) => {
+  handleTouchTap = (event: any) => {
     event.preventDefault();
 
     this.setState({

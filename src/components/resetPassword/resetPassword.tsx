@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { Any } from '../../types';
 
 import {Field} from 'redux-form';
 import { TextField } from 'redux-form-material-ui';
@@ -9,16 +8,16 @@ import styled from 'styled-components';
 const logo = require('../../assets/logo/complete-white.svg');
 
 interface Props {
-  resetPasswordEmail: (email: Any) => {};
-  handleSubmit: Any;
+  resetPasswordByEmail: (email: any) => {};
+  handleSubmit: any;
   requestedPasswordReset: boolean;
 }
 interface OwnProps {}
 
 export default class ResetPasword extends React.Component<Props, OwnProps> {
-  submitForm = (v: Any) => {
-    const { resetPasswordEmail } = this.props;
-    resetPasswordEmail(v.email);
+  submitForm = (v: any) => {
+    const { resetPasswordByEmail } = this.props;
+    resetPasswordByEmail(v.email);
   }
   
   render () {
@@ -26,7 +25,7 @@ export default class ResetPasword extends React.Component<Props, OwnProps> {
     return (
       <RegisterWrap>
         <Logo>
-          <img src={logo} alt="logo" className="logo" />
+          <LogoImg src={logo} alt="logo" className="logo" />
         </Logo>
         <Content>
           <Header>
@@ -97,4 +96,9 @@ const Logo = styled.div`
 	max-width: 160px;
   margin-left: 50px;
   position: absolute;
+`;
+const LogoImg = styled.img`
+  position: relative;
+  top: -50px;
+  left: 80px;
 `;

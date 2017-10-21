@@ -7,7 +7,7 @@ import { Redirect,
   IndexRedirect, 
   Router, Route } from 'react-router';
 import { Provider } from 'react-redux';
-import store, { history } from './store/store';
+import store, { history } from './redux/store';
 import * as injectTapEventPlugin from 'react-tap-event-plugin';
 
 import App from './App';
@@ -19,7 +19,6 @@ import Dashboard from './components/dashboard/dashboard';
 import NotFound from './App/notFound';
 import Entries from './components/Entries';
 import Labels from './components/Labels';
-import IconsGrid from './App/IconsGrid';
 import Entry from './components/Entry/';
 
 import './index.css';
@@ -46,7 +45,6 @@ const router = (
         <Route path={routeList.index} component={App}>
           <IndexRedirect to={routeList.authentication} />
           <Route path={routeList.login} component={Login} />
-          <Route path={routeList.icons} component={IconsGrid} />
           <Route path={routeList.register} component={Register} />
           <Route path={routeList.resetPassword} component={ResetPassword} />
           <Route component={Authentication} path={routeList.authentication}>

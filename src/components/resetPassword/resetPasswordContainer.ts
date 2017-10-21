@@ -2,14 +2,14 @@ import { connect } from 'react-redux';
 import { ApplicationState } from '../../reducers';
 import ResetPassword from './resetPassword';
 import { reduxForm } from 'redux-form';
-import { resetPasswordEmail } from '../../actions/firebase_actions';
+import { resetPasswordByEmail } from '../../redux/auth/creators';
 
 export interface StateProps {
   requestedPasswordReset: boolean;
 }
 
 export interface DispatchProps {
-  resetPasswordEmail: (email: string) => {};
+  resetPasswordByEmail: (email: string) => {};
   handleSubmit: Function;
 }
 
@@ -22,7 +22,7 @@ const mapStateToProps = (state: ApplicationState) => ({
 export default connect<StateProps, DispatchProps, OwnProps>(
   mapStateToProps,
   {
-    resetPasswordEmail,
+    resetPasswordByEmail,
   },
 )(reduxForm({
   form: 'resetPassword',

@@ -44,7 +44,7 @@ input:-webkit-autofill {
   bottom: 0;
   right: 0;
   left: 0;
-  width: 100%;
+  width: 200px;
   height: 100%;
   position: absolute ;
 }
@@ -61,7 +61,7 @@ input:-webkit-autofill {
   clip: rect(0px 200px auto 0px);
   background-image: url(https://www.meistertask.com/images/wallpapers/RHwFy48z-blurred.jpg);
   background-size: cover;
-  background-position: center center;
+  background-position: right center;
 }
 
 

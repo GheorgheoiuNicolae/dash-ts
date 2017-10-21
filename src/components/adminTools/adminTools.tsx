@@ -58,15 +58,21 @@ export default class AdminTools extends React.Component<Props, State> {
 
   createDummyEntry() {
     const { dummyEntryNames, dummyEntryDescriptions } = this.state;
+
+    const dummyDateTime = new Date(2017, 
+      new Date().getMonth(), this.makeRandom(0, 28), 
+      this.makeRandom(0, 24), this.makeRandom(0, 59));
+
+    const dummyDate = new Date(dummyDateTime).setHours(0,0,0,0);
+
     const entry = {
       title: dummyEntryNames[this.makeRandom(0, 7)],
       description: dummyEntryDescriptions[this.makeRandom(0, 3)],
-      date: new Date(2017, 
-      new Date().getMonth(), this.makeRandom(0, 28), 
-      this.makeRandom(0, 24), this.makeRandom(0, 59)).getTime(),
+      dateTime: dummyDateTime.getTime(),
+      date: dummyDate,
       createdAt: new Date(2017, 
-      new Date().getMonth(), this.makeRandom(0, 28), 
-      this.makeRandom(0, 24), this.makeRandom(0, 59)).getTime(),
+        new Date().getMonth(), this.makeRandom(0, 28), 
+        this.makeRandom(0, 24), this.makeRandom(0, 59)).getTime(),
       labels: [this.makeRandom(0, 24), this.makeRandom(0, 24)],
       photos: ['test'],
       checklistItems: [],

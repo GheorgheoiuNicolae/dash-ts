@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { TextField, DatePicker } from 'redux-form-material-ui';
 import { Field } from 'redux-form';
-import { Any } from '../../../types/';
 import styled from 'styled-components';
 import { FlatButton } from 'material-ui';
 import { StateProps, DispatchProps, OwnProps } from './EditEntryContainer';
@@ -9,11 +8,11 @@ import { StateProps, DispatchProps, OwnProps } from './EditEntryContainer';
 export type Props = StateProps & OwnProps & DispatchProps;
 
 interface OtherProps {
-  handleSubmit: Any;
+  handleSubmit: any;
 }
 
 export default class EditEntryForm extends React.PureComponent<Props, OtherProps> {
-  handleSubmit = (values: Any) => {
+  handleSubmit = (values: any) => {
     const { editEntry, auth } = this.props;
     editEntry(values, auth.user.uid);
   }

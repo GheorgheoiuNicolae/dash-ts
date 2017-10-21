@@ -1,4 +1,4 @@
-import { BaseAction, Label } from '../types/';
+import { Label } from '../types/';
 
 export interface LabelsState {
     labels_initial_load: boolean;
@@ -8,7 +8,7 @@ export interface LabelsState {
 export default function reducer(state: LabelsState = {
     labels_initial_load: true,
     list: [],
-}, action: BaseAction) {
+}, action: any) {
     switch(action.type) {
         case 'ADD_LABEL_TO_LIST': {
             return {...state };

@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { ApplicationState } from '../../../reducers';
 import EditEntryForm from './EditEntry';
 import {reduxForm} from 'redux-form';
-import { editEntry } from '../../../actions/firebase_actions';
+import { editEntry } from '../../../redux/entries/creators';
 
 export interface OwnOptionalProps {
   handleSubmit: any;

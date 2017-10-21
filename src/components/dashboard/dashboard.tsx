@@ -3,31 +3,37 @@ import * as React from 'react';
 import { ApplicationState } from '../../reducers';
 import styled from 'styled-components';
 import Sidebar from './sidebar';
-import { Any, Entry } from '../../types/';
-import { getEntries } from '../../actions/firebase_actions';
+import { Entry } from '../../types/';
+import { getInitialEntries, getEntryOnChildAdded } from '../../redux/entries/creators';
 import { getAllEntries } from '../Entries/selectors';
 
 interface StateProps {
-  user: Any;
+  user: any;
   entries: Entry[];
+  datesLoaded: {
+    past: any,
+    future: any,
+  };
 }
-
 interface RequiredProps {
   children: JSX.Element;
-  getEntries: Any;
+  getInitialEntries: any;
+  getEntryOnChildAdded: any;
 }
-
 interface OptionalProps {}
-
 type Props = StateProps & RequiredProps & OptionalProps;
 
 class Dashboard extends React.Component<Props, {}> {
   componentWillMount() {
-    const { user, getEntries } = this.props;
+    const { user, getInitialEntries, getEntryOnChildAdded } = this.props;
     if(user) {
-      getEntries(user.uid);
+      // get the initial entries
+      getInitialEntries(user.uid);
+      // get the newly added entry
+      getEntryOnChildAdded(user.uid);
     }
   }
+  
   render() {
     const { children } = this.props;
     return (
@@ -54,9 +60,11 @@ export default connect<StateProps, {}, RequiredProps & OptionalProps>(
     return {
       user: state.auth.user,
       entries: getAllEntries(state),
+      datesLoaded: state.entries.ui.datesLoaded,
     };
   },
   {
-    getEntries,
+    getInitialEntries,
+    getEntryOnChildAdded,
   },
 )(Dashboard);

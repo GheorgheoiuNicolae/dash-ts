@@ -1,4 +1,4 @@
-import FireBaseTools, { firebaseDb } from '../utils/firebase';
+// import FireBaseTools, { firebaseDb } from '../utils/firebase';
 import * as types from './types';
 
 export function loginWithProvider(provider) {
@@ -25,15 +25,9 @@ export function loginUser(user) {
   };
 }
 
-function addUserData(data) {
-  return {
-    type: types.FETCH_FIREBASE_USER,
-    payload: data,
-  };
-}
-
 export function fetchUser() {
   const request = FireBaseTools.fetchUser();
+  console.log('does this run?');
   return {
     type: types.FETCH_FIREBASE_USER,
     payload: request,
@@ -88,14 +82,119 @@ export function onAuthStateChange() {
   };
 }
 
-export const getEntries = (uid) => {
+export const getEntryOnChildAdded = (uid) => {
+  return function (dispatch) {
+    firebaseDb.ref()
+    .child(`entries/${uid}`)
+    .limitToLast(1)
+    .on('child_added', (snapshot) => {
+      const entry = snapshot.val();
+      dispatch(receiveEntry(entry))
+    });
+  }
+}
+
+export const getInitialEntries = (uid) => {
+  const today = new Date().setHours(0,0,0,0);
+
+  const dates = {
+    past: today - 1000 * 60 * 60 * 24 * 14,
+    future: today + 1000 * 60 * 60 * 24 * 14,
+  }
+
+  console.log('getInitialEntries for the period: ', new Date(dates.past), dates.past, ' - ', new Date(dates.future), dates.future);
+
   return function (dispatch) {
     firebaseDb.ref()
     .child(`entries/${uid}`)
     .orderByChild("date")
-    .on('child_added', (snapshot) => {
-      const entry = snapshot.val();
-      dispatch(receiveEntry(entry))
+    .startAt(dates.past)
+    .endAt(dates.future)
+    .once('value', (snapshot) => {
+      const entries = snapshot.val();
+      if(entries) {
+        // check length for initial load
+        var size = 0, key;
+        for (key in entries) {
+          if (entries.hasOwnProperty(key)) size++;
+        }
+        if(size < 10) {
+          // try to load more entries in the past
+          dispatch(loadMoreEntries(uid, 'past', dates.past));
+          dispatch(shouldLoadOneYear());
+        }
+        dispatch(reveiveEntries(entries, dates))
+        // dispatch(shouldLoadMoreEntries(dates))
+        console.log('getInitialEntries res: ', entries, size);
+      } else {
+        dispatch(reveiveEntries([], dates))
+      }
+    });
+  }
+}
+
+export const loadMoreEntries = (uid, direction, date) => {
+  const fifteenDays = 1000*60*60*24 * 14;
+
+  if(direction === 'future') {
+    // load more future entries
+    return function (dispatch) {
+      dispatch(loadingEntriesStart());
+
+      firebaseDb.ref()
+      .child(`entries/${uid}`)
+      .orderByChild("date")
+      .startAt(date + 24 * 60 * 60 * 1000)
+      .endAt(date + fifteenDays)
+      .once('value', (snapshot) => {
+        const entries = snapshot.val();
+        // console.log('FUTURE - Getting entries for the period: ', new Date(date + fifteenDays), date + fifteenDays, ' - ', new Date(date + 24 * 60 * 60 * 1000), date + 24 * 60 * 60 * 1000);
+        if(entries) {
+          dispatch(reveiveEntries(entries, { future: date + fifteenDays})) 
+        } else {
+          dispatch(reveiveEntries([], { future: date + fifteenDays})) 
+        }
+      });
+    }
+  } else {
+    // load more entries from the past
+    return function (dispatch) {
+      dispatch(loadingEntriesStart());
+      firebaseDb.ref()
+      .child(`entries/${uid}`)
+      .orderByChild("date")
+      .startAt(date - fifteenDays)
+      .endAt(date - 24 * 60 * 60 * 1000)
+      .once('value', (snapshot) => {
+        const entries = snapshot.val();
+        if(entries) {
+          dispatch(reveiveEntries(entries, { past: date - fifteenDays})) 
+        } else {
+          dispatch(reveiveEntries([], { past: date - fifteenDays})) 
+        }
+      });
+    }
+  }
+}
+
+// load one year in the past to make sure the user does not have entries
+export const loadOneYear = (uid, direction, date) => {
+  const oneYear = 1000*60*60*24 * 365;
+  return function (dispatch) {
+    dispatch(loadingEntriesStart());
+    dispatch(disableLoadOneYear());
+    firebaseDb.ref()
+    .child(`entries/${uid}`)
+    .orderByChild("date")
+    .startAt(date - oneYear)
+    .endAt(date - 24 * 60 * 60 * 1000)
+    .once('value', (snapshot) => {
+      const entries = snapshot.val();
+      if(entries) {
+        dispatch(reveiveEntries(entries, { past: date - oneYear})) 
+      } else {
+        dispatch(reveiveEntries([], { past: date - oneYear})) 
+      }
     });
   }
 }
@@ -162,14 +261,29 @@ export const receiveEntry = (entries) => ({
   payload: entries,
 });
 
-export const reveiveEntries = (entries) => ({
+export const reveiveEntries = (entries, dates) => ({
   type: types.RECEIVE_ENTRIES,
-  payload: entries,
+  payload: {
+    entries,
+    dates,
+  },
+});
+
+export const shouldLoadOneYear = () => ({
+  type: types.SHOULD_LOAD_ONE_YEAR
+});
+
+export const disableLoadOneYear = () => ({
+  type: types.DISABLE_LOAD_ONE_YEAR
 });
 
 export const removeEntrySuccess = (entry) => ({
   type: types.REMOVE_ENTRY_SUCCESS,
   payload: entry,
+});
+
+export const loadingEntriesStart = () => ({
+  type: types.LOADING_ENTRIES_START,
 });
 
 export const registerError = (reason, error) => ({

@@ -13,12 +13,12 @@ export type Props = StateProps & OwnProps & DispatchProps;
 
 export default class Login extends React.Component<Props, {} > {
   submitForm = (v: any) => {
-    const { loginUser } = this.props;
+    const { login } = this.props;
     const user = {
       email: v.email, 
       password: v.password
     };
-    loginUser(user);
+    login(user);
   }
   
   componentWillReceiveProps(nextProps: any) {
@@ -32,7 +32,7 @@ export default class Login extends React.Component<Props, {} > {
     return (
       <LoginWrap>
         <Logo>
-          <img src={logo} alt="logo" className="logo" />
+          <LogoImg src={logo} alt="logo" className="logo" />
         </Logo>
         <Content>
           <Header>
@@ -113,4 +113,9 @@ const Logo = styled.div`
 	max-width: 160px;
   margin-left: 50px;
   position: absolute;
+`;
+const LogoImg = styled.img`
+  position: relative;
+  top: -50px;
+  left: 80px;
 `;

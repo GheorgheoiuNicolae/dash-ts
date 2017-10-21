@@ -1,7 +1,6 @@
 import * as React from 'react';
 import * as moment from 'moment';
 import { InjectedRouter } from 'react-router';
-import { Any } from '../../../types';
 import styled from 'styled-components';
 import ConfirmRemoveEntryDialog from './confirmRemove';
 import { Link } from 'react-router';
@@ -10,8 +9,8 @@ var FontAwesome = require('react-fontawesome');
 import './EntryListItem.css';
 
 interface Props {
-  entry: Any;
-  user: Any;
+  entry: any;
+  user: any;
   removeEntry: Function;
 }
 interface StateProps {
@@ -28,7 +27,10 @@ export default class EntryListItem extends React.Component<Props, StateProps> {
     const { entry, user } = this.props;
     const { photos, geoPlace, description, repeatEvery, checklistItems } = entry;
     return (
-      <Wrapper className="entry-list-item">
+      <Wrapper 
+        className={`entry-list-item`} 
+        id={entry.id}
+      >
         <Time onClick={() => console.log('entry', entry)} > {moment(new Date(entry.date)).format('hh:mm')} </Time>
         {description && 
           !photos && 
@@ -73,7 +75,7 @@ export default class EntryListItem extends React.Component<Props, StateProps> {
           {description && <FontAwesome
             name="align-left"
           />}
-          {geoPlace.lat && <FontAwesome
+          {geoPlace && geoPlace.lat && <FontAwesome
             name="map-marker"
           />}
           {photos && photos.length && <FontAwesome
