@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { ApplicationState } from '../../../reducers';
+import { ApplicationState } from '../../../redux/reducers';
 import UserCard from './UserCard';
 import { logoutUser } from '../../../redux/auth/creators';
 

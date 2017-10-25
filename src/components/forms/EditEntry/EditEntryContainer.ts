@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { ApplicationState } from '../../../reducers';
+import { ApplicationState } from '../../../redux/reducers';
 import EditEntryForm from './EditEntry';
 import {reduxForm} from 'redux-form';
 import { editEntry } from '../../../redux/entries/creators';

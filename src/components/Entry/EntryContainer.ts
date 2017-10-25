@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { ApplicationState } from '../../reducers';
+import { ApplicationState } from '../../redux/reducers';
 import Entry from './Entry';
 import { InjectedRouter } from 'react-router';
 

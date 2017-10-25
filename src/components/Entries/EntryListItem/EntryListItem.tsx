@@ -12,6 +12,7 @@ interface Props {
   entry: any;
   user: any;
   removeEntry: Function;
+  labels: any;
 }
 interface StateProps {
   router: InjectedRouter;
@@ -24,7 +25,7 @@ export default class EntryListItem extends React.Component<Props, StateProps> {
   }
 
   render() {
-    const { entry, user } = this.props;
+    const { entry, user, labels } = this.props;
     const { photos, geoPlace, description, repeatEvery, checklistItems } = entry;
     return (
       <Wrapper 
@@ -70,6 +71,15 @@ export default class EntryListItem extends React.Component<Props, StateProps> {
             {entry.title}
           </ButtonText>
         </StyledRouterLink>
+
+        <EntryLabels className="labels">
+          {entry.labels && entry.labels.map((label: any) => {
+            return (<EntryLabel>
+            <Circle style={{background: labels[label] && labels[label].color}} />
+            <LabelName>{labels[label] && labels[label].name}</LabelName>
+          </EntryLabel>)
+          })}
+        </EntryLabels>
 
         <EntryIcons className="entryIcons">
           {description && <FontAwesome
@@ -135,6 +145,24 @@ const MainLabel = styled.div`
 const EntryIcons = styled.div`
   color: #333;
   border-left: 1px solid #F5F5F5;
+`;
+const EntryLabels = styled.div`
+  display: flex;
+`;
+const EntryLabel = styled.div`
+  display: flex;
+  padding: 0 5px;
+  align-items: center;
+`;
+const Circle = styled.div`
+  display: block;
+  width: 10px;
+  height: 10px;
+  margin: 0px 5px;
+  border-radius: 100%;
+`;
+const LabelName = styled.div`
+  font-size: 12px;
 `;
 const StyledRouterLink = styled(Link)`
   display:flex;

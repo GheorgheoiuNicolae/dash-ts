@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
-import { ApplicationState } from '../../../reducers';
+import { ApplicationState } from '../../../redux/reducers';
 import Header from './Header';
-import { hideModal, showModal } from '../../../actions/local';
+import { hideModal, showModal } from '../../../redux/ui/actions';
 
 export interface OwnOptionalProps {}
 

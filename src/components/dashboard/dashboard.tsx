@@ -1,15 +1,17 @@
 import { connect } from 'react-redux';
 import * as React from 'react';
-import { ApplicationState } from '../../reducers';
+import { ApplicationState } from '../../redux/reducers';
 import styled from 'styled-components';
 import Sidebar from './sidebar';
 import { Entry } from '../../types/';
 import { getInitialEntries, getEntryOnChildAdded } from '../../redux/entries/creators';
 import { getAllEntries } from '../Entries/selectors';
+import { getLabels, receiveLabel } from '../../redux/labels/creators';
 
 interface StateProps {
   user: any;
   entries: Entry[];
+  labels: any[];
   datesLoaded: {
     past: any,
     future: any,
@@ -17,20 +19,32 @@ interface StateProps {
 }
 interface RequiredProps {
   children: JSX.Element;
-  getInitialEntries: any;
-  getEntryOnChildAdded: any;
+  getInitialEntries: Function;
+  getEntryOnChildAdded: Function;
+  getLabels: Function;
+  receiveLabel: Function;
 }
 interface OptionalProps {}
 type Props = StateProps & RequiredProps & OptionalProps;
 
 class Dashboard extends React.Component<Props, {}> {
   componentWillMount() {
-    const { user, getInitialEntries, getEntryOnChildAdded } = this.props;
+    const { 
+      user, 
+      getInitialEntries, 
+      getEntryOnChildAdded,
+      getLabels,
+      receiveLabel,
+    } = this.props;
     if(user) {
       // get the initial entries
       getInitialEntries(user.uid);
       // get the newly added entry
       getEntryOnChildAdded(user.uid);
+      // get all labels 
+      getLabels(user.uid);
+      // get newly added label
+      receiveLabel(user.uid);
     }
   }
   
@@ -61,10 +75,13 @@ export default connect<StateProps, {}, RequiredProps & OptionalProps>(
       user: state.auth.user,
       entries: getAllEntries(state),
       datesLoaded: state.entries.ui.datesLoaded,
+      labels: state.labels.byId,
     };
   },
   {
     getInitialEntries,
     getEntryOnChildAdded,
+    getLabels,
+    receiveLabel,
   },
 )(Dashboard);

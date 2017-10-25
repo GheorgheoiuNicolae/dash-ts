@@ -1,7 +1,7 @@
 interface Label {
   name: string;
   color: string;
-  id: number;
+  id: string;
 }
 
 export default Label;
