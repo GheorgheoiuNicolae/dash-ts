@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { ApplicationState } from '../../reducers';
+import { ApplicationState } from '../../redux/reducers';
 import Entries from './Entries';
 import { Entry } from '../../types/';
 import { getAllEntries, closestToToday } from './selectors';
@@ -16,6 +16,7 @@ export interface StateProps {
   closestToToday: any;
   isLoading: any;
   shouldLoadOneYear: boolean;
+  labelsById: any;
   datesLoaded: {
     past: any,
     future: any,
@@ -38,6 +39,7 @@ export default connect<StateProps, DispatchProps, OwnProps>(
       datesLoaded: state.entries.ui.datesLoaded,
       isLoading: state.entries.ui.isLoading,
       shouldLoadOneYear: state.entries.ui.shouldLoadOneYear,
+      labelsById: state.labels.byId,
     };
   },
   {

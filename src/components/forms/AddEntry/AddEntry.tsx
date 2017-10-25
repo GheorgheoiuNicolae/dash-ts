@@ -14,7 +14,9 @@ import LablesPicker from './labelsPicker/';
 import * as moment from 'moment';
 import Close from 'material-ui/svg-icons/navigation/close';
 import Label from 'material-ui/svg-icons/action/label-outline';
+import LabelFilled from 'material-ui/svg-icons/action/label';
 import ArrowDropDown from 'material-ui/svg-icons/navigation/arrow-drop-down';
+import ManageLabels from '../ManageLabels/';
 
 import './AddEntry.css';
 
@@ -37,7 +39,7 @@ export default class AddEntryForm extends React.PureComponent<Props, OtherProps>
     this.setState({
       labelsPopoverOpen: false,
     });
-  };
+  }
 
   handleLablelsPopoverOpen = (event: any) => {    
     event.preventDefault();
@@ -62,8 +64,14 @@ export default class AddEntryForm extends React.PureComponent<Props, OtherProps>
     hideModal(modalName);
   }
 
+  handleManageLabels() {
+    const { showModal } = this.props;
+    showModal('manageLabels');
+    this.handleLablelsPopoverClose();
+  }
+
   render () {
-    const { handleSubmit, showAddModal, array: { push, insert } } = this.props;
+    const { handleSubmit, showAddModal, array: { push, insert }, selectedLabels, labelsById } = this.props;
     return (
       <Dialog
         modal={true}
@@ -153,11 +161,41 @@ export default class AddEntryForm extends React.PureComponent<Props, OtherProps>
                   <LabelsPopover>
                     <LabelsPopoverHeader>
                       <strong>Assign labels</strong>
-                      <small className="link">Manage</small>
+                      <small 
+                        onClick={() => this.handleManageLabels()}
+                        style={{cursor: 'pointer', color: '#3f51b5'}}
+                      >
+                        Manage
+                      </small>
                     </LabelsPopoverHeader>
-                    <LablesPicker/>
+                     {/* <LablesPicker/>  */}
+                    <FieldArray 
+                      name="labels" 
+                      component={(props: any) => <LablesPicker {...props} selectedLabelIds={selectedLabels} />} 
+                      push={push}
+                      insert={insert}
+                    /> 
                   </LabelsPopover>
                 </Popover>
+
+                {selectedLabels && selectedLabels.map((id: any) => {
+                  return (
+                    <LabelSingle 
+                      key={labelsById[id].id}
+                      className="selectedLabel"
+                    >
+                      <StyledLabelFilled style={{color: labelsById[id].color}} />
+                      {/* onClick={() => this.handleClick(labelsById[id])} */}
+                      <LabelName 
+                        className="name"
+                        
+                      >
+                        {labelsById[id].name}
+                      </LabelName>
+                      
+                    </LabelSingle>
+                  );
+                })}
               </InputWrap>
 
             </RightSide>
@@ -178,6 +216,7 @@ export default class AddEntryForm extends React.PureComponent<Props, OtherProps>
             />
           </ModalFooter>
         </form>
+        <ManageLabels />
       </Dialog>
     );
   }
@@ -209,6 +248,9 @@ const LabelsSelect = styled.div`
   display: flex;
   align-items: center;
   cursor: pointer;
+  margin-bottom: 10px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #eee;
 `;
 const LabelTitle = styled.span`
   margin: 0 10px;
@@ -241,4 +283,20 @@ const ModalFooter = styled.div`
 const ModalContent = styled.div`
   display: flex;
   flex-direction: row;
+`;
+const LabelSingle = styled.div`
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  border-bottom: 1px solid #f8f8ff;
+  padding: 5px 2px;
+`;
+const LabelName = styled.div`
+  flex: 1;
+  font-size: 14px
+`;
+const StyledLabelFilled = styled(LabelFilled)`
+  width: 18px!important;
+  height: 18px!important;
+  margin-right: 10px;
 `;

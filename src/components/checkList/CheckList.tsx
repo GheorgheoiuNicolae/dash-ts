@@ -18,13 +18,12 @@ interface OtherProps {
   itemInEdit: number | null;
 }
 
-export default class Entries extends React.PureComponent<Props & OtherProps, OtherProps> {
+export default class Entries extends React.PureComponent<Props & OtherProps, {}> {
 
   toggleCheck(index: number) {
     const { fields } = this.props;
     const items = fields.getAll();
     items[index].completed = !items[index].completed;
-    console.log('toggle: ', items);
     fields.remove(index);
     fields.insert(index, items[index]);
   }

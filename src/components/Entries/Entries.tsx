@@ -14,13 +14,16 @@ interface OtherProps {
 
 export default class Entries extends React.Component<Props, OtherProps> {
   componentWillMount() {
-    this.setState({pixelsFromTop: 0, scrollDirection: ''});
+    this.setState({
+      pixelsFromTop: 0, 
+      scrollDirection: ''
+    });
   }
 
   componentDidMount() {
     this.setScrollToDate();
   }
-
+  
   loadMore() {
     const { loadMoreEntries, user, datesLoaded } = this.props;
     const { scrollDirection } = this.state;
@@ -66,30 +69,60 @@ export default class Entries extends React.Component<Props, OtherProps> {
     }
   }
 
-  render() {
-    const { entries, user, removeEntry, view, closestToToday, isLoading } = this.props;
-    console.log('isLoading: ', isLoading);
-    let mappedDays = entries.map((day: any, index: any) => {
-      let mappedEntries = day.entries.map( (entry: any) => {
+  mapEntryes = () => {
+    console.log('map entries runs')
+    const { entries, user, removeEntry, closestToToday, labelsById } = this.props;
+    return (
+      entries.map((day: any, index: any) => {
+        let mappedEntries = day.entries.map( (entry: any) => {
+          console.log('map reruns')
+          return (
+            <EntryListItem 
+              user={user} 
+              entry={entry} 
+              key={entry.id}
+              removeEntry={removeEntry}
+              labels={labelsById}
+            />
+          );
+        });
         return (
-          <EntryListItem 
-            user={user} 
-            entry={entry} 
-            key={entry.id}
-            removeEntry={removeEntry}
-          />
+          <div key={index} id={`${closestToToday.date === day.date.getTime() ? 'scrollTarget' : ''}`}>
+            <Date>{moment(day.date).format('dddd, D')} {moment(day.date).format('MMMM YYYY')}</Date>
+            {mappedEntries}
+          </div>
         );
-      });
-      return (
-        <div key={index} id={`${closestToToday.date === day.date.getTime() ? 'scrollTarget' : ''}`}>
-          <Date>{moment(day.date).format('dddd, D')} {moment(day.date).format('MMMM YYYY')}</Date>
-          {mappedEntries}
-        </div>
-      );
-    });
+      })
+    )
+  }
+
+  render() {
+    // const { entries, user, removeEntry, view, closestToToday, isLoading, labelsById } = this.props;
+    const { entries, view, isLoading } = this.props;
+    
+    console.log('isLoading: ', isLoading);
+    // let mappedDays = entries.map((day: any, index: any) => {
+    //   let mappedEntries = day.entries.map( (entry: any) => {
+    //     return (
+    //       <EntryListItem 
+    //         user={user} 
+    //         entry={entry} 
+    //         key={entry.id}
+    //         removeEntry={removeEntry}
+    //         labels={labelsById}
+    //       />
+    //     );
+    //   });
+    //   return (
+    //     <div key={index} id={`${closestToToday.date === day.date.getTime() ? 'scrollTarget' : ''}`}>
+    //       <Date>{moment(day.date).format('dddd, D')} {moment(day.date).format('MMMM YYYY')}</Date>
+    //       {mappedEntries}
+    //     </div>
+    //   );
+    // });
     
     return (
-      <Wrap id="entries-page-wrap"  onScroll={() => this.handleScroll()} >
+      <Wrap id="entries-page-wrap" onScroll={() => this.handleScroll()} >
         <Header />
         <EntryList className={`view-boxes ${view}`}>
           
@@ -102,7 +135,7 @@ export default class Entries extends React.Component<Props, OtherProps> {
           </div>
 
           <TimelineBar />
-          {entries && mappedDays}
+          {entries && this.mapEntryes()}
         </EntryList>
       </Wrap>
     );

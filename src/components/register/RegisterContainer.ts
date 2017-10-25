@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { ApplicationState } from '../../reducers';
+import { ApplicationState } from '../../redux/reducers';
 import Register from './Register';
 import {reduxForm} from 'redux-form';
 import { register } from '../../redux/auth/creators';

@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import * as React from 'react';
 import { InjectedRouter, RouterState } from 'react-router';
-import { ApplicationState } from '../reducers';
+import { ApplicationState } from '../redux/reducers';
 import { fetchUser } from '../redux/auth/creators';
 import { AuthState } from '../reducers/auth';
 import { browserHistory } from 'react-router';

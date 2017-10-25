@@ -1,9 +1,9 @@
 import { connect } from 'react-redux';
-import { ApplicationState } from '../../../reducers';
+import { ApplicationState } from '../../../redux/reducers';
 import AddEntryForm from './AddEntry';
-import { reduxForm } from 'redux-form';
+import { reduxForm, formValueSelector } from 'redux-form';
 import { createEntry } from '../../../redux/entries/creators';
-import { hideModal } from '../../../actions/local';
+import { hideModal, showModal } from '../../../redux/ui/actions';
 
 export interface OwnOptionalProps {
   handleSubmit?: any;
@@ -17,26 +17,35 @@ export interface OwnProps extends Partial<OwnOptionalProps> {}
 export interface StateProps {
   auth: any;
   showAddModal: boolean;
+  selectedLabels: any;
+  labelsById: any;
 }
 
 export interface DispatchProps {
   createEntry: (entry: any, user: any) => {};
   hideModal: Function;
+  showModal: Function;
 }
 
 export interface OwnProps {}
 
 export default connect<StateProps, DispatchProps, OwnProps>(
   (state: ApplicationState) => {
-    
+    // get the selected labels from the form state
+    const selector = formValueSelector('addEntry');
+    const labels = selector(state, 'labels');
+
     return {
       auth: state.auth,
       showAddModal: state.entries.ui.showAddModal,
+      selectedLabels: labels,
+      labelsById: state.labels.byId,
     };
   },
   {
     createEntry,
     hideModal,
+    showModal,
   },
 )(reduxForm({
   form: 'addEntry',

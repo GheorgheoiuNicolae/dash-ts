@@ -1,0 +1,20 @@
+.existingLabel {
+  height: 38px;
+}
+.existingLabel .existingLabelColors {
+  display: none;
+  margin-top: 0;
+  margin-right: 20px;
+}
+.existingLabel:hover .existingLabelColors {
+  display: flex;
+}
+.existingLabel:hover .deleteLabelButton {
+  display: inline-block!important;
+}
+.deleteLabelButton {
+  display: none!important;
+  width: 38px!important;
+  height: 38px!important;
+  padding: 0 !important;
+}

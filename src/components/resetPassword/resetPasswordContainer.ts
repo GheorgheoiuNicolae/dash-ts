@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { ApplicationState } from '../../reducers';
+import { ApplicationState } from '../../redux/reducers';
 import ResetPassword from './resetPassword';
 import { reduxForm } from 'redux-form';
 import { resetPasswordByEmail } from '../../redux/auth/creators';
