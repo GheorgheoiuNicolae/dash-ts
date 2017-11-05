@@ -8,6 +8,7 @@ export interface EntriesInitialState {
     error: boolean;
     view: string;
     firstLoad: boolean;
+    numberOfEntries: number | null;
     isLoading: {
       loading: boolean;
       type: 'initial' | 'future' | 'past' | null;

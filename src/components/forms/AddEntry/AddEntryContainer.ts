@@ -4,12 +4,14 @@ import AddEntryForm from './AddEntry';
 import { reduxForm, formValueSelector } from 'redux-form';
 import { createEntry } from '../../../redux/entries/creators';
 import { hideModal, showModal } from '../../../redux/ui/actions';
+import { resetForm } from '../../../redux/ui/creators';
 
 export interface OwnOptionalProps {
   handleSubmit?: any;
   array: any;
   initialValues: any;
   destroy: any;
+  reset: any;
 }
 
 export interface OwnProps extends Partial<OwnOptionalProps> {}
@@ -25,6 +27,7 @@ export interface DispatchProps {
   createEntry: (entry: any, user: any) => {};
   hideModal: Function;
   showModal: Function;
+  resetForm: Function;
 }
 
 export interface OwnProps {}
@@ -46,6 +49,7 @@ export default connect<StateProps, DispatchProps, OwnProps>(
     createEntry,
     hideModal,
     showModal,
+    resetForm
   },
 )(reduxForm({
   form: 'addEntry',

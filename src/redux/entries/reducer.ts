@@ -55,6 +55,8 @@ export default function reducer(state: EntriesInitialState = initialState, actio
             loading: false,
             type: null,
           },
+          // WARNING - not supported by IE9 or lower
+          numberOfEntries: action.payload.entries ? Object.keys(action.payload.entries).length : null,
           datesLoaded: {
             past: action.payload.dates.past 
               ? action.payload.dates.past 
@@ -83,6 +85,7 @@ export default function reducer(state: EntriesInitialState = initialState, actio
     case types.RECEIVE_ENTRY: {
       let newEntry = {};
       newEntry[action.payload.id] = {...action.payload};
+      console.log('RECEIVE_ENTRY: ', state.ui.numberOfEntries);
 
       return !state.ui.firstLoad ? {
         ...state,
@@ -93,7 +96,11 @@ export default function reducer(state: EntriesInitialState = initialState, actio
         allIds: [
           ...state.allIds,
           action.payload.id,
-        ]
+        ],
+        ui: {
+          ...state.ui,
+          numberOfEntries: state.ui.numberOfEntries || state.ui.numberOfEntries === 0 && state.ui.numberOfEntries + 1,
+        }
       } : state;
     }
 

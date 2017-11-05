@@ -16,6 +16,7 @@ interface StateProps {
     past: any,
     future: any,
   };
+  pathname: any;
 }
 interface RequiredProps {
   children: JSX.Element;
@@ -49,12 +50,12 @@ class Dashboard extends React.Component<Props, {}> {
   }
   
   render() {
-    const { children } = this.props;
+    const { children, pathname } = this.props;
     return (
       <DashboardWrap>
-        <div className="bg0" />
-        <div className="bg1"/>
-        <div className="bg2" />
+        <div className="bg0"/>
+        <div className="bg1" style={{width: pathname === '/today' ? 'initial': '200px', opacity: 1}}/>
+        <div className="bg2" style={{width: pathname === '/today' ? 'initial': 'initial', opacity: 1}}/>
         <Sidebar />
         {children}
       </DashboardWrap>
@@ -76,6 +77,7 @@ export default connect<StateProps, {}, RequiredProps & OptionalProps>(
       entries: getAllEntries(state),
       datesLoaded: state.entries.ui.datesLoaded,
       labels: state.labels.byId,
+      pathname: state.routing.locationBeforeTransitions.pathname
     };
   },
   {

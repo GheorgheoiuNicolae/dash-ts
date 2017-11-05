@@ -58,10 +58,10 @@ input:-webkit-autofill {
   opacity: .05;
 }
 .bg2 {
-  clip: rect(0px 200px auto 0px);
+  clip: rect(0px 200px auto 0px); 
   background-image: url(https://www.meistertask.com/images/wallpapers/RHwFy48z-blurred.jpg);
   background-size: cover;
-  background-position: right center;
+  background-position: center center;
 }
 
 

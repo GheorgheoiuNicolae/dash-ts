@@ -7,17 +7,10 @@ import Header from '../dashboard/Header/';
 import './entries.css';
 
 export type Props = StateProps & OwnProps & DispatchProps;
-interface OtherProps {
-  pixelsFromTop: number;
-  scrollDirection: string;
-}
 
-export default class Entries extends React.Component<Props, OtherProps> {
-  componentWillMount() {
-    this.setState({
-      pixelsFromTop: 0, 
-      scrollDirection: ''
-    });
+export default class Entries extends React.Component<Props, {}> {
+  public shouldComponentUpdate(nextProps: any, nextState: any) {
+    return nextProps.numberOfEntries === this.props.numberOfEntries ? false : true;
   }
 
   componentDidMount() {
@@ -25,8 +18,9 @@ export default class Entries extends React.Component<Props, OtherProps> {
   }
   
   loadMore() {
-    const { loadMoreEntries, user, datesLoaded } = this.props;
-    const { scrollDirection } = this.state;
+    const { loadMoreEntries, user, datesLoaded, uiState } = this.props;
+    const scrollDirection = uiState.scrollDirection;
+
     loadMoreEntries(user.uid, 
       scrollDirection === 'up' ? 'future' : 'past', 
       scrollDirection === 'up' ? datesLoaded.future : datesLoaded.past);
@@ -37,45 +31,43 @@ export default class Entries extends React.Component<Props, OtherProps> {
     setTimeout(() => {
       const todayEntry  = document.getElementById('scrollTarget');
       if( wrap && todayEntry ) {
-        console.log('found scroll target: ', wrap.scrollTop);
         wrap.scrollTop = todayEntry.offsetTop;
       }
     }, 200);
   }
   
   detectScrollDirection(prev: number, next: number) {
+    const { onListScroll } = this.props;
     if( prev < next ) {
-      return this.setState({scrollDirection: 'down'});
+      onListScroll({scrollDirection: 'down'});
     } else {
-      return this.setState({scrollDirection: 'up'});
+      onListScroll({scrollDirection: 'up'});
     }
   }
 
   handleScroll() {
-    const { isLoading } = this.props;
+    const { isLoading, uiState, onListScroll } = this.props;
     const wrap = document.getElementById('entries-page-wrap');
     
     if( wrap && !isLoading.loading ) {
-      this.detectScrollDirection(this.state.pixelsFromTop, wrap.scrollTop);
+      this.detectScrollDirection(uiState.entryListScrollFromTop, wrap.scrollTop);
       
-      if( wrap.scrollTop === 0 && this.state.scrollDirection === 'up' ) {
+      if( wrap.scrollTop === 0 && uiState.scrollDirection === 'up' ) {
         this.loadMore();
       }
       if(wrap.scrollTop + wrap.offsetHeight === wrap.scrollHeight) {
         this.loadMore();
       }
       
-      this.setState({pixelsFromTop: wrap.scrollTop});
+      onListScroll({entryListScrollFromTop: wrap.scrollTop});
     }
   }
 
-  mapEntryes = () => {
-    console.log('map entries runs')
+  mapEntriesToDays = () => {
     const { entries, user, removeEntry, closestToToday, labelsById } = this.props;
     return (
       entries.map((day: any, index: any) => {
         let mappedEntries = day.entries.map( (entry: any) => {
-          console.log('map reruns')
           return (
             <EntryListItem 
               user={user} 
@@ -93,33 +85,12 @@ export default class Entries extends React.Component<Props, OtherProps> {
           </div>
         );
       })
-    )
+    );
   }
 
   render() {
-    // const { entries, user, removeEntry, view, closestToToday, isLoading, labelsById } = this.props;
     const { entries, view, isLoading } = this.props;
-    
-    console.log('isLoading: ', isLoading);
-    // let mappedDays = entries.map((day: any, index: any) => {
-    //   let mappedEntries = day.entries.map( (entry: any) => {
-    //     return (
-    //       <EntryListItem 
-    //         user={user} 
-    //         entry={entry} 
-    //         key={entry.id}
-    //         removeEntry={removeEntry}
-    //         labels={labelsById}
-    //       />
-    //     );
-    //   });
-    //   return (
-    //     <div key={index} id={`${closestToToday.date === day.date.getTime() ? 'scrollTarget' : ''}`}>
-    //       <Date>{moment(day.date).format('dddd, D')} {moment(day.date).format('MMMM YYYY')}</Date>
-    //       {mappedEntries}
-    //     </div>
-    //   );
-    // });
+    console.log('rerender');
     
     return (
       <Wrap id="entries-page-wrap" onScroll={() => this.handleScroll()} >
@@ -135,7 +106,7 @@ export default class Entries extends React.Component<Props, OtherProps> {
           </div>
 
           <TimelineBar />
-          {entries && this.mapEntryes()}
+          {entries && this.mapEntriesToDays()}
         </EntryList>
       </Wrap>
     );

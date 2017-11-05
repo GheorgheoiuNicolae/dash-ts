@@ -14,7 +14,7 @@ export const loadEntriesSuccess = (entries: any[], dates: any) => ({
   type: types.RECEIVE_ENTRIES,
   payload: {
     entries,
-    dates,
+    dates
   },
 });
 

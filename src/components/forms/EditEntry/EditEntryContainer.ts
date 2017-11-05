@@ -25,6 +25,10 @@ export interface OwnProps {
 export default connect<StateProps, DispatchProps, OwnProps>(
   (state: ApplicationState, ownProps: any) => {
     const { entry } = ownProps;
+    // change timestamp to Date obj before sending it to component
+    entry.date = new Date(entry.date);
+    entry.dateTime = new Date(entry.dateTime);
+
     return {
       auth: state.auth,
       initialValues: state.entries.byId[entry.id],

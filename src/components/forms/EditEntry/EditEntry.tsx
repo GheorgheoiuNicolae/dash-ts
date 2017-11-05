@@ -3,6 +3,7 @@ import { TextField, DatePicker } from 'redux-form-material-ui';
 import { Field } from 'redux-form';
 import styled from 'styled-components';
 import { FlatButton } from 'material-ui';
+import * as moment from 'moment';
 import { StateProps, DispatchProps, OwnProps } from './EditEntryContainer';
 
 export type Props = StateProps & OwnProps & DispatchProps;
@@ -51,6 +52,7 @@ export default class EditEntryForm extends React.PureComponent<Props, OtherProps
               floatingLabelText={'Date'}
               fullWidth={true}
               name={`date`}
+              formatDate={(date: Date) => moment(date).format('ll')}
             />
           </InputWrap>
           

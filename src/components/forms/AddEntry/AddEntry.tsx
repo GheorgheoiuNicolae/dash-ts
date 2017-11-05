@@ -51,12 +51,15 @@ export default class AddEntryForm extends React.PureComponent<Props, OtherProps>
   }
 
   handleSubmit = (values: any) => {
-    const { createEntry, auth, destroy, hideModal } = this.props;
+    const { createEntry, auth, 
+      // destroy,
+      resetForm, 
+      hideModal } = this.props;
     values.dateTime = new Date(values.date).getTime();
     values.date = new Date(values.date).setHours(0,0,0,0);
     createEntry(values, auth.user.uid);
     hideModal('addEntry');
-    destroy();
+    resetForm('addEntry');
   }
 
   closeModal = (modalName: string) => {
@@ -120,6 +123,7 @@ export default class AddEntryForm extends React.PureComponent<Props, OtherProps>
             </LeftSide>
             <RightSide>
               <InputWrap>
+              {/* defaultValue={new Date()} */}
                 <Field
                   component={DatePicker}
                   floatingLabelFixed={true}
@@ -127,8 +131,7 @@ export default class AddEntryForm extends React.PureComponent<Props, OtherProps>
                   fullWidth={true}
                   name={`date`}
                   className="datepicker-wrapper input"
-                  defaultValue={new Date()}
-                  formatDate={(date: Date) => moment(date).format('ll')}
+                  formatDate={(date: any) => moment(date).format('ll')}
                 />
               </InputWrap>
               <InputWrap>

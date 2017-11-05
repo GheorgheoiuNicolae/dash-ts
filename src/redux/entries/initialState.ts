@@ -9,6 +9,7 @@ export const initialState = {
       loading: false,
       type: null
     },
+    numberOfEntries: null,
     shouldLoadOneYear: false,
     datesLoaded: {
       past: null,

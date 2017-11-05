@@ -2,9 +2,9 @@ import { deleteFromById, deleteFromAllIds} from '../../utils/deleteFromState';
 import * as types from './types';
 import * as uiTypes from '../ui/types';
 import { initialState } from './initialState';
-import { LabelsInitialState } from './interface';
+import { LabelsState } from './interface';
 
-export default function reducer(state: LabelsInitialState = initialState, action: any) {
+export default function reducer(state: LabelsState = initialState, action: any) {
   switch (action.type) {
 
     case types.LOAD_LABELS_START: {

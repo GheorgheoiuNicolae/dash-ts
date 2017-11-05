@@ -20,6 +20,7 @@ import NotFound from './App/notFound';
 import Entries from './components/Entries';
 import Labels from './components/Labels';
 import Entry from './components/Entry/';
+import Today from './components/Today/';
 
 import './index.css';
 injectTapEventPlugin();
@@ -33,9 +34,9 @@ export const routeList = {
   entries: '/entries',
   entry: '/entries/:entryId',
   labels: '/labels',
+  today: '/today',
   notFound: '/notFound',
   authentication: '/authentication',
-  icons: '/icons',
 };
 
 const router = (
@@ -52,6 +53,7 @@ const router = (
               <IndexRedirect to={routeList.entries} />
               <Route path={routeList.entries} component={Entries} />
               <Route path={routeList.entry} component={Entry} />
+              <Route path={routeList.today} component={Today} />
               <Route path={routeList.labels} component={Labels} />
               <Route path={routeList.labels} component={Labels} />
             </Route>

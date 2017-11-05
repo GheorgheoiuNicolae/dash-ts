@@ -14,3 +14,8 @@ export const switchEntriesView = (type: string) => ({
   type: types.SWITCH_ENTRIES_VIEW,
   payload: type,
 });
+
+export const onListScroll = (obj: any) => ({
+  type: types.LIST_SCROLL,
+  payload: obj,
+});
