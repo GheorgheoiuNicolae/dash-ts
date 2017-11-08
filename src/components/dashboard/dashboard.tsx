@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import Sidebar from './sidebar';
 import { Entry } from '../../types/';
 import { getInitialEntries, getEntryOnChildAdded } from '../../redux/entries/creators';
+import { getLocation } from '../../redux/ui/creators';
 import { getAllEntries } from '../Entries/selectors';
 import { getLabels, receiveLabel } from '../../redux/labels/creators';
 
@@ -24,6 +25,7 @@ interface RequiredProps {
   getEntryOnChildAdded: Function;
   getLabels: Function;
   receiveLabel: Function;
+  getLocation: Function;
 }
 interface OptionalProps {}
 type Props = StateProps & RequiredProps & OptionalProps;
@@ -36,6 +38,7 @@ class Dashboard extends React.Component<Props, {}> {
       getEntryOnChildAdded,
       getLabels,
       receiveLabel,
+      getLocation,
     } = this.props;
     if(user) {
       // get the initial entries
@@ -46,6 +49,8 @@ class Dashboard extends React.Component<Props, {}> {
       getLabels(user.uid);
       // get newly added label
       receiveLabel(user.uid);
+      // get users location
+      getLocation()
     }
   }
   
@@ -85,5 +90,6 @@ export default connect<StateProps, {}, RequiredProps & OptionalProps>(
     getEntryOnChildAdded,
     getLabels,
     receiveLabel,
+    getLocation,
   },
 )(Dashboard);

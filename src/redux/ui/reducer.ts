@@ -12,6 +12,20 @@ export default function reducer(state: UiState = initialState, action: any) {
       };
     }
 
+    case types.GET_LOCATION_SUCCESS: {
+      return {
+        ...state,
+        location: action.payload
+      };
+    }
+
+    case types.GET_LOCATION_SUCCESS: {
+      return {
+        ...state,
+        location: action.payload
+      };
+    }
+
     default: {
       return { ...state };
     }

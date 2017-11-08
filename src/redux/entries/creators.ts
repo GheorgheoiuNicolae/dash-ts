@@ -131,12 +131,6 @@ export const removeAllCollections = () => {
 };
 
 export const createEntry = (data: any, uid: string) => {
-  // add missing fields before saving
-  data.geoPlace = {
-    lat: '',
-    long: '',
-  };
-
   return function (dispatch: any) {
     let entriesRef: any = firebaseDb
       .ref()

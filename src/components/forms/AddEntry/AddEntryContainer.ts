@@ -21,6 +21,7 @@ export interface StateProps {
   showAddModal: boolean;
   selectedLabels: any;
   labelsById: any;
+  location: any;
 }
 
 export interface DispatchProps {
@@ -43,6 +44,7 @@ export default connect<StateProps, DispatchProps, OwnProps>(
       showAddModal: state.entries.ui.showAddModal,
       selectedLabels: labels,
       labelsById: state.labels.byId,
+      location: state.ui.location,
     };
   },
   {

@@ -4,6 +4,7 @@ import { Field } from 'redux-form';
 import styled from 'styled-components';
 import { FlatButton } from 'material-ui';
 import * as moment from 'moment';
+import Map from '../../Map/map';
 import { StateProps, DispatchProps, OwnProps } from './EditEntryContainer';
 
 export type Props = StateProps & OwnProps & DispatchProps;
@@ -19,8 +20,10 @@ export default class EditEntryForm extends React.PureComponent<Props, OtherProps
   }
 
   render () {
-    const { handleSubmit } = this.props;
-    console.log('handleSubmit: ', handleSubmit);
+    const { handleSubmit, entry } = this.props;
+    const latitude = entry.geoPlace.latitude;
+    const longitude = entry.geoPlace.longitude;
+
     return (
       <div className="entry-form">
         <form onSubmit={handleSubmit(this.handleSubmit.bind(this))}>
@@ -55,6 +58,8 @@ export default class EditEntryForm extends React.PureComponent<Props, OtherProps
               formatDate={(date: Date) => moment(date).format('ll')}
             />
           </InputWrap>
+
+           {latitude && <Map lat={latitude} lng={longitude} /> }
           
           <FlatButton
             label="Submit"

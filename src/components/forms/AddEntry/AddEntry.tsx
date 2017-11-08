@@ -15,8 +15,10 @@ import * as moment from 'moment';
 import Close from 'material-ui/svg-icons/navigation/close';
 import Label from 'material-ui/svg-icons/action/label-outline';
 import LabelFilled from 'material-ui/svg-icons/action/label';
+import LocationIcon from 'material-ui/svg-icons/communication/location-on';
 import ArrowDropDown from 'material-ui/svg-icons/navigation/arrow-drop-down';
 import ManageLabels from '../ManageLabels/';
+import Map from '../../Map/map';
 
 import './AddEntry.css';
 
@@ -52,11 +54,18 @@ export default class AddEntryForm extends React.PureComponent<Props, OtherProps>
 
   handleSubmit = (values: any) => {
     const { createEntry, auth, 
-      // destroy,
       resetForm, 
-      hideModal } = this.props;
+      hideModal,
+      location,
+    } = this.props;
+    
     values.dateTime = new Date(values.date).getTime();
     values.date = new Date(values.date).setHours(0,0,0,0);
+    values.geoPlace = {
+      latitude: location ? location.coords.latitude : 0,
+      longitude: location ? location.coords.longitude : 0
+    }
+    
     createEntry(values, auth.user.uid);
     hideModal('addEntry');
     resetForm('addEntry');
@@ -74,7 +83,9 @@ export default class AddEntryForm extends React.PureComponent<Props, OtherProps>
   }
 
   render () {
-    const { handleSubmit, showAddModal, array: { push, insert }, selectedLabels, labelsById } = this.props;
+    const { handleSubmit, showAddModal, array: { push, insert }, selectedLabels, labelsById, location } = this.props;
+    console.log('location: ', location);
+    
     return (
       <Dialog
         modal={true}
@@ -188,19 +199,22 @@ export default class AddEntryForm extends React.PureComponent<Props, OtherProps>
                       className="selectedLabel"
                     >
                       <StyledLabelFilled style={{color: labelsById[id].color}} />
-                      {/* onClick={() => this.handleClick(labelsById[id])} */}
                       <LabelName 
                         className="name"
-                        
                       >
                         {labelsById[id].name}
                       </LabelName>
-                      
                     </LabelSingle>
                   );
                 })}
               </InputWrap>
-
+              { location && <div className="map">
+                <div style={{display: 'flex'}}>
+                  <LocationIcon />
+                  <LocationLabel>Location</LocationLabel>
+                </div>
+                <Map lat={location.coords.latitude} lng={location.coords.longitude} />
+              </div> }
             </RightSide>
           </ModalContent>
           <ModalFooter>
@@ -302,4 +316,8 @@ const StyledLabelFilled = styled(LabelFilled)`
   width: 18px!important;
   height: 18px!important;
   margin-right: 10px;
+`;
+const LocationLabel = styled.h4`
+  margin: 3px 10px 10px 10px;
+  font-weight: 400;
 `;

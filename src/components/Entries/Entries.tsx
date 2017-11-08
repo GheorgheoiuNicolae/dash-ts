@@ -140,4 +140,6 @@ const TimelineBar = styled.div`
 
 const Date = styled.p`
   margin-left: 50px;
+  color: #607d8b;
+  font-weight: bold;
 `;
