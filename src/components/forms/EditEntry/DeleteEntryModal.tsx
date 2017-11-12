@@ -49,7 +49,7 @@ export default class DeleteEntryModal extends React.Component<Props, {}> {
             onClick={() => this.deleteEntry()}
             label="Confirm"
             secondary={true}
-            className='dangerButton'
+            className="dangerButton"
             keyboardFocused={false}
           />
         </Footer>

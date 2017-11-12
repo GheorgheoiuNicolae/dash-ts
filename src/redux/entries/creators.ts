@@ -165,7 +165,7 @@ export const removeEntry = (data: any, uid: any) => {
       .child(`entries/${uid}/${data.id}`)
       .remove()
       .then(function() {
-        browserHistory.push('/entries')
+        browserHistory.push('/entries');
         dispatch(actions.removeEntrySuccess(data));
       })
       .catch(function(error: any) {

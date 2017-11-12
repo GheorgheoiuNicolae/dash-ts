@@ -30,16 +30,17 @@ const RenderMap = withScriptjs(withGoogleMap((props: any) => {
 class Map extends React.Component<Props, {}> {
   render() {
     const { lat, lng, width, height } = this.props;
-    
+    const appKey = 'AIzaSyAuq9VzQwFBkeIxceLbC_bsskc0IocQZW4';
+    let mapUrl = 'https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=';
     return (
       <RenderMap
-        isMarkerShown
+        isMarkerShown={true}
         coords={{lat: lat, lng: lng}}
-        googleMapURL="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=AIzaSyAuq9VzQwFBkeIxceLbC_bsskc0IocQZW4"
+        googleMapURL={mapUrl + appKey}
         loadingElement={<div style={{ height: `100%` }}>Loading map</div>}
-        containerElement={
+        containerElement={(
           <div style={{ height: height ? `${height}px` : '200px', width: width ? `${width}px` : '200px' }} />
-          }
+        )}
         mapElement={<div style={{ height: `100%` }} />}
       />
     );

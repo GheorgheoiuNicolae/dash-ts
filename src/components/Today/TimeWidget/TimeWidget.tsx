@@ -11,7 +11,7 @@ export default class TimeWidget extends React.Component<Props, {time: string, co
     this.state = {
       time: this.getTime(),
       componentIsMountend: false,
-    }
+    };
   }
   componentDidMount() {
     const { time, componentIsMountend } = this.state;

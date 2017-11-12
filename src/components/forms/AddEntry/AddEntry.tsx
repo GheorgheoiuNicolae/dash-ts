@@ -64,7 +64,7 @@ export default class AddEntryForm extends React.PureComponent<Props, OtherProps>
     values.geoPlace = {
       latitude: location ? location.coords.latitude : 0,
       longitude: location ? location.coords.longitude : 0
-    }
+    };
     
     createEntry(values, auth.user.uid);
     hideModal('addEntry');
@@ -83,7 +83,13 @@ export default class AddEntryForm extends React.PureComponent<Props, OtherProps>
   }
 
   render () {
-    const { handleSubmit, showAddModal, array: { push, insert }, selectedLabels, labelsById, location } = this.props;    
+    const { handleSubmit, 
+      showAddModal, 
+      array: { push, insert }, 
+      selectedLabels, 
+      labelsById, 
+      location 
+    } = this.props;    
     return (
       <Dialog
         modal={true}
@@ -316,7 +322,7 @@ const StyledLabelFilled = styled(LabelFilled)`
 `;
 const StyledLocationIcon = styled(LocationIcon)`
   color: #f44336!important;
-`
+`;
 const LocationLabel = styled.h4`
   margin: 3px 10px 10px 10px;
   font-weight: 400;

@@ -50,7 +50,7 @@ class Dashboard extends React.Component<Props, {}> {
       // get newly added label
       receiveLabel(user.uid);
       // get users location
-      getLocation()
+      getLocation();
     }
   }
   

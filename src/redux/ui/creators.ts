@@ -34,6 +34,9 @@ export const getLocation = () => {
               case error.UNKNOWN_ERROR:
                   dispatch(actions.getLocationError({error, message: 'An unknown error occurred.'}));
                   break;
+              default: {
+                break;
+              }
             }
           },
         );

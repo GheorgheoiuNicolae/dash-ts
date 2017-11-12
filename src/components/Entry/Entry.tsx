@@ -9,8 +9,9 @@ interface OtherProps {
 }
 
 export default class Entry extends React.Component<Props, OtherProps> {
-  componentDidMount(){
+  componentDidMount() {
     // if user navigated by url, this.props.entry is undefined
+    // unless the entry is not loaded initially
     // load the entry from firebase
     console.log('entry - ', this.props.entry);
   }
