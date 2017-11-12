@@ -13,7 +13,7 @@ interface FormProps {
 interface OtherProps {
 }
 
-interface ILabel {
+interface LabelInterface {
   name: string;
   color: string;
   id: number;
@@ -40,7 +40,7 @@ export default class LabelsPicker extends React.PureComponent<Props & FormProps,
     const { labels } = this.props;
     return (
       <Wrap>
-        {labels.map((label: ILabel) => {
+        {labels.map((label: LabelInterface) => {
           const isSelected = selectedLabelIds && selectedLabelIds.find((id: any) => id === label.id);
           const checkColor = isSelected ? '#4caf50' : '#c3c3c3';
           return (

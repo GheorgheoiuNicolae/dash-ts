@@ -1,4 +1,4 @@
-export interface LabelsInitialState {
+export interface LabelsState {
   ui: {
     didInvalidate: boolean,
     showManageLabelsModal: boolean,

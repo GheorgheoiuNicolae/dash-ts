@@ -15,8 +15,10 @@ import * as moment from 'moment';
 import Close from 'material-ui/svg-icons/navigation/close';
 import Label from 'material-ui/svg-icons/action/label-outline';
 import LabelFilled from 'material-ui/svg-icons/action/label';
+import LocationIcon from 'material-ui/svg-icons/communication/location-on';
 import ArrowDropDown from 'material-ui/svg-icons/navigation/arrow-drop-down';
 import ManageLabels from '../ManageLabels/';
+import Map from '../../Map/map';
 
 import './AddEntry.css';
 
@@ -51,12 +53,22 @@ export default class AddEntryForm extends React.PureComponent<Props, OtherProps>
   }
 
   handleSubmit = (values: any) => {
-    const { createEntry, auth, destroy, hideModal } = this.props;
+    const { createEntry, auth, 
+      resetForm, 
+      hideModal,
+      location,
+    } = this.props;
+    
     values.dateTime = new Date(values.date).getTime();
     values.date = new Date(values.date).setHours(0,0,0,0);
+    values.geoPlace = {
+      latitude: location ? location.coords.latitude : 0,
+      longitude: location ? location.coords.longitude : 0
+    }
+    
     createEntry(values, auth.user.uid);
     hideModal('addEntry');
-    destroy();
+    resetForm('addEntry');
   }
 
   closeModal = (modalName: string) => {
@@ -71,7 +83,7 @@ export default class AddEntryForm extends React.PureComponent<Props, OtherProps>
   }
 
   render () {
-    const { handleSubmit, showAddModal, array: { push, insert }, selectedLabels, labelsById } = this.props;
+    const { handleSubmit, showAddModal, array: { push, insert }, selectedLabels, labelsById, location } = this.props;    
     return (
       <Dialog
         modal={true}
@@ -127,8 +139,7 @@ export default class AddEntryForm extends React.PureComponent<Props, OtherProps>
                   fullWidth={true}
                   name={`date`}
                   className="datepicker-wrapper input"
-                  defaultValue={new Date()}
-                  formatDate={(date: Date) => moment(date).format('ll')}
+                  formatDate={(date: any) => moment(date).format('ll')}
                 />
               </InputWrap>
               <InputWrap>
@@ -185,19 +196,22 @@ export default class AddEntryForm extends React.PureComponent<Props, OtherProps>
                       className="selectedLabel"
                     >
                       <StyledLabelFilled style={{color: labelsById[id].color}} />
-                      {/* onClick={() => this.handleClick(labelsById[id])} */}
                       <LabelName 
                         className="name"
-                        
                       >
                         {labelsById[id].name}
                       </LabelName>
-                      
                     </LabelSingle>
                   );
                 })}
               </InputWrap>
-
+              { location && <div className="map">
+                <div style={{display: 'flex'}}>
+                  <StyledLocationIcon />
+                  <LocationLabel>Location</LocationLabel>
+                </div>
+                <Map lat={location.coords.latitude} lng={location.coords.longitude} />
+              </div> }
             </RightSide>
           </ModalContent>
           <ModalFooter>
@@ -299,4 +313,11 @@ const StyledLabelFilled = styled(LabelFilled)`
   width: 18px!important;
   height: 18px!important;
   margin-right: 10px;
+`;
+const StyledLocationIcon = styled(LocationIcon)`
+  color: #f44336!important;
+`
+const LocationLabel = styled.h4`
+  margin: 3px 10px 10px 10px;
+  font-weight: 400;
 `;

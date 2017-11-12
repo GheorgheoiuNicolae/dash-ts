@@ -4,10 +4,12 @@ export interface EntriesInitialState {
     selectedEntry: any;
     didInvalidate: boolean;
     showAddModal: boolean;
+    showDeleteEntryModal: boolean;
     filterBy: EntriesFilterBy;
     error: boolean;
     view: string;
     firstLoad: boolean;
+    numberOfEntries: number | null;
     isLoading: {
       loading: boolean;
       type: 'initial' | 'future' | 'past' | null;

@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import Sidebar from './sidebar';
 import { Entry } from '../../types/';
 import { getInitialEntries, getEntryOnChildAdded } from '../../redux/entries/creators';
+import { getLocation } from '../../redux/ui/creators';
 import { getAllEntries } from '../Entries/selectors';
 import { getLabels, receiveLabel } from '../../redux/labels/creators';
 
@@ -16,6 +17,7 @@ interface StateProps {
     past: any,
     future: any,
   };
+  pathname: any;
 }
 interface RequiredProps {
   children: JSX.Element;
@@ -23,6 +25,7 @@ interface RequiredProps {
   getEntryOnChildAdded: Function;
   getLabels: Function;
   receiveLabel: Function;
+  getLocation: Function;
 }
 interface OptionalProps {}
 type Props = StateProps & RequiredProps & OptionalProps;
@@ -35,6 +38,7 @@ class Dashboard extends React.Component<Props, {}> {
       getEntryOnChildAdded,
       getLabels,
       receiveLabel,
+      getLocation,
     } = this.props;
     if(user) {
       // get the initial entries
@@ -45,16 +49,18 @@ class Dashboard extends React.Component<Props, {}> {
       getLabels(user.uid);
       // get newly added label
       receiveLabel(user.uid);
+      // get users location
+      getLocation()
     }
   }
   
   render() {
-    const { children } = this.props;
+    const { children, pathname } = this.props;
     return (
       <DashboardWrap>
-        <div className="bg0" />
-        <div className="bg1"/>
-        <div className="bg2" />
+        <div className="bg0"/>
+        <div className="bg1" style={{width: pathname === '/today' ? 'initial': '200px', opacity: 1}}/>
+        <div className="bg2" style={{width: pathname === '/today' ? 'initial': 'initial', opacity: 1}}/>
         <Sidebar />
         {children}
       </DashboardWrap>
@@ -76,6 +82,7 @@ export default connect<StateProps, {}, RequiredProps & OptionalProps>(
       entries: getAllEntries(state),
       datesLoaded: state.entries.ui.datesLoaded,
       labels: state.labels.byId,
+      pathname: state.routing.locationBeforeTransitions.pathname
     };
   },
   {
@@ -83,5 +90,6 @@ export default connect<StateProps, {}, RequiredProps & OptionalProps>(
     getEntryOnChildAdded,
     getLabels,
     receiveLabel,
+    getLocation,
   },
 )(Dashboard);

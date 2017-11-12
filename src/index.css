@@ -51,17 +51,19 @@ input:-webkit-autofill {
 /*.bg0 {
   background-image: url('linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.3) 100%)');
 }*/
+/* url('../../../assets/1_blur') */
 .bg1 {
-  background-image: url("https://www.meistertask.com/images/wallpapers/RHwFy48z.jpg");
+  /* background-image: url("https://www.meistertask.com/images/wallpapers/RHwFy48z.jpg"); */
+  background-image: url('assets/backgrounds/2_original.jpg');
   background-size: cover;
   background-position: center center;
   opacity: .05;
 }
 .bg2 {
-  clip: rect(0px 200px auto 0px);
-  background-image: url(https://www.meistertask.com/images/wallpapers/RHwFy48z-blurred.jpg);
+  clip: rect(0px 200px auto 0px); 
+  background-image: url('assets/backgrounds/2_blur.jpg');
   background-size: cover;
-  background-position: right center;
+  background-position: center center;
 }
 
 
