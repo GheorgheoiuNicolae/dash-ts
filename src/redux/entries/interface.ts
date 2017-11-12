@@ -4,6 +4,7 @@ export interface EntriesInitialState {
     selectedEntry: any;
     didInvalidate: boolean;
     showAddModal: boolean;
+    showDeleteEntryModal: boolean;
     filterBy: EntriesFilterBy;
     error: boolean;
     view: string;

@@ -26,6 +26,34 @@ export default function reducer(state: UiState = initialState, action: any) {
       };
     }
 
+    case types.SHOW_MODAL: {
+      switch(action.payload) {
+        case 'deleteEntry': {
+          return {
+            ...state,
+            activeModal: action.payload,
+          };
+        }
+        default: {
+          return { ...state };
+        }
+      }
+    }
+
+    case types.HIDE_MODAL: {
+      switch(action.payload) {
+        case 'deleteEntry': {
+          return {
+            ...state,
+            activeModal: null,
+          };
+        }
+        default: {
+          return { ...state };
+        }
+      }
+    }
+
     default: {
       return { ...state };
     }

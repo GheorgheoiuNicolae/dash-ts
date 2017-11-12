@@ -11,7 +11,7 @@ interface StateProps { }
 interface RequiredProps { 
   lat: any;
   lng: any;
-  width?: number;
+  width?: number | string;
   height?: number;
 }
 interface OptionalProps {}

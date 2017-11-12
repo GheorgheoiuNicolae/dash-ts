@@ -36,7 +36,7 @@ export default class EntryListItem extends React.Component<Props, StateProps> {
         {!description && 
           !photos && 
           geoPlace &&
-          !geoPlace.lat && 
+          !geoPlace.latitude && 
           !repeatEvery && 
           !checklistItems &&
           <MainLabel className="icon icon-regular">
@@ -48,7 +48,7 @@ export default class EntryListItem extends React.Component<Props, StateProps> {
         {description && 
           !photos && 
           geoPlace &&
-          !geoPlace.lat && 
+          !geoPlace.latitude && 
           !repeatEvery && 
           !checklistItems &&
         <MainLabel className="icon icon-content">
@@ -56,7 +56,7 @@ export default class EntryListItem extends React.Component<Props, StateProps> {
             name="align-left"
           />
         </MainLabel>}
-        {geoPlace && geoPlace.lat && !checklistItems && <MainLabel className="icon icon-map">
+        {geoPlace && geoPlace.latitude && !checklistItems && <MainLabel className="icon icon-map">
           <FontAwesome
             name="map-marker"
           />
@@ -97,7 +97,7 @@ export default class EntryListItem extends React.Component<Props, StateProps> {
           {description && <FontAwesome
             name="align-left"
           />}
-          {geoPlace && geoPlace.lat && <FontAwesome
+          {geoPlace && geoPlace.latitude && <FontAwesome
             name="map-marker"
           />}
           {photos && photos.length && <FontAwesome
@@ -155,7 +155,7 @@ const MainLabel = styled.div`
   color: #fff;
 `;
 const EntryIcons = styled.div`
-  color: #333;
+  color: #616161;
   border-left: 1px solid #F5F5F5;
 `;
 const EntryLabels = styled.div`
@@ -183,7 +183,6 @@ const StyledRouterLink = styled(Link)`
   text-decoration: none;
   justify-content: center;
   align-items: center;
-  padding-left: 10px;
 `;
 const ButtonText = styled.span`
 	display: flex;

@@ -1,5 +1,6 @@
 import { firebaseDb } from '../../firebase';
 import * as actions from './actions';
+import { browserHistory } from 'react-router';
 
 export const getInitialEntries = (uid: string) => {
   const today = new Date().setHours(0,0,0,0);
@@ -145,6 +146,8 @@ export const createEntry = (data: any, uid: string) => {
 };
 
 export const editEntry = (data: any, uid: string) => {
+  console.log('edit:', data );
+  
   return function (dispatch: any) {
     let entriesRef = firebaseDb
       .ref()
@@ -162,7 +165,7 @@ export const removeEntry = (data: any, uid: any) => {
       .child(`entries/${uid}/${data.id}`)
       .remove()
       .then(function() {
-        console.log('Remove succeeded.');
+        browserHistory.push('/entries')
         dispatch(actions.removeEntrySuccess(data));
       })
       .catch(function(error: any) {

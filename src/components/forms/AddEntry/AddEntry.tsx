@@ -83,9 +83,7 @@ export default class AddEntryForm extends React.PureComponent<Props, OtherProps>
   }
 
   render () {
-    const { handleSubmit, showAddModal, array: { push, insert }, selectedLabels, labelsById, location } = this.props;
-    console.log('location: ', location);
-    
+    const { handleSubmit, showAddModal, array: { push, insert }, selectedLabels, labelsById, location } = this.props;    
     return (
       <Dialog
         modal={true}
@@ -134,7 +132,6 @@ export default class AddEntryForm extends React.PureComponent<Props, OtherProps>
             </LeftSide>
             <RightSide>
               <InputWrap>
-              {/* defaultValue={new Date()} */}
                 <Field
                   component={DatePicker}
                   floatingLabelFixed={true}
@@ -210,7 +207,7 @@ export default class AddEntryForm extends React.PureComponent<Props, OtherProps>
               </InputWrap>
               { location && <div className="map">
                 <div style={{display: 'flex'}}>
-                  <LocationIcon />
+                  <StyledLocationIcon />
                   <LocationLabel>Location</LocationLabel>
                 </div>
                 <Map lat={location.coords.latitude} lng={location.coords.longitude} />
@@ -317,6 +314,9 @@ const StyledLabelFilled = styled(LabelFilled)`
   height: 18px!important;
   margin-right: 10px;
 `;
+const StyledLocationIcon = styled(LocationIcon)`
+  color: #f44336!important;
+`
 const LocationLabel = styled.h4`
   margin: 3px 10px 10px 10px;
   font-weight: 400;

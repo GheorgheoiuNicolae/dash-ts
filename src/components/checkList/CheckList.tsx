@@ -84,7 +84,14 @@ export default class Entries extends React.PureComponent<Props & OtherProps, {}>
                     type="text"
                     component={TextField}
                     label="Todo"
-                    onKeyUp={(e: any) => e.keyCode === 13 && fields.push({completed: false, text: ''})}
+                    onKeyDown={(e: any) => {
+                      if(e.keyCode === 13) {
+                        e.preventDefault()
+                        console.log('enter');
+                        
+                        fields.push({completed: false, text: ''}) 
+                      }
+                    }}
                     onBlur={() => this.removeEmptyTodo(index)}
                     autoFocus={true}
                     className="input-wrapper no-label checklist-input"

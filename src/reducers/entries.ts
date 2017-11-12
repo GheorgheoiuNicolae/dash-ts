@@ -167,6 +167,14 @@ export default function reducer(state: EntriesInitialState = initialState, actio
             }
           };
         }
+        case 'deleteEntry': {
+          return {
+            ...state,
+            ui: {
+              showDeleteEntryModal: true
+            }
+          };
+        }
         default: {
           return { ...state };
         }

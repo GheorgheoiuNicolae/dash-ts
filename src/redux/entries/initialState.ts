@@ -3,6 +3,7 @@ export const initialState = {
     selectedEntry: null,
     didInvalidate: false,
     showAddModal: false,
+    showDeleteEntryModal: false,
     view: 'list',
     firstLoad: true,
     isLoading: {
