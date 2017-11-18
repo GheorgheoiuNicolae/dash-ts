@@ -1,4 +1,5 @@
 import * as types from './types';
+import * as entryTypes from '../entries/types'
 import { initialState } from './initialState';
 import { UiState } from './interface';
 
@@ -52,6 +53,13 @@ export default function reducer(state: UiState = initialState, action: any) {
           return { ...state };
         }
       }
+    }
+
+    case entryTypes.REMOVE_ENTRY_SUCCESS: {
+      return {
+        ...state,
+        activeModal: null
+      };
     }
 
     default: {

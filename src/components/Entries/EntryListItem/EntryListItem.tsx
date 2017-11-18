@@ -18,7 +18,7 @@ interface StateProps {
   router: InjectedRouter;
 }
 
-export default class EntryListItem extends React.Component<Props, StateProps> {
+export default class EntryListItem extends React.PureComponent<Props, StateProps> {
   removeEntry() {
     const { user, entry, removeEntry } = this.props;
     removeEntry(entry, user.uid);
@@ -26,19 +26,28 @@ export default class EntryListItem extends React.Component<Props, StateProps> {
 
   render() {
     const { entry, user, labels } = this.props;
-    const { photos, geoPlace, description, repeatEvery, checklistItems } = entry;
+    const { photos, geoPlace, description, repeatEvery, checklistItems, id } = entry;
     return (
       <Wrapper 
-        className={`entry-list-item`} 
+        className={`entry-list-item ${id === 'injectedEntry' && 'injectedEntry'}`} 
         id={entry.id}
       >
-        <Time onClick={() => console.log('entry', entry)} > {moment(new Date(entry.dateTime)).format('hh:mm')} </Time>
+        {id !== 'injectedEntry' && <Time onClick={() => console.log('entry', entry)} > {moment(new Date(entry.dateTime)).format('hh:mm')} </Time>}
+        
+        {id === 'injectedEntry' && 
+          <MainLabel className="icon icon-warn">
+            <FontAwesome
+              name="smile-o"
+            /> 
+          </MainLabel>
+        }
         {!description && 
           !photos && 
           geoPlace &&
           !geoPlace.latitude && 
           !repeatEvery && 
           !checklistItems &&
+          id !== 'injectedEntry' &&
           <MainLabel className="icon icon-regular">
             <FontAwesome
               name="circle-o"
@@ -77,12 +86,19 @@ export default class EntryListItem extends React.Component<Props, StateProps> {
             name="repeat"
           />
         </MainLabel>}
-
-        <StyledRouterLink to={`/entries/${entry.id}`}>
+        
+        {id !== 'injectedEntry' 
+        ? (<StyledRouterLink to={`/entries/${entry.id}`}>
           <ButtonText className="button-text">
             {entry.title}
           </ButtonText>
-        </StyledRouterLink>
+        </StyledRouterLink>)
+        : (<NoLink>
+          <ButtonText className="button-text">
+            {entry.title}
+          </ButtonText>
+        </NoLink>)
+        }
 
         <EntryLabels className="labels">
           {entry.labels && entry.labels.map((label: any, index: number) => {
@@ -177,6 +193,14 @@ const LabelName = styled.div`
   font-size: 12px;
 `;
 const StyledRouterLink = styled(Link)`
+  display:flex;
+  flex: 1;
+  color: #8ca4af;
+  text-decoration: none;
+  justify-content: center;
+  align-items: center;
+`;
+const NoLink = styled.p`
   display:flex;
   flex: 1;
   color: #8ca4af;

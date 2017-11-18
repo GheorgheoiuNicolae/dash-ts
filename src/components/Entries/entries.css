@@ -1,32 +1,48 @@
 .entries-loader {
-  height: 0;
+  height: 100%;
   overflow: hidden;
   background: rgba(255,255,255, .9);
   position: absolute;
   left: 0;
   right: 0;
-  margin-left: -25px;
-  margin-right: -25px;
+  /* margin-left: -25px;
+  margin-right: -25px; */
   z-index: 1;
   /* height: 100%; */
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: all 1s linear;
+  transition: all 2s linear;
+  /* display: none; */
+  opacity: 0;
 }
 
 @keyframes slideIn {
-  from {height: 0;}
+  from {height: 10px;}
   to {height: 100%;}
 }
 @keyframes slideOut {
   from {height: 100%;}
   to {height: 10px;}
 }
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+@keyframes fadeOut {
+  from {opacity: 1;}
+  to {opacity: 0;}
+}
+
+#scrollTarget {
+  background: #E0F2F1;
+}
 
 .showed {
-  animation: slideIn .2s ease 1s forwards;
+  /* animation: fadeIn .5s ease 5s forwards; */
+  transform: opacity 2s linear;
 }
 .hidden {
-  animation: slideOut .1s ease 1s backwards;
+  /* animation: fadeOut .5s ease 5s backwards; */
+  transform: opacity 2s linear;
 }

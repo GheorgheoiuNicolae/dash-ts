@@ -4,6 +4,7 @@ import * as uiTypes from '../ui/types';
 import * as authTypes from '../auth/types';
 import { initialState } from './initialState';
 import { EntriesInitialState } from './interface';
+import { mapEntriesToDays } from './parseEntries';
 
 export default function reducer(state: EntriesInitialState = initialState, action: any) {
   switch (action.type) {
@@ -28,11 +29,16 @@ export default function reducer(state: EntriesInitialState = initialState, actio
     }
     
     case types.RECEIVE_ENTRIES: {
+      console.log('RECEIVE_ENTRIES', state.ui.isLoading);
       const allIds = [...state.allIds];
       let existingId = allIds.find((id: any) => id === action.payload.id);
       if(existingId) {
         console.log('entry already exists', state.byId[existingId]);
       }
+
+      
+      var a = mapEntriesToDays(state);
+      console.log('RECEIVE_ENTRies: ', a);
 
       return {
         ...state,
@@ -85,8 +91,8 @@ export default function reducer(state: EntriesInitialState = initialState, actio
     case types.RECEIVE_ENTRY: {
       let newEntry = {};
       newEntry[action.payload.id] = {...action.payload};
-      console.log('RECEIVE_ENTRY: ', state.ui.numberOfEntries);
-
+      var a = mapEntriesToDays(state);
+      console.log('entries have been parsed', a);
       return !state.ui.firstLoad ? {
         ...state,
         byId: {

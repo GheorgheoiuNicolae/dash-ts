@@ -29,6 +29,13 @@
   padding: 0 10px;
 }
 
+.injectedEntry {
+  background: #fff9c4;
+}
+.injectedEntry span:hover {
+  cursor: default;
+}
+
 
 .view-boxes.grid .entry-list-item {
   border: 1px solid #eee;

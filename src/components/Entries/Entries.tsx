@@ -4,32 +4,45 @@ import { StateProps, DispatchProps, OwnProps } from './EntriesContainer';
 import EntryListItem from './EntryListItem/EntryListItem';
 import styled from 'styled-components';
 import Header from '../dashboard/Header/';
+import Filters from '../Filters/';
 import './entries.css';
+import './loader.css';
 
 export type Props = StateProps & OwnProps & DispatchProps;
 
-export default class Entries extends React.Component<Props, {}> {
+export default class Entries extends React.PureComponent<Props, {firstScrollRequest: boolean}> {
+  constructor() {
+    super();
+    this.state = {
+      firstScrollRequest: true,
+    }
+  }
+
   public shouldComponentUpdate(nextProps: any, nextState: any) {
+    console.log('nextProps: ', nextProps, this.props);
+    
     return nextProps.numberOfEntries === this.props.numberOfEntries ? false : true;
   }
 
-  componentDidMount() {
-    this.setScrollToDate();
-  }
-  
   loadMore() {
     const { loadMoreEntries, user, datesLoaded, uiState } = this.props;
+    const { firstScrollRequest } = this.state;
     const scrollDirection = uiState.scrollDirection;
 
-    loadMoreEntries(user.uid, 
-      scrollDirection === 'up' ? 'future' : 'past', 
-      scrollDirection === 'up' ? datesLoaded.future : datesLoaded.past);
+    this.setState({firstScrollRequest: false});
+    
+    if(firstScrollRequest === false) {
+      loadMoreEntries(user.uid, 
+        scrollDirection === 'up' ? 'future' : 'past', 
+        scrollDirection === 'up' ? datesLoaded.future : datesLoaded.past);
+    }
   }
   
   setScrollToDate() {
     const wrap  = document.getElementById('entries-page-wrap');
     setTimeout(() => {
       const todayEntry  = document.getElementById('scrollTarget');
+      console.log('setScroll to date', wrap)
       if( wrap && todayEntry ) {
         wrap.scrollTop = todayEntry.offsetTop;
       }
@@ -64,7 +77,9 @@ export default class Entries extends React.Component<Props, {}> {
   }
 
   mapEntriesToDays = () => {
-    const { entries, user, removeEntry, closestToToday, labelsById } = this.props;
+    const { entries, user, removeEntry, labelsById, currentDay } = this.props;
+    const { firstScrollRequest } = this.state;
+    
     return (
       entries.map((day: any, index: any) => {
         let mappedEntries = day.entries.map( (entry: any) => {
@@ -78,11 +93,14 @@ export default class Entries extends React.Component<Props, {}> {
             />
           );
         });
+        if ( currentDay === day.date.getTime() && firstScrollRequest) {
+          this.setScrollToDate();
+        }
         return (
-          <div key={index} id={`${closestToToday.date === day.date.getTime() ? 'scrollTarget' : ''}`}>
+          <Day key={day.date} id={`${currentDay === day.date.getTime() && 'scrollTarget'}`}>
             <Date>{moment(day.date).format('dddd, D')} {moment(day.date).format('MMMM YYYY')}</Date>
             {mappedEntries}
-          </div>
+          </Day>
         );
       })
     );
@@ -90,21 +108,22 @@ export default class Entries extends React.Component<Props, {}> {
 
   render() {
     const { entries, view, isLoading } = this.props;
-    console.log('rerender');
-    
+    const shouldDisplayLoader = isLoading.loading && isLoading.type === 'initial';
+
     return (
       <Wrap id="entries-page-wrap" onScroll={() => this.handleScroll()} >
         <Header />
+        <Filters />
         <EntryList className={`view-boxes ${view}`}>
-          
-          <div 
-            className={`${isLoading.loading && isLoading.type === 'initial' 
-              ? 'entries-loader showed' 
-              : 'entries-loader hidden' }`}
-          >
-            Loading...
+          <div className={`loader-wrapper ${shouldDisplayLoader ? 'loader-shown' : 'loader-hidden' }`}>
+            <div className="loader">
+              <div className="item item-1"></div>
+              <div className="item item-2"></div>
+              <div className="item item-3"></div>
+              <div className="item item-4"></div>
+            </div>
           </div>
-
+          
           <TimelineBar />
           {entries && this.mapEntriesToDays()}
         </EntryList>
@@ -127,7 +146,11 @@ const Wrap = styled.div`
   flex: 1;
   height: 100%;
   overflow: scroll;
-  padding: 0 30px 0 230px;
+  padding: 0 0 0 200px;
+`;
+
+const Day = styled.div`
+  padding: 0 30px;
 `;
 
 const TimelineBar = styled.div`
@@ -136,6 +159,7 @@ const TimelineBar = styled.div`
   height: 100%;
   background: #fff;
   left: 264px;
+  padding: 0;
 `;
 
 const Date = styled.p`

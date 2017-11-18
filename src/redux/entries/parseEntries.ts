@@ -1,9 +1,6 @@
 import * as _ from 'lodash';
-// import { createSelector } from 'reselect';
 
-const currentDay = new Date().setHours(0,0,0,0);
-
-const getAllEntries = (state: any): any[] => {
+const mapEntriesToDays = (state: any): any[] => {
   // console.log('get allEntries', state)
   const entries = state.allIds ? state.allIds.map((id: string) => state.byId[id]) : [];
   // console.log('entries', entries);
@@ -54,8 +51,4 @@ const getAllEntries = (state: any): any[] => {
   return filteredByDate.reverse();
 };
 
-
-export {
-  getAllEntries,
-  currentDay,
-};
+export { mapEntriesToDays }

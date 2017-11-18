@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { ApplicationState } from '../../redux/reducers';
 import Entries from './Entries';
 import { Entry } from '../../types/';
-import { getAllEntries, closestToToday } from './selectors';
+import { getAllEntries, currentDay } from './selectors';
 import { removeEntry, loadMoreEntries, loadOneYear } from '../../redux/entries/creators';
 import { onListScroll } from '../../redux/ui/creators';
 
@@ -15,11 +15,11 @@ export interface StateProps {
   user: any;
   numberOfEntries: number | null;
   view: String;
-  closestToToday: any;
   isLoading: any;
   shouldLoadOneYear: boolean;
   labelsById: any;
   uiState: any;
+  currentDay: any;
   datesLoaded: {
     past: any,
     future: any,
@@ -36,11 +36,11 @@ export interface DispatchProps {
 export default connect<StateProps, DispatchProps, OwnProps>(
   (state: ApplicationState) => {
     return {
-      entries: getAllEntries(state),
+      entries: getAllEntries(state.entries),
       numberOfEntries: state.entries.ui.numberOfEntries,
       user: state.auth.user,
       view: state.entries.ui.view,
-      closestToToday: closestToToday(state),
+      currentDay: currentDay,
       datesLoaded: state.entries.ui.datesLoaded,
       isLoading: state.entries.ui.isLoading,
       shouldLoadOneYear: state.entries.ui.shouldLoadOneYear,
