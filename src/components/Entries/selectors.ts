@@ -4,10 +4,7 @@ import * as _ from 'lodash';
 const currentDay = new Date().setHours(0,0,0,0);
 
 const getAllEntries = (state: any): any[] => {
-  // console.log('get allEntries', state)
   const entries = state.allIds ? state.allIds.map((id: string) => state.byId[id]) : [];
-  // console.log('entries', entries);
-  
   const entryList: any = [];
   const date = new Date();
   const todayDate = new Date(date.getFullYear(), date.getMonth(), date.getDate())

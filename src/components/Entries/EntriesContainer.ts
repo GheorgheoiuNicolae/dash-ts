@@ -2,8 +2,9 @@ import { connect } from 'react-redux';
 import { ApplicationState } from '../../redux/reducers';
 import Entries from './Entries';
 import { Entry } from '../../types/';
-import { getAllEntries, currentDay } from './selectors';
+import { currentDay } from './selectors';
 import { removeEntry, loadMoreEntries, loadOneYear } from '../../redux/entries/creators';
+import { selectEntry, deselectEntry } from '../../redux/entries/actions';
 import { onListScroll } from '../../redux/ui/creators';
 
 export interface OwnOptionalProps {}
@@ -19,6 +20,7 @@ export interface StateProps {
   shouldLoadOneYear: boolean;
   labelsById: any;
   uiState: any;
+  selectedEntry: any;
   currentDay: any;
   datesLoaded: {
     past: any,
@@ -31,12 +33,14 @@ export interface DispatchProps {
   loadMoreEntries: any;
   loadOneYear: Function;
   onListScroll: Function;
+  selectEntry: Function;
+  deselectEntry: Function;
 }
 
 export default connect<StateProps, DispatchProps, OwnProps>(
   (state: ApplicationState) => {
     return {
-      entries: getAllEntries(state.entries),
+      entries: state.entries.days,
       numberOfEntries: state.entries.ui.numberOfEntries,
       user: state.auth.user,
       view: state.entries.ui.view,
@@ -45,7 +49,8 @@ export default connect<StateProps, DispatchProps, OwnProps>(
       isLoading: state.entries.ui.isLoading,
       shouldLoadOneYear: state.entries.ui.shouldLoadOneYear,
       labelsById: state.labels.byId,
-      uiState: state.ui
+      uiState: state.ui,
+      selectedEntry: state.entries.ui.selectedEntry,
     };
   },
   {
@@ -53,5 +58,7 @@ export default connect<StateProps, DispatchProps, OwnProps>(
     loadMoreEntries,
     loadOneYear,
     onListScroll,
+    selectEntry,
+    deselectEntry,
   },
 )(Entries);

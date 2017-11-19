@@ -42,7 +42,7 @@ export default class ManageLabels extends React.PureComponent<Props, OtherProps>
   }
 
   handleClick(label: any) {
-    console.log('should show input to change label name', label);
+    console.log('handleClick', label);
   }
 
   removeLabel = (label: any) => {

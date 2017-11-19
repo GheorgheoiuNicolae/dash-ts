@@ -8,10 +8,6 @@ interface OtherProps {
 }
 
 export default class Filters extends React.PureComponent<Props, OtherProps> {
-  componentDidMount() {
-    console.log('filters');
-  }
-
   render() {
     return  (
       <Wrap>

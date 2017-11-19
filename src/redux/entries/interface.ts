@@ -21,6 +21,7 @@ export interface EntriesInitialState {
     }
   };
   byId: any;
+  days: any[];
 }
 
 interface EntriesFilterBy {

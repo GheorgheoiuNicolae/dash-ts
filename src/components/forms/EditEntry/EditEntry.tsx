@@ -66,11 +66,9 @@ export default class EditEntryForm extends React.PureComponent<Props, OtherProps
   openDeleteModal = (entry: any) => {
     const { showModal } = this.props;
     showModal('deleteEntry');
-    console.log('open delete');
   }
 
   preventSubmitOnEnter = (e: any) => {
-    console.log('prevent submit on enter');
     if (e.key === 'Enter') {
       e.preventDefault();
     }
@@ -92,7 +90,6 @@ export default class EditEntryForm extends React.PureComponent<Props, OtherProps
 
     const latitude = entry.geoPlace.latitude;
     const longitude = entry.geoPlace.longitude;
-    console.log('before edit: ', entry);
     return (
       <EditEntryWrapper className="entry-form">
         <Form onSubmit={handleSubmit(this.handleSubmit.bind(this))}>
@@ -250,7 +247,8 @@ export default class EditEntryForm extends React.PureComponent<Props, OtherProps
 }
 
 const EditEntryWrapper = styled.section`
-  height: 100%;
+  display: flex;
+  flex: 1;
 `;
 const Form = styled.form`
   display: flex;

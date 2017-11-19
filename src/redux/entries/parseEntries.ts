@@ -1,19 +1,28 @@
 import * as _ from 'lodash';
 
 const mapEntriesToDays = (state: any): any[] => {
+  const days = [];
+  for (var key in state) {
+    if (state.hasOwnProperty(key)) {
+      state[key].id = key;
+      days.push(state[key])  
+    }
+  }
+
   // console.log('get allEntries', state)
-  const entries = state.allIds ? state.allIds.map((id: string) => state.byId[id]) : [];
+  // const entries = state.allIds ? state.allIds.map((id: string) => state.byId[id]) : [];
   // console.log('entries', entries);
   
   const entryList: any = [];
   const date = new Date();
   const todayDate = new Date(date.getFullYear(), date.getMonth(), date.getDate())
 
-  entries.map((entry: any) => {
+  days.map((entry: any) => {
+    
     if (entry) {
+      
       const date = new Date(entry.date);
       const YMD = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-
       const day: any = _.find(entryList, {
         date: YMD,
       });

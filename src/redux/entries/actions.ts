@@ -18,8 +18,6 @@ export const loadEntriesStart = (type: 'initial' | 'future' | 'past') => ({
 //   },
 // });
 export const loadEntriesSuccess = (entries: any[], dates: any) => {
-  console.log('loadEntriesSuccess: ');
-  
   return {
     type: types.RECEIVE_ENTRIES,
     payload: {
@@ -54,4 +52,12 @@ export const registerError = (reason: any, error: any) => ({
 export const saveEntryEdits = (data: any) => ({
   type: types.EDIT_ENTRY,
   payload: data,
+});
+
+export const selectEntry = (entryId: any) => ({
+  type: types.SELECT_ENTRY,
+  payload: entryId,
+});
+export const deselectEntry = () => ({
+  type: types.DESELECT_ENTRY
 });

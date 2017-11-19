@@ -5,6 +5,10 @@ import EntryListItem from './EntryListItem/EntryListItem';
 import styled from 'styled-components';
 import Header from '../dashboard/Header/';
 import Filters from '../Filters/';
+import EntryDetails from './EntryListItem/EntryDetails/';
+import FloatingActionButton from 'material-ui/FloatingActionButton';
+import TargetIcon from 'material-ui/svg-icons/device/gps-fixed';
+
 import './entries.css';
 import './loader.css';
 
@@ -18,11 +22,11 @@ export default class Entries extends React.PureComponent<Props, {firstScrollRequ
     }
   }
 
-  public shouldComponentUpdate(nextProps: any, nextState: any) {
-    console.log('nextProps: ', nextProps, this.props);
-    
-    return nextProps.numberOfEntries === this.props.numberOfEntries ? false : true;
-  }
+  // public shouldComponentUpdate(nextProps: any, nextState: any) {
+  //   // Consider here updating after edited entry
+
+  //   return nextProps.numberOfEntries === this.props.numberOfEntries ? false : true;
+  // }
 
   loadMore() {
     const { loadMoreEntries, user, datesLoaded, uiState } = this.props;
@@ -42,7 +46,6 @@ export default class Entries extends React.PureComponent<Props, {firstScrollRequ
     const wrap  = document.getElementById('entries-page-wrap');
     setTimeout(() => {
       const todayEntry  = document.getElementById('scrollTarget');
-      console.log('setScroll to date', wrap)
       if( wrap && todayEntry ) {
         wrap.scrollTop = todayEntry.offsetTop;
       }
@@ -77,7 +80,7 @@ export default class Entries extends React.PureComponent<Props, {firstScrollRequ
   }
 
   mapEntriesToDays = () => {
-    const { entries, user, removeEntry, labelsById, currentDay } = this.props;
+    const { entries, user, removeEntry, labelsById, currentDay, selectEntry, deselectEntry } = this.props;
     const { firstScrollRequest } = this.state;
     
     return (
@@ -88,8 +91,10 @@ export default class Entries extends React.PureComponent<Props, {firstScrollRequ
               user={user} 
               entry={entry} 
               key={entry.id}
-              removeEntry={removeEntry}
               labels={labelsById}
+              removeEntry={removeEntry}
+              selectEntry={selectEntry}
+              deselectEntry={deselectEntry}
             />
           );
         });
@@ -107,13 +112,21 @@ export default class Entries extends React.PureComponent<Props, {firstScrollRequ
   }
 
   render() {
-    const { entries, view, isLoading } = this.props;
+    const { entries, view, isLoading, selectedEntry } = this.props;
     const shouldDisplayLoader = isLoading.loading && isLoading.type === 'initial';
 
     return (
       <Wrap id="entries-page-wrap" onScroll={() => this.handleScroll()} >
         <Header />
         <Filters />
+        <EntryDetails />
+
+        {!selectedEntry &&
+          <StyledFloatingActionButton onClick={() => this.setScrollToDate()} >
+            <TargetIcon />
+          </StyledFloatingActionButton>
+        }
+
         <EntryList className={`view-boxes ${view}`}>
           <div className={`loader-wrapper ${shouldDisplayLoader ? 'loader-shown' : 'loader-hidden' }`}>
             <div className="loader">
@@ -147,6 +160,13 @@ const Wrap = styled.div`
   height: 100%;
   overflow: scroll;
   padding: 0 0 0 200px;
+`;
+
+const StyledFloatingActionButton = styled(FloatingActionButton)`
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 9;
 `;
 
 const Day = styled.div`

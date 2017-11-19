@@ -2,7 +2,6 @@ import { firebaseDb, firebaseAuth } from '../../utils/firebase';
 import { browserHistory } from 'react-router';
 
 export function registerUser (userDetails: any) {
-  // console.log('register: ', email, pw);
   return (dispatch: any) => {
     firebaseAuth.createUserWithEmailAndPassword(userDetails.email, userDetails.password)
       .then((user: any) => {

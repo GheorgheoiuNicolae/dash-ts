@@ -43,7 +43,6 @@ export function register(userDetails: { email: string, password: string}) {
 
 export function fetchUser() {
   const request = fetchUserWatcher();
-  console.log('does this run?');
   return (dispatch: any) => {
     dispatch(actions.fetchUser(request));
   };

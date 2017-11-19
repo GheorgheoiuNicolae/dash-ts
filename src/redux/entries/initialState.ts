@@ -28,4 +28,5 @@ export const initialState = {
   },
   byId: {},
   allIds: [],
+  days: [],
 };

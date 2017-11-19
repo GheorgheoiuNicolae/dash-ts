@@ -20,7 +20,6 @@ export const getInitialEntries = (uid: string) => {
     .once('value', (snapshot) => {
       const entries = snapshot.val();
       if(entries) {
-        console.log('initial entries: ', entries);
         dispatch(actions.loadEntriesSuccess(entries, dates));
 
         // check length for initial load
@@ -31,15 +30,8 @@ export const getInitialEntries = (uid: string) => {
           }
         }
         if(size < 10) {
-          // try to load more entries in the past
-          console.log('load more entries');
-          
           dispatch(loadMoreEntries(uid, 'past', dates.past));
-          // dispatch(actions.shouldLoadOneYear());
         }
-        
-        // dispatch(shouldLoadMoreEntries(dates))
-        
       } else {
         dispatch(actions.loadEntriesSuccess([], dates));
       }
@@ -49,7 +41,6 @@ export const getInitialEntries = (uid: string) => {
 
 export const loadMoreEntries = (uid: string, direction: any, date: any) => {
   const fifteenDays = 1000*60*60*24 * 14;
-  console.log('loadMoreEntries: ');
   
   if(direction === 'future') {
     // load more future entries
@@ -131,7 +122,6 @@ export const getEntryOnChildAdded = (uid: string) => {
 };
 
 export const removeAllCollections = () => {
-  console.log('removeAllCollections: ');
   firebaseDb.ref().remove();
 };
 
@@ -150,8 +140,6 @@ export const createEntry = (data: any, uid: string) => {
 };
 
 export const editEntry = (data: any, uid: string) => {
-  console.log('edit:', data );
-  
   return function (dispatch: any) {
     let entriesRef = firebaseDb
       .ref()
@@ -173,7 +161,6 @@ export const removeEntry = (data: any, uid: any) => {
         browserHistory.push('/entries');
       })
       .catch(function(error: any) {
-        console.log('Remove failed: ' + error.message);
         dispatch(actions.registerError('Could not remove entry', error));
       });
   };

@@ -1,4 +1,6 @@
-import { deleteFromById, deleteFromAllIds} from '../../utils/deleteFromState';
+import { deleteFromById, deleteFromAllIds, 
+  deleteFromDays
+} from '../../utils/deleteFromState';
 import * as types from './types';
 import * as uiTypes from '../ui/types';
 import * as authTypes from '../auth/types';
@@ -29,17 +31,7 @@ export default function reducer(state: EntriesInitialState = initialState, actio
     }
     
     case types.RECEIVE_ENTRIES: {
-      console.log('RECEIVE_ENTRIES', state.ui.isLoading);
-      const allIds = [...state.allIds];
-      let existingId = allIds.find((id: any) => id === action.payload.id);
-      if(existingId) {
-        console.log('entry already exists', state.byId[existingId]);
-      }
-
-      
-      var a = mapEntriesToDays(state);
-      console.log('RECEIVE_ENTRies: ', a);
-
+      const allEntries = {...state.byId, ...action.payload.entries}
       return {
         ...state,
         byId: { 
@@ -53,6 +45,8 @@ export default function reducer(state: EntriesInitialState = initialState, actio
             return key;
           }),
         ],
+
+        days: mapEntriesToDays(allEntries),
 
         ui: {
           ...state.ui,
@@ -89,23 +83,20 @@ export default function reducer(state: EntriesInitialState = initialState, actio
     }
 
     case types.RECEIVE_ENTRY: {
-      let newEntry = {};
-      newEntry[action.payload.id] = {...action.payload};
-      var a = mapEntriesToDays(state);
-      console.log('entries have been parsed', a);
+      const allEntries = {...state.byId}
+      allEntries[action.payload.id] = action.payload;
+      
       return !state.ui.firstLoad ? {
         ...state,
-        byId: {
-          ...state.byId,
-          ...newEntry,
-        },
+        byId: allEntries,
         allIds: [
           ...state.allIds,
           action.payload.id,
         ],
+        days: mapEntriesToDays(allEntries),
         ui: {
           ...state.ui,
-          numberOfEntries: state.ui.numberOfEntries || state.ui.numberOfEntries === 0 && state.ui.numberOfEntries + 1,
+          numberOfEntries: state.allIds.length + 1,
         }
       } : state;
     }
@@ -115,6 +106,11 @@ export default function reducer(state: EntriesInitialState = initialState, actio
         ...state,
         byId: deleteFromById(state.byId, action.payload),
         allIds: deleteFromAllIds(state.allIds, action.payload),
+        days: deleteFromDays(state.days, action.payload),
+        ui: {
+          ...state.ui,
+          numberOfEntries: state.allIds.length + 1,
+        }
       };
     }
 
@@ -124,6 +120,25 @@ export default function reducer(state: EntriesInitialState = initialState, actio
 
       return {
         ...newState,
+      };
+    }
+
+    case types.SELECT_ENTRY: {
+      return {
+        ...state,
+        ui: {
+          ...state.ui,
+          selectedEntry: action.payload
+        }
+      };
+    }
+    case types.DESELECT_ENTRY: {
+      return {
+        ...state,
+        ui: {
+          ...state.ui,
+          selectedEntry: null
+        }
       };
     }
 

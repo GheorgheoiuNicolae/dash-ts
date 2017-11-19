@@ -27,7 +27,6 @@ export function loginUser(user) {
 
 export function fetchUser() {
   const request = FireBaseTools.fetchUser();
-  console.log('does this run?');
   return {
     type: types.FETCH_FIREBASE_USER,
     payload: request,
@@ -102,7 +101,6 @@ export const getInitialEntries = (uid) => {
     future: today + 1000 * 60 * 60 * 24 * 14,
   }
 
-  console.log('getInitialEntries for the period: ', new Date(dates.past), dates.past, ' - ', new Date(dates.future), dates.future);
 
   return function (dispatch) {
     firebaseDb.ref()
@@ -125,7 +123,6 @@ export const getInitialEntries = (uid) => {
         }
         dispatch(reveiveEntries(entries, dates))
         // dispatch(shouldLoadMoreEntries(dates))
-        console.log('getInitialEntries res: ', entries, size);
       } else {
         dispatch(reveiveEntries([], dates))
       }
@@ -200,7 +197,6 @@ export const loadOneYear = (uid, direction, date) => {
 }
 
 export const removeAllCollections = () => {
-  console.log('removeAllCollections: ')
   firebaseDb.ref().remove()
 }
 
@@ -241,11 +237,9 @@ export const removeEntry = (data, uid) => {
       .child(`entries/${uid}/${data.id}`)
       .remove()
       .then(function() {
-        console.log("Remove succeeded.")
         dispatch(removeEntrySuccess(data));
       })
       .catch(function(error) {
-        console.log("Remove failed: " + error.message)
         dispatch(registerError('Could not remove entry', error))
       });
   };
