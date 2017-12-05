@@ -14,11 +14,12 @@ import './loader.css';
 
 export type Props = StateProps & OwnProps & DispatchProps;
 
-export default class Entries extends React.PureComponent<Props, {firstScrollRequest: boolean}> {
+export default class Entries extends React.PureComponent<Props, {firstScrollRequest: boolean, shouldAutoScroll: boolean}> {
   constructor() {
     super();
     this.state = {
       firstScrollRequest: true,
+      shouldAutoScroll: true,
     };
   }
 
@@ -48,6 +49,7 @@ export default class Entries extends React.PureComponent<Props, {firstScrollRequ
       const todayEntry  = document.getElementById('scrollTarget');
       if( wrap && todayEntry ) {
         wrap.scrollTop = todayEntry.offsetTop;
+        this.setState({shouldAutoScroll: false})
       }
     }, 200);
   }
@@ -84,7 +86,7 @@ export default class Entries extends React.PureComponent<Props, {firstScrollRequ
       labelsById, currentDay, selectEntry, 
       showFiltered, filteredEntries,
       deselectEntry } = this.props;
-    const { firstScrollRequest } = this.state;
+    const { firstScrollRequest, shouldAutoScroll } = this.state;
     
     const entriesToMap = showFiltered ? filteredEntries : entries;
     
@@ -103,7 +105,7 @@ export default class Entries extends React.PureComponent<Props, {firstScrollRequ
             />
           );
         });
-        if ( currentDay === day.date.getTime() && firstScrollRequest) {
+        if ( currentDay === day.date.getTime() && firstScrollRequest && shouldAutoScroll) {
           this.setScrollToDate();
         }
         return (

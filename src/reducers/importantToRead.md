@@ -1,1 +1,0 @@
-The files in this folder should no longer be used but instead, user the 'redux' folder.
