@@ -28,7 +28,7 @@ export function deleteFromDays(state: any, data: any) {
       date: new Date().setHours(0,0,0,0),
       dateTime: new Date().getTime(),
       title: 'Nothing is happening today? Make sure you add your entries.'
-    })
+    });
   }
 
   const entryToRemove = relevantDay.entries.find((entry: any) => entry.id === data.id);

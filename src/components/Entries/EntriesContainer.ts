@@ -13,6 +13,7 @@ export interface OwnProps extends Partial<OwnOptionalProps> {}
 
 export interface StateProps {
   entries: Entry[];
+  filteredEntries: any;
   user: any;
   numberOfEntries: number | null;
   view: String;
@@ -21,6 +22,7 @@ export interface StateProps {
   labelsById: any;
   uiState: any;
   selectedEntry: any;
+  showFiltered: boolean;
   currentDay: any;
   datesLoaded: {
     past: any,
@@ -40,10 +42,12 @@ export interface DispatchProps {
 export default connect<StateProps, DispatchProps, OwnProps>(
   (state: ApplicationState) => {
     return {
+      filteredEntries: state.entries.ui.filteredEntries,
       entries: state.entries.days,
       numberOfEntries: state.entries.ui.numberOfEntries,
       user: state.auth.user,
       view: state.entries.ui.view,
+      showFiltered: state.entries.ui.showFiltered,
       currentDay: currentDay,
       datesLoaded: state.entries.ui.datesLoaded,
       isLoading: state.entries.ui.isLoading,

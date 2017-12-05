@@ -5,7 +5,7 @@ const mapEntriesToDays = (state: any): any[] => {
   for (var key in state) {
     if (state.hasOwnProperty(key)) {
       state[key].id = key;
-      days.push(state[key])  
+      days.push(state[key]);
     }
   }
 
@@ -15,14 +15,13 @@ const mapEntriesToDays = (state: any): any[] => {
   
   const entryList: any = [];
   const date = new Date();
-  const todayDate = new Date(date.getFullYear(), date.getMonth(), date.getDate())
+  const todayDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
 
   days.map((entry: any) => {
     
     if (entry) {
-      
-      const date = new Date(entry.date);
-      const YMD = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+      const entryDate = new Date(entry.date);
+      const YMD = new Date(entryDate.getFullYear(), entryDate.getMonth(), entryDate.getDate());
       const day: any = _.find(entryList, {
         date: YMD,
       });
@@ -40,7 +39,9 @@ const mapEntriesToDays = (state: any): any[] => {
 
   // check if there is an entry for today
   // push an empty day if it does not exist
-  const today = entryList.find((day: any) => day.date.getTime() === todayDate.getTime());
+  const today = entryList.find((day: any) => 
+    day.date.getTime() === todayDate.getTime());
+
   if(!today) {
     entryList.push({
       date: todayDate,
@@ -60,4 +61,4 @@ const mapEntriesToDays = (state: any): any[] => {
   return filteredByDate.reverse();
 };
 
-export { mapEntriesToDays }
+export { mapEntriesToDays };

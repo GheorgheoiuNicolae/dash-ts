@@ -1,5 +1,5 @@
 import * as types from './types';
-import * as entryTypes from '../entries/types'
+import * as entryTypes from '../entries/types';
 import { initialState } from './initialState';
 import { UiState } from './interface';
 

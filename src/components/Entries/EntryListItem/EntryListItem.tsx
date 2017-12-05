@@ -39,7 +39,9 @@ export default class EntryListItem extends React.PureComponent<Props, StateProps
         className={`entry-list-item ${id === 'injectedEntry' && 'injectedEntry'}`} 
         id={entry.id}
       >
-        {id !== 'injectedEntry' && <Time onClick={() => this.selectEntry()} > {moment(new Date(entry.dateTime)).format('hh:mm')} </Time>}
+        {id !== 'injectedEntry' && (
+          <Time onClick={() => this.selectEntry()} > {moment(new Date(entry.dateTime)).format('hh:mm')} </Time>
+        )}
         
         {id === 'injectedEntry' && 
           <MainLabel className="icon icon-warn">

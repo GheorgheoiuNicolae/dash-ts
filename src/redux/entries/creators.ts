@@ -165,3 +165,18 @@ export const removeEntry = (data: any, uid: any) => {
       });
   };
 };
+
+export const getAllEntries = (uid: string) => {
+  return function (dispatch: any) {
+    dispatch(actions.loadEntriesStart('initial'));
+    firebaseDb.ref()
+    .child(`entries/${uid}`)
+    .orderByChild('date')
+    .once('value', (snapshot) => {
+      const entries = snapshot.val();
+      if(entries) {
+        dispatch(actions.loadAllEntriesSuccess(entries));
+      }
+    });
+  };
+};

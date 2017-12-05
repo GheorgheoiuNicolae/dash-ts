@@ -144,6 +144,7 @@ export default class AddEntryForm extends React.PureComponent<Props, OtherProps>
                   floatingLabelText={'Date'}
                   fullWidth={true}
                   name={`date`}
+                  autoOk={true}
                   className="datepicker-wrapper input"
                   formatDate={(date: any) => moment(date).format('ll')}
                 />

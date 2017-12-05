@@ -24,17 +24,26 @@ export default class EntryListItem extends React.Component<Props, StateProps> {
     const { user, entry, removeEntry } = this.props;
     removeEntry(entry, user.uid);
   }
-
+ 
   render() {
     const { entry, user, labels, opacity } = this.props;
     const { photos, geoPlace, description, repeatEvery, checklistItems } = entry;
+    const isInThePast = new Date(entry.dateTime).getTime() < new Date().getTime();
+    
     return (
       <Wrapper 
         className={`entry-list-item`} 
         style={{opacity: opacity ? Number(opacity) : 1}}
         id={entry.id}
       >
-        <Time onClick={() => console.log('entry', entry)} > {moment(new Date(entry.dateTime)).format('hh:mm')} </Time>
+        <Time onClick={() => console.log('entry', entry)} >
+          { 
+            isInThePast 
+            ? moment(new Date(entry.dateTime)).format('DD/MM')
+            : moment(new Date(entry.dateTime)).format('hh:mm')
+          }
+          
+        </Time>
 
         <StyledRouterLink to={`/entries/${entry.id}`}>
           <ButtonText className="button-text">

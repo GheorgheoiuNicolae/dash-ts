@@ -76,7 +76,6 @@ export default class Sidebar extends React.Component<Props, {}> {
               style={{color: '#fff'}}
             />}
           />
-          
         </AddButtonWrapper>
 
         <AdminTools />

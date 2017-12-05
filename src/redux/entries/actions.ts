@@ -10,13 +10,6 @@ export const loadEntriesStart = (type: 'initial' | 'future' | 'past') => ({
   payload: type
 });
 
-// export const loadEntriesSuccess = (entries: any[], dates: any) => ({
-//   type: types.RECEIVE_ENTRIES,
-//   payload: {
-//     entries,
-//     dates
-//   },
-// });
 export const loadEntriesSuccess = (entries: any[], dates: any) => {
   return {
     type: types.RECEIVE_ENTRIES,
@@ -24,8 +17,24 @@ export const loadEntriesSuccess = (entries: any[], dates: any) => {
       entries,
       dates
     },
-  }
+  };
 };
+
+export const loadAllEntriesSuccess = (entries: any[]) => {
+  return {
+    type: types.RECEIVE_ALL_ENTRIES,
+    payload: {
+      entries
+    },
+  };
+};
+
+export const filterEntries = (filters: any) => {
+  return {
+    type: types.FILTER_ENTRIES,
+    payload: filters
+  };
+}
 
 export const shouldLoadOneYear = () => ({
   type: types.SHOULD_LOAD_ONE_YEAR

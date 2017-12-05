@@ -13,7 +13,6 @@ export interface Props {
 }
 
 export interface StateProps {}
-
 export interface DispatchProps {}
 
 export default connect<StateProps, DispatchProps, Props>(

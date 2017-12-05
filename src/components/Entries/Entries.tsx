@@ -19,7 +19,7 @@ export default class Entries extends React.PureComponent<Props, {firstScrollRequ
     super();
     this.state = {
       firstScrollRequest: true,
-    }
+    };
   }
 
   // public shouldComponentUpdate(nextProps: any, nextState: any) {
@@ -80,11 +80,16 @@ export default class Entries extends React.PureComponent<Props, {firstScrollRequ
   }
 
   mapEntriesToDays = () => {
-    const { entries, user, removeEntry, labelsById, currentDay, selectEntry, deselectEntry } = this.props;
+    const { entries, user, removeEntry, 
+      labelsById, currentDay, selectEntry, 
+      showFiltered, filteredEntries,
+      deselectEntry } = this.props;
     const { firstScrollRequest } = this.state;
     
+    const entriesToMap = showFiltered ? filteredEntries : entries;
+    
     return (
-      entries.map((day: any, index: any) => {
+      entriesToMap.map((day: any, index: any) => {
         let mappedEntries = day.entries.map( (entry: any) => {
           return (
             <EntryListItem 
@@ -130,10 +135,10 @@ export default class Entries extends React.PureComponent<Props, {firstScrollRequ
         <EntryList className={`view-boxes ${view}`}>
           <div className={`loader-wrapper ${shouldDisplayLoader ? 'loader-shown' : 'loader-hidden' }`}>
             <div className="loader">
-              <div className="item item-1"></div>
-              <div className="item item-2"></div>
-              <div className="item item-3"></div>
-              <div className="item item-4"></div>
+              <div className="item item-1" />
+              <div className="item item-2" />
+              <div className="item item-3" />
+              <div className="item item-4" />
             </div>
           </div>
           

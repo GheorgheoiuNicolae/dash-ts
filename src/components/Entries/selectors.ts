@@ -7,12 +7,12 @@ const getAllEntries = (state: any): any[] => {
   const entries = state.allIds ? state.allIds.map((id: string) => state.byId[id]) : [];
   const entryList: any = [];
   const date = new Date();
-  const todayDate = new Date(date.getFullYear(), date.getMonth(), date.getDate())
+  const todayDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
 
   entries.map((entry: any) => {
     if (entry) {
-      const date = new Date(entry.date);
-      const YMD = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+      const entryDate = new Date(entry.date);
+      const YMD = new Date(entryDate.getFullYear(), entryDate.getMonth(), entryDate.getDate());
 
       const day: any = _.find(entryList, {
         date: YMD,
@@ -50,7 +50,6 @@ const getAllEntries = (state: any): any[] => {
 
   return filteredByDate.reverse();
 };
-
 
 export {
   getAllEntries,

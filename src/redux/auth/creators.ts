@@ -2,6 +2,8 @@ import { browserHistory } from 'react-router';
 import * as actions from './actions';
 import { firebaseDb, firebaseAuth } from '../../firebase';
 
+// import * as types from './types';
+
 export function resetPasswordByEmail(email: string) {
   return function (dispatch: any) {
     dispatch(actions.resetPasswordByEmailStart());
@@ -46,6 +48,21 @@ export function fetchUser() {
   return (dispatch: any) => {
     dispatch(actions.fetchUser(request));
   };
+  // // dispatch(fetchUserStart()); STEP 1
+  // console.log('fetchUser called');
+  
+  // return (dispatch: any, getState: any) => {
+  //   fetchUserWatcher().then((res: any) => {
+  //     console.log('fetchUserWatcher()')
+  //       dispatch({
+  //       type: types.FETCH_FIREBASE_USER,
+  //       payload: res,
+  //     });
+  //   }).catch((err: any) => {
+  //     // dispatch({})
+  //   })
+  // }
+
 }
 export const fetchUserWatcher = () => {
   return new Promise((resolve, reject) => {

@@ -16,6 +16,9 @@ export const initialState = {
       past: null,
       future: null,
     },
+    filtersDrawerOpen: false,
+    showFiltered: false,
+    filteredEntries: [],
     filterBy: {
       date: {
         from: null,
@@ -23,6 +26,9 @@ export const initialState = {
       },
       kind: '',
       labels: [],
+      hasDescription: null,
+      hasImages: null,
+      hasChecklist: null,
     },
     error: false,
   },

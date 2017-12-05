@@ -7,6 +7,7 @@ import * as authTypes from '../auth/types';
 import { initialState } from './initialState';
 import { EntriesInitialState } from './interface';
 import { mapEntriesToDays } from './parseEntries';
+import { filterEntries } from './filterEntries';
 
 export default function reducer(state: EntriesInitialState = initialState, action: any) {
   switch (action.type) {
@@ -29,9 +30,24 @@ export default function reducer(state: EntriesInitialState = initialState, actio
         }
       };
     }
+
+    case types.FILTER_ENTRIES: {
+      const allEntries = {...state.byId, ...action.payload.entries};
+      // const days = [...state.days];
+      return {
+        ...state,
+        ui: {
+          ...state.ui,
+          showFiltered: true,
+          filterBy: {...action.payload},
+          // inefficient - should be changed sometime
+          filteredEntries: filterEntries(mapEntriesToDays(allEntries), action.payload),
+        },
+      };
+    }
     
     case types.RECEIVE_ENTRIES: {
-      const allEntries = {...state.byId, ...action.payload.entries}
+      const allEntries = {...state.byId, ...action.payload.entries};
       return {
         ...state,
         byId: { 
@@ -69,6 +85,38 @@ export default function reducer(state: EntriesInitialState = initialState, actio
       };
     }
 
+    case types.RECEIVE_ALL_ENTRIES: {
+      const allEntries = {...state.byId, ...action.payload.entries};
+      return {
+        ...state,
+        byId: { 
+          ...state.byId,
+          ...action.payload.entries 
+        },
+
+        allIds: [
+          ...state.allIds,
+          ...Object.keys(action.payload.entries).map((key) => {
+            return key;
+          }),
+        ],
+
+        days: mapEntriesToDays(allEntries),
+
+        ui: {
+          ...state.ui,
+          firstLoad: false,
+          isLoading: {
+            loading: false,
+            type: null,
+          },
+          // WARNING - not supported by IE9 or lower
+          numberOfEntries: action.payload.entries ? Object.keys(action.payload.entries).length : null,
+          // may need to remove the dates
+        }
+      };
+    }
+
     case types.LOAD_ENTRIES_START: {
       return {
         ...state,
@@ -83,7 +131,7 @@ export default function reducer(state: EntriesInitialState = initialState, actio
     }
 
     case types.RECEIVE_ENTRY: {
-      const allEntries = {...state.byId}
+      const allEntries = {...state.byId};
       allEntries[action.payload.id] = action.payload;
       
       return !state.ui.firstLoad ? {
@@ -140,6 +188,22 @@ export default function reducer(state: EntriesInitialState = initialState, actio
           selectedEntry: null
         }
       };
+    }
+
+    case uiTypes.TOGGLE_FILTERS_DRAWER: {
+      return {
+        ...state,
+        ui: {
+          ...state.ui,
+          filtersDrawerOpen: !state.ui.filtersDrawerOpen,
+        }
+      }
+    }
+
+    case uiTypes.TOGGLE_SEARCH: {
+      return {
+        ...state
+      }
     }
 
     case uiTypes.HIDE_MODAL: {
