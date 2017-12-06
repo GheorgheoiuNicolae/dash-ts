@@ -10,13 +10,31 @@ export const loadEntriesStart = (type: 'initial' | 'future' | 'past') => ({
   payload: type
 });
 
-export const loadEntriesSuccess = (entries: any[], dates: any) => ({
-  type: types.RECEIVE_ENTRIES,
-  payload: {
-    entries,
-    dates
-  },
-});
+export const loadEntriesSuccess = (entries: any[], dates: any) => {
+  return {
+    type: types.RECEIVE_ENTRIES,
+    payload: {
+      entries,
+      dates
+    },
+  };
+};
+
+export const loadAllEntriesSuccess = (entries: any[]) => {
+  return {
+    type: types.RECEIVE_ALL_ENTRIES,
+    payload: {
+      entries
+    },
+  };
+};
+
+export const filterEntries = (filters: any) => {
+  return {
+    type: types.FILTER_ENTRIES,
+    payload: filters
+  };
+}
 
 export const shouldLoadOneYear = () => ({
   type: types.SHOULD_LOAD_ONE_YEAR
@@ -43,4 +61,12 @@ export const registerError = (reason: any, error: any) => ({
 export const saveEntryEdits = (data: any) => ({
   type: types.EDIT_ENTRY,
   payload: data,
+});
+
+export const selectEntry = (entryId: any) => ({
+  type: types.SELECT_ENTRY,
+  payload: entryId,
+});
+export const deselectEntry = () => ({
+  type: types.DESELECT_ENTRY
 });

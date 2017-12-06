@@ -3,15 +3,12 @@ import * as React from 'react';
 import { ApplicationState } from '../../redux/reducers';
 import styled from 'styled-components';
 import Sidebar from './sidebar';
-import { Entry } from '../../types/';
 import { getInitialEntries, getEntryOnChildAdded } from '../../redux/entries/creators';
 import { getLocation } from '../../redux/ui/creators';
-import { getAllEntries } from '../Entries/selectors';
 import { getLabels, receiveLabel } from '../../redux/labels/creators';
 
 interface StateProps {
   user: any;
-  entries: Entry[];
   labels: any[];
   datesLoaded: {
     past: any,
@@ -33,7 +30,7 @@ type Props = StateProps & RequiredProps & OptionalProps;
 class Dashboard extends React.Component<Props, {}> {
   componentWillMount() {
     const { 
-      user, 
+      user,
       getInitialEntries, 
       getEntryOnChildAdded,
       getLabels,
@@ -50,7 +47,7 @@ class Dashboard extends React.Component<Props, {}> {
       // get newly added label
       receiveLabel(user.uid);
       // get users location
-      getLocation()
+      getLocation();
     }
   }
   
@@ -79,7 +76,6 @@ export default connect<StateProps, {}, RequiredProps & OptionalProps>(
   (state: ApplicationState) => {
     return {
       user: state.auth.user,
-      entries: getAllEntries(state),
       datesLoaded: state.entries.ui.datesLoaded,
       labels: state.labels.byId,
       pathname: state.routing.locationBeforeTransitions.pathname

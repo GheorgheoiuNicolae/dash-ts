@@ -1,9 +1,13 @@
-import { deleteFromById, deleteFromAllIds} from '../../utils/deleteFromState';
+import { deleteFromById, deleteFromAllIds, 
+  deleteFromDays
+} from '../../utils/deleteFromState';
 import * as types from './types';
 import * as uiTypes from '../ui/types';
 import * as authTypes from '../auth/types';
 import { initialState } from './initialState';
 import { EntriesInitialState } from './interface';
+import { mapEntriesToDays } from './parseEntries';
+import { filterEntries } from './filterEntries';
 
 export default function reducer(state: EntriesInitialState = initialState, action: any) {
   switch (action.type) {
@@ -26,14 +30,24 @@ export default function reducer(state: EntriesInitialState = initialState, actio
         }
       };
     }
+
+    case types.FILTER_ENTRIES: {
+      const allEntries = {...state.byId, ...action.payload.entries};
+      // const days = [...state.days];
+      return {
+        ...state,
+        ui: {
+          ...state.ui,
+          showFiltered: true,
+          filterBy: {...action.payload},
+          // inefficient - should be changed sometime
+          filteredEntries: filterEntries(mapEntriesToDays(allEntries), action.payload),
+        },
+      };
+    }
     
     case types.RECEIVE_ENTRIES: {
-      const allIds = [...state.allIds];
-      let existingId = allIds.find((id: any) => id === action.payload.id);
-      if(existingId) {
-        console.log('entry already exists', state.byId[existingId]);
-      }
-
+      const allEntries = {...state.byId, ...action.payload.entries};
       return {
         ...state,
         byId: { 
@@ -47,6 +61,8 @@ export default function reducer(state: EntriesInitialState = initialState, actio
             return key;
           }),
         ],
+
+        days: mapEntriesToDays(allEntries),
 
         ui: {
           ...state.ui,
@@ -69,6 +85,38 @@ export default function reducer(state: EntriesInitialState = initialState, actio
       };
     }
 
+    case types.RECEIVE_ALL_ENTRIES: {
+      const allEntries = {...state.byId, ...action.payload.entries};
+      return {
+        ...state,
+        byId: { 
+          ...state.byId,
+          ...action.payload.entries 
+        },
+
+        allIds: [
+          ...state.allIds,
+          ...Object.keys(action.payload.entries).map((key) => {
+            return key;
+          }),
+        ],
+
+        days: mapEntriesToDays(allEntries),
+
+        ui: {
+          ...state.ui,
+          firstLoad: false,
+          isLoading: {
+            loading: false,
+            type: null,
+          },
+          // WARNING - not supported by IE9 or lower
+          numberOfEntries: action.payload.entries ? Object.keys(action.payload.entries).length : null,
+          // may need to remove the dates
+        }
+      };
+    }
+
     case types.LOAD_ENTRIES_START: {
       return {
         ...state,
@@ -83,23 +131,20 @@ export default function reducer(state: EntriesInitialState = initialState, actio
     }
 
     case types.RECEIVE_ENTRY: {
-      let newEntry = {};
-      newEntry[action.payload.id] = {...action.payload};
-      console.log('RECEIVE_ENTRY: ', state.ui.numberOfEntries);
-
+      const allEntries = {...state.byId};
+      allEntries[action.payload.id] = action.payload;
+      
       return !state.ui.firstLoad ? {
         ...state,
-        byId: {
-          ...state.byId,
-          ...newEntry,
-        },
+        byId: allEntries,
         allIds: [
           ...state.allIds,
           action.payload.id,
         ],
+        days: mapEntriesToDays(allEntries),
         ui: {
           ...state.ui,
-          numberOfEntries: state.ui.numberOfEntries || state.ui.numberOfEntries === 0 && state.ui.numberOfEntries + 1,
+          numberOfEntries: state.allIds.length + 1,
         }
       } : state;
     }
@@ -109,16 +154,73 @@ export default function reducer(state: EntriesInitialState = initialState, actio
         ...state,
         byId: deleteFromById(state.byId, action.payload),
         allIds: deleteFromAllIds(state.allIds, action.payload),
+        days: deleteFromDays(state.days, action.payload),
+        ui: {
+          ...state.ui,
+          numberOfEntries: state.allIds.length + 1,
+        }
       };
     }
 
     case types.EDIT_ENTRY: {
-      const newState = {...state};
+      let newState = {...state};
       newState.byId[action.payload.id] = action.payload;
+      // push updates to days array and to filtered days if they exist
+      newState.days.forEach((day: any) => {
+        let editedEntry = day.entries.find((entry: any) => entry.id === action.payload.id);
+        if(editedEntry) {
+          let idx = day.entries.indexOf(editedEntry);
+          day.entries[idx] = action.payload;
+        }
+      });
+
+      newState.ui.filteredEntries.forEach((day: any) => {
+        let editedEntry = day.entries.find((entry: any) => entry.id === action.payload.id);
+        if(editedEntry) {
+          let idx = day.entries.indexOf(editedEntry);
+          day.entries[idx] = action.payload;
+        }
+      });
 
       return {
-        ...newState,
+        ...state,
+        days: newState.days,
       };
+    }
+
+    case types.SELECT_ENTRY: {
+      return {
+        ...state,
+        ui: {
+          ...state.ui,
+          selectedEntry: action.payload
+        }
+      };
+    }
+    case types.DESELECT_ENTRY: {
+      return {
+        ...state,
+        ui: {
+          ...state.ui,
+          selectedEntry: null
+        }
+      };
+    }
+
+    case uiTypes.TOGGLE_FILTERS_DRAWER: {
+      return {
+        ...state,
+        ui: {
+          ...state.ui,
+          filtersDrawerOpen: !state.ui.filtersDrawerOpen,
+        }
+      }
+    }
+
+    case uiTypes.TOGGLE_SEARCH: {
+      return {
+        ...state
+      }
     }
 
     case uiTypes.HIDE_MODAL: {

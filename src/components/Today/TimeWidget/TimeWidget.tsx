@@ -11,7 +11,7 @@ export default class TimeWidget extends React.Component<Props, {time: string, co
     this.state = {
       time: this.getTime(),
       componentIsMountend: false,
-    }
+    };
   }
   componentDidMount() {
     const { time, componentIsMountend } = this.state;
@@ -58,7 +58,8 @@ export default class TimeWidget extends React.Component<Props, {time: string, co
 const Wrapper = styled.div`
   display: flex;
   width: 100%;
-  flex: 6;
+  flex: 5;
+  padding-left: 10px;
   flex-direction: column;
   justify-content: initial;
   align-items: flex-end;

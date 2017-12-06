@@ -3,7 +3,7 @@ import * as React from 'react';
 import { InjectedRouter, RouterState } from 'react-router';
 import { ApplicationState } from '../redux/reducers';
 import { fetchUser } from '../redux/auth/creators';
-import { AuthState } from '../reducers/auth';
+import { AuthState } from '../redux/auth/interface';
 import { browserHistory } from 'react-router';
 
 interface StateProps {

@@ -86,10 +86,8 @@ export default class Entries extends React.PureComponent<Props & OtherProps, {}>
                     label="Todo"
                     onKeyDown={(e: any) => {
                       if(e.keyCode === 13) {
-                        e.preventDefault()
-                        console.log('enter');
-                        
-                        fields.push({completed: false, text: ''}) 
+                        e.preventDefault();
+                        fields.push({completed: false, text: ''});
                       }
                     }}
                     onBlur={() => this.removeEmptyTodo(index)}

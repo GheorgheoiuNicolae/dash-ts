@@ -3,7 +3,7 @@ import * as moment from 'moment';
 import { InjectedRouter } from 'react-router';
 import styled from 'styled-components';
 import ConfirmRemoveEntryDialog from './confirmRemove';
-import { Link } from 'react-router';
+// import { Link } sfrom 'react-router';
 
 var FontAwesome = require('react-fontawesome');
 import './EntryListItem.css';
@@ -12,33 +12,51 @@ interface Props {
   entry: any;
   user: any;
   removeEntry: Function;
+  selectEntry: Function;
+  deselectEntry: Function;
   labels: any;
 }
 interface StateProps {
   router: InjectedRouter;
 }
 
-export default class EntryListItem extends React.Component<Props, StateProps> {
+export default class EntryListItem extends React.PureComponent<Props, StateProps> {
   removeEntry() {
     const { user, entry, removeEntry } = this.props;
     removeEntry(entry, user.uid);
   }
 
+  selectEntry() {
+    const { selectEntry, entry } = this.props;
+    selectEntry(entry.id);
+  }
+
   render() {
     const { entry, user, labels } = this.props;
-    const { photos, geoPlace, description, repeatEvery, checklistItems } = entry;
+    const { photos, geoPlace, description, repeatEvery, checklistItems, id } = entry;
     return (
       <Wrapper 
-        className={`entry-list-item`} 
+        className={`entry-list-item ${id === 'injectedEntry' && 'injectedEntry'}`} 
         id={entry.id}
       >
-        <Time onClick={() => console.log('entry', entry)} > {moment(new Date(entry.dateTime)).format('hh:mm')} </Time>
+        {id !== 'injectedEntry' && (
+          <Time onClick={() => this.selectEntry()} > {moment(new Date(entry.dateTime)).format('hh:mm')} </Time>
+        )}
+        
+        {id === 'injectedEntry' && 
+          <MainLabel className="icon icon-warn">
+            <FontAwesome
+              name="smile-o"
+            /> 
+          </MainLabel>
+        }
         {!description && 
           !photos && 
           geoPlace &&
           !geoPlace.latitude && 
           !repeatEvery && 
           !checklistItems &&
+          id !== 'injectedEntry' &&
           <MainLabel className="icon icon-regular">
             <FontAwesome
               name="circle-o"
@@ -77,12 +95,19 @@ export default class EntryListItem extends React.Component<Props, StateProps> {
             name="repeat"
           />
         </MainLabel>}
-
-        <StyledRouterLink to={`/entries/${entry.id}`}>
+        
+        {id !== 'injectedEntry' 
+        ? (<NoLink onClick={() => this.selectEntry()}>
           <ButtonText className="button-text">
             {entry.title}
           </ButtonText>
-        </StyledRouterLink>
+        </NoLink>)
+        : (<NoLink>
+          <ButtonText className="button-text">
+            {entry.title}
+          </ButtonText>
+        </NoLink>)
+        }
 
         <EntryLabels className="labels">
           {entry.labels && entry.labels.map((label: any, index: number) => {
@@ -176,13 +201,22 @@ const Circle = styled.div`
 const LabelName = styled.div`
   font-size: 12px;
 `;
-const StyledRouterLink = styled(Link)`
+// const StyledRouterLink = styled(Link)`
+//   display:flex;
+//   flex: 1;
+//   color: #8ca4af;
+//   text-decoration: none;
+//   justify-content: center;
+//   align-items: center;
+// `;
+const NoLink = styled.p`
   display:flex;
   flex: 1;
   color: #8ca4af;
   text-decoration: none;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
 `;
 const ButtonText = styled.span`
 	display: flex;

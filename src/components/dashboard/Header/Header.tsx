@@ -2,13 +2,11 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { StateProps, DispatchProps, OwnProps } from './HeaderContainer';
 import './header.css';
-import { RaisedButton } from 'material-ui';
 import IconButton from 'material-ui/IconButton';
 import ViewList from 'material-ui/svg-icons/action/view-list';
 import ViewModule from 'material-ui/svg-icons/action/view-module';
 import FilterList from 'material-ui/svg-icons/content/filter-list';
-import Search from 'material-ui/svg-icons/action/search';
-var FontAwesome = require('react-fontawesome');
+// import Search from 'material-ui/svg-icons/action/search';
 
 export type Props = StateProps & OwnProps & DispatchProps;
 
@@ -23,11 +21,13 @@ export default class Header extends React.Component<Props, OtherProps> {
   }
 
   toggleFilters() {
-    console.log('toggle filters');
+    const { toggleFilterDrawer } = this.props;
+    toggleFilterDrawer();
   }
 
   toggleSearch() {
-    console.log('toggle search');
+    const { toggleSearch } = this.props;
+    toggleSearch();
   }
 
   render () {
@@ -49,24 +49,13 @@ export default class Header extends React.Component<Props, OtherProps> {
               <FilterList />
             </IconButton>
           </HeaderItem>
-          <HeaderItem className="header-item">
+          {/* <HeaderItem className="header-item">
             <IconButton onTouchTap={() => this.toggleSearch()}>
               <Search />
             </IconButton>
             <ItemText>Search</ItemText>
-          </HeaderItem>
+          </HeaderItem> */}
         </div>
-
-        <RaisedButton 
-          label="Add new" 
-          secondary={true} 
-          className="add-new"
-          style={{marginRight: '20px'}}
-          icon={<FontAwesome
-            name="plus"
-            style={{color: '#fff'}}
-          />}
-        />
       </HeaderWrap>
     );
   }

@@ -28,3 +28,11 @@ export const getLocationError = (err: any) => ({
   type: types.GET_LOCATION_ERROR,
   payload: err,
 });
+
+
+export const toggleFilterDrawer = () => ({
+  type: types.TOGGLE_FILTERS_DRAWER
+});
+export const toggleSearch = () => ({
+  type: types.TOGGLE_SEARCH
+});

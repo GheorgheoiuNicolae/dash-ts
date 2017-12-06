@@ -31,8 +31,6 @@ export interface DispatchProps {
   resetForm: Function;
 }
 
-export interface OwnProps {}
-
 export default connect<StateProps, DispatchProps, OwnProps>(
   (state: ApplicationState) => {
     // get the selected labels from the form state

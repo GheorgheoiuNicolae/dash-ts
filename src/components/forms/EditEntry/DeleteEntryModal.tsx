@@ -31,7 +31,7 @@ export default class DeleteEntryModal extends React.Component<Props, {}> {
       <Dialog
         modal={true}
         open={activeModal === 'deleteEntry'}
-        onRequestClose={() => console.log('aaa')}
+        onRequestClose={() => console.log('onRequestClose')}
         autoScrollBodyContent={true}
         bodyStyle={{padding: '0'}}
       >
@@ -49,7 +49,7 @@ export default class DeleteEntryModal extends React.Component<Props, {}> {
             onClick={() => this.deleteEntry()}
             label="Confirm"
             secondary={true}
-            className='dangerButton'
+            className="dangerButton"
             keyboardFocused={false}
           />
         </Footer>
