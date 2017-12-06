@@ -45,14 +45,14 @@ export default class Today extends React.Component<Props, {}> {
     );
   }
   render() {
-    const { entries, user } = this.props;
+    const { entries, user, upcomingEntries } = this.props;
     return (
       <Wrap id="today">
         <PageContent>
           <TodayEntries>
             {entries && <Heading>Today</Heading>}
             {entries && this.renderTodayEntries()}
-            {entries && <Heading>Upcoming</Heading>}
+            {entries && upcomingEntries.length && <Heading>Upcoming</Heading>}
             {entries && this.renderUpcomingEntries()}
           </TodayEntries>
           <TimeWidget user={user} />

@@ -13,8 +13,12 @@ import './entries.css';
 import './loader.css';
 
 export type Props = StateProps & OwnProps & DispatchProps;
+interface ComponentProps {
+  firstScrollRequest: boolean; 
+  shouldAutoScroll: boolean;
+}
 
-export default class Entries extends React.PureComponent<Props, {firstScrollRequest: boolean, shouldAutoScroll: boolean}> {
+export default class Entries extends React.PureComponent<Props, ComponentProps> {
   constructor() {
     super();
     this.state = {

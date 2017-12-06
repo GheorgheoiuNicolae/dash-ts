@@ -34,7 +34,7 @@ const getUpcomingEntries = (state: any): any[] => {
   
   filteredByDate.map((entry: any) => {
     // if the entry is in the future save the closest maximum 5 entries
-    if (entry.dateTime < t && entryList.length < 5) {
+    if (entry.dateTime > t && entryList.length < 5) {
       entryList.push(entry);
     }
   });

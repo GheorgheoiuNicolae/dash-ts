@@ -39,8 +39,8 @@ export default class EntryListItem extends React.Component<Props, StateProps> {
         <Time onClick={() => console.log('entry', entry)} >
           { 
             isInThePast 
-            ? moment(new Date(entry.dateTime)).format('DD/MM')
-            : moment(new Date(entry.dateTime)).format('hh:mm')
+            ? moment(new Date(entry.dateTime)).format('DD.MM')
+            : moment(new Date(entry.dateTime)).format('DD.MM hh:mm')
           }
           
         </Time>

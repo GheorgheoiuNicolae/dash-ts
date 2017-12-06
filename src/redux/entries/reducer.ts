@@ -163,11 +163,28 @@ export default function reducer(state: EntriesInitialState = initialState, actio
     }
 
     case types.EDIT_ENTRY: {
-      const newState = {...state};
+      let newState = {...state};
       newState.byId[action.payload.id] = action.payload;
+      // push updates to days array and to filtered days if they exist
+      newState.days.forEach((day: any) => {
+        let editedEntry = day.entries.find((entry: any) => entry.id === action.payload.id);
+        if(editedEntry) {
+          let idx = day.entries.indexOf(editedEntry);
+          day.entries[idx] = action.payload;
+        }
+      });
+
+      newState.ui.filteredEntries.forEach((day: any) => {
+        let editedEntry = day.entries.find((entry: any) => entry.id === action.payload.id);
+        if(editedEntry) {
+          let idx = day.entries.indexOf(editedEntry);
+          day.entries[idx] = action.payload;
+        }
+      });
 
       return {
-        ...newState,
+        ...state,
+        days: newState.days,
       };
     }
 

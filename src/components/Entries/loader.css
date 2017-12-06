@@ -10,7 +10,7 @@
    animation: fadeIn .1s ease .2s forwards; 
 }
 .loader-hidden {
-   animation: fadeOut .5s ease 2s backwards; 
+   animation: fadeOut .2s ease 1s backwards; 
 }
 
 

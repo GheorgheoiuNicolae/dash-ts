@@ -12,7 +12,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: all 2s linear;
+  transition: all .2s linear;
   /* display: none; */
   opacity: 0;
 }
@@ -40,7 +40,7 @@
 
 .showed {
   /* animation: fadeIn .5s ease 5s forwards; */
-  transform: opacity 2s linear;
+  transform: opacity .2s linear;
 }
 .hidden {
   /* animation: fadeOut .5s ease 5s backwards; */
