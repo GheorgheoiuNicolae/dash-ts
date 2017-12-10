@@ -10,6 +10,7 @@ export const initialState = {
       loading: false,
       type: null
     },
+    allEntriesLoaded: false,
     numberOfEntries: null,
     shouldLoadOneYear: false,
     datesLoaded: {
@@ -35,4 +36,6 @@ export const initialState = {
   byId: {},
   allIds: [],
   days: [],
+  entriesCount: 0,
+  allDates: [],
 };

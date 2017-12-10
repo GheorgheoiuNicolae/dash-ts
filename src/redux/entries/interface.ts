@@ -17,6 +17,7 @@ export interface EntriesInitialState {
       loading: boolean;
       type: 'initial' | 'future' | 'past' | null;
     };
+    allEntriesLoaded: boolean,
     shouldLoadOneYear: boolean;
     datesLoaded: {
       past: any,
@@ -25,6 +26,8 @@ export interface EntriesInitialState {
   };
   byId: any;
   days: any[];
+  entriesCount: number;
+  allDates: any[];
 }
 
 export interface EntriesFilterBy {

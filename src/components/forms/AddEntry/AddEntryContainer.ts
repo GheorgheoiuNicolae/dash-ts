@@ -22,10 +22,12 @@ export interface StateProps {
   selectedLabels: any;
   labelsById: any;
   location: any;
+  allDates: any[];
+  entriesCount: number;
 }
 
 export interface DispatchProps {
-  createEntry: (entry: any, user: any) => {};
+  createEntry: (user: any, entry: any, allDates: any[], numberOfEntries: number) => {};
   hideModal: Function;
   showModal: Function;
   resetForm: Function;
@@ -43,6 +45,8 @@ export default connect<StateProps, DispatchProps, OwnProps>(
       selectedLabels: labels,
       labelsById: state.labels.byId,
       location: state.ui.location,
+      allDates: state.entries.allDates,
+      entriesCount: state.entries.entriesCount,
     };
   },
   {

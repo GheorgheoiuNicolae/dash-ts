@@ -13,7 +13,7 @@ export const getInitialEntries = (uid: string) => {
   return function (dispatch: any) {
     dispatch(actions.loadEntriesStart('initial'));
     firebaseDb.ref()
-    .child(`entries/${uid}`)
+    .child(`entries/${uid}/list`)
     .orderByChild('date')
     .startAt(dates.past)
     .endAt(dates.future)
@@ -39,6 +39,38 @@ export const getInitialEntries = (uid: string) => {
   };
 };
 
+export const getEntriesCount = (uid: string) => {
+  return function (dispatch: any) {
+    dispatch(actions.loadEntriesCountStart());
+    firebaseDb.ref()
+    .child(`entries/${uid}/totalEntries`)
+    .once('value', (snapshot) => {
+      const entriesCount = snapshot.val();
+      if( entriesCount ) {
+        dispatch(actions.loadEntriesCountSuccess(entriesCount));
+      } else {
+        dispatch(actions.loadEntriesCountSuccess(0));
+      }
+    });
+  };
+};
+
+export const getEntriesDates = (uid: string) => {
+  return function (dispatch: any) {
+    dispatch(actions.loadEntriesDatesStart());
+    firebaseDb.ref()
+    .child(`entries/${uid}/allDates`)
+    .once('value', (snapshot) => {
+      const allDates = snapshot.val();
+      if( allDates ) {
+        dispatch(actions.loadEntriesDatesSuccess(allDates));
+      } else {
+        dispatch(actions.loadEntriesDatesSuccess([]));
+      }
+    });
+  };
+};
+
 export const loadMoreEntries = (uid: string, direction: any, date: any) => {
   const fifteenDays = 1000*60*60*24 * 14;
   
@@ -48,7 +80,7 @@ export const loadMoreEntries = (uid: string, direction: any, date: any) => {
       dispatch(actions.loadEntriesStart('future'));
 
       firebaseDb.ref()
-      .child(`entries/${uid}`)
+      .child(`entries/${uid}/list`)
       .orderByChild('date')
       .startAt(date + 24 * 60 * 60 * 1000)
       .endAt(date + fifteenDays)
@@ -69,7 +101,7 @@ export const loadMoreEntries = (uid: string, direction: any, date: any) => {
     return function (dispatch: any) {
       dispatch(actions.loadEntriesStart('past'));
       firebaseDb.ref()
-      .child(`entries/${uid}`)
+      .child(`entries/${uid}/list`)
       .orderByChild('date')
       .startAt(date - fifteenDays)
       .endAt(date - 24 * 60 * 60 * 1000)
@@ -88,12 +120,11 @@ export const loadMoreEntries = (uid: string, direction: any, date: any) => {
 // load one year in the past to make sure the user does not have entries
 export const loadOneYear = (uid: string, direction: any, date: any) => {
   const oneYear = 1000*60*60*24 * 365;
-  console.log('+++ date : ', date);
   return function (dispatch: any) {
     dispatch(actions.loadEntriesStart('past'));
     dispatch(actions.disableLoadOneYear());
     firebaseDb.ref()
-    .child(`entries/${uid}`)
+    .child(`entries/${uid}/list`)
     .orderByChild('date')
     .startAt(date - oneYear)
     .endAt(date - 
@@ -112,7 +143,7 @@ export const loadOneYear = (uid: string, direction: any, date: any) => {
 export const getEntryOnChildAdded = (uid: string) => {
   return function (dispatch: any) {
     firebaseDb.ref()
-    .child(`entries/${uid}`)
+    .child(`entries/${uid}/list`)
     .limitToLast(1)
     .on('child_added', (snapshot: any) => {
       const entry = snapshot.val();
@@ -125,44 +156,62 @@ export const removeAllCollections = () => {
   firebaseDb.ref().remove();
 };
 
-export const createEntry = (data: any, uid: string) => {
+export const createEntry = (uid: string, data: any, allDates: any[], entriesCount: number) => {
   return function (dispatch: any) {
-    let entriesRef: any = firebaseDb
+    let entryRef: any = firebaseDb
       .ref()
-      .child(`entries/${uid}`)
+      .child(`entries/${uid}/list`)
       .push();
+    let newEntryKey = entryRef.getKey();
+    data.id = newEntryKey;
+    // Create the data we want to update
+    var updatedEntryData = {};
+    updatedEntryData[`entries/${uid}/totalEntries`] = entriesCount;
+    updatedEntryData[`entries/${uid}/allDates`] = allDates;
+    updatedEntryData[`entries/${uid}/list/${newEntryKey}`] = data;
+    // Do a deep-path update
+    firebaseDb.ref().update(updatedEntryData, function(error: any) {
+      if (error) {
+        console.log('Error updating data:', error);
+      } else {
+        dispatch(actions.createEntrySuccess(data.dateTime));
+      }
+    });
+  };
+};
 
-    const pushkey = entriesRef.getKey();
+export const editEntry = (uid: string, data: any, allDates: number[] ) => {
+  return function (dispatch: any) {
+    var updatedEntryData = {};
+    updatedEntryData[`entries/${uid}/allDates`] = allDates;
+    updatedEntryData[`entries/${uid}/list/${data.id}`] = data;
+    // Do a deep-path update
+    firebaseDb.ref().update(updatedEntryData, function(error: any) {
+      if (error) {
+        console.log('Error updating data:', error);
+      } else {
+        dispatch(actions.saveEntryEdits(data));
+      }
+    });
+  };
+};
+
+export const removeEntry = (uid: any, data: any, entriesCount: number, allDates: any[]) => {
+  return function (dispatch: any) {
+    var updates = {};
+    updates[`entries/${uid}/totalEntries`] = entriesCount;
+    updates[`entries/${uid}/allDates`] = allDates;
+    updates[`entries/${uid}/list/${data.id}`] = null;
     
-    data.id = pushkey;
-    entriesRef.set(data);
-  };
-};
-
-export const editEntry = (data: any, uid: string) => {
-  return function (dispatch: any) {
-    let entriesRef = firebaseDb
-      .ref()
-      .child(`entries/${uid}/${data.id}`)
-      .update(data);
-      console.log(entriesRef);
-    dispatch(actions.saveEntryEdits(data));
-  };
-};
-
-export const removeEntry = (data: any, uid: any) => {
-  return function (dispatch: any) {
-    firebaseDb
-      .ref()
-      .child(`entries/${uid}/${data.id}`)
-      .remove()
-      .then(function() {
+    // Do a deep-path update
+    firebaseDb.ref().update(updates, function(error: any) {
+      if (error) {
+        console.log('Error updating data:', error);
+      } else {
         dispatch(actions.removeEntrySuccess(data));
         browserHistory.push('/entries');
-      })
-      .catch(function(error: any) {
-        dispatch(actions.registerError('Could not remove entry', error));
-      });
+      }
+    });
   };
 };
 
@@ -170,7 +219,7 @@ export const getAllEntries = (uid: string) => {
   return function (dispatch: any) {
     dispatch(actions.loadEntriesStart('initial'));
     firebaseDb.ref()
-    .child(`entries/${uid}`)
+    .child(`entries/${uid}/list`)
     .orderByChild('date')
     .once('value', (snapshot) => {
       const entries = snapshot.val();

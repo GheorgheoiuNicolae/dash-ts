@@ -40,12 +40,27 @@ export default class EditEntryForm extends React.PureComponent<Props, OtherProps
   }
 
   handleSubmit = (values: any) => {
-    const { editEntry, auth } = this.props;
+    const { editEntry, auth, entry, allDates } = this.props;
 
-    values.dateTime = new Date(values.date).getTime();
-    values.date = new Date(values.date).setHours(0,0,0,0);
+    values.dateTime = new Date(
+      values.date.setHours(
+        values.dateTime.getHours(), 
+        values.dateTime.getMinutes(), 
+        values.dateTime.getSeconds(), 
+        values.dateTime.getMilliseconds()
+      )
+    );
+    values.date = new Date(values.date.setHours(0,0,0,0));
+
+    if( entry.dateTime !== values.dateTime ) {
+      let idx = allDates.indexOf(entry.dateTime.getTime());
+      allDates[idx] = values.dateTime.getTime();
+    }
+    let entryData = {...values};
     
-    editEntry(values, auth.user.uid);
+    entryData.dateTime = values.dateTime.getTime(),
+    entryData.date = values.date.getTime(),
+    editEntry(auth.user.uid, entryData, allDates);
   }
 
   handleManageLabels() {
@@ -85,11 +100,14 @@ export default class EditEntryForm extends React.PureComponent<Props, OtherProps
       showModal, 
       hideModal, 
       activeModal, 
-      removeEntry 
+      removeEntry,
+      allDates,
+      entriesCount,
     } = this.props;
 
     const latitude = entry.geoPlace.latitude;
     const longitude = entry.geoPlace.longitude;
+
     return (
       <EditEntryWrapper className="entry-form">
         <Form onSubmit={handleSubmit(this.handleSubmit.bind(this))}>
@@ -142,7 +160,12 @@ export default class EditEntryForm extends React.PureComponent<Props, OtherProps
 
               <InputWrap>
                 <Field
-                  component={(props: any) => <TimePicker {...props} />}
+                  component={(props: any) => {
+                    if(typeof props.input.value === 'number') {
+                      props.input.value = new Date(props.input.value);
+                    }
+                    return <TimePicker {...props} />;
+                  }}
                   autoOk={true}
                   format={null}
                   floatingLabelFixed={true}
@@ -240,6 +263,8 @@ export default class EditEntryForm extends React.PureComponent<Props, OtherProps
           activeModal={activeModal}
           uid={auth.user.uid}
           entry={entry}
+          entriesCount={entriesCount}
+          allDates={allDates}
         />
       </EditEntryWrapper>
     );
