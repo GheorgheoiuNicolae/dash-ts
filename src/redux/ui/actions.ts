@@ -29,7 +29,6 @@ export const getLocationError = (err: any) => ({
   payload: err,
 });
 
-
 export const toggleFilterDrawer = () => ({
   type: types.TOGGLE_FILTERS_DRAWER
 });

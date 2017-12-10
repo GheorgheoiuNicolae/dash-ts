@@ -53,7 +53,7 @@ export default class Entries extends React.PureComponent<Props, ComponentProps> 
       const todayEntry  = document.getElementById('scrollTarget');
       if( wrap && todayEntry ) {
         wrap.scrollTop = todayEntry.offsetTop;
-        this.setState({shouldAutoScroll: false})
+        this.setState({shouldAutoScroll: false});
       }
     }, 200);
   }

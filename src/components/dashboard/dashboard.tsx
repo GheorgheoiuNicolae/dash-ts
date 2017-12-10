@@ -3,7 +3,10 @@ import * as React from 'react';
 import { ApplicationState } from '../../redux/reducers';
 import styled from 'styled-components';
 import Sidebar from './sidebar';
-import { getInitialEntries, getEntryOnChildAdded } from '../../redux/entries/creators';
+import { 
+  getInitialEntries, getEntryOnChildAdded, 
+  getEntriesCount, getEntriesDates 
+} from '../../redux/entries/creators';
 import { getLocation } from '../../redux/ui/creators';
 import { getLabels, receiveLabel } from '../../redux/labels/creators';
 
@@ -20,6 +23,8 @@ interface RequiredProps {
   children: JSX.Element;
   getInitialEntries: Function;
   getEntryOnChildAdded: Function;
+  getEntriesCount: Function;
+  getEntriesDates: Function;
   getLabels: Function;
   receiveLabel: Function;
   getLocation: Function;
@@ -33,6 +38,8 @@ class Dashboard extends React.Component<Props, {}> {
       user,
       getInitialEntries, 
       getEntryOnChildAdded,
+      getEntriesCount,
+      getEntriesDates,
       getLabels,
       receiveLabel,
       getLocation,
@@ -40,6 +47,10 @@ class Dashboard extends React.Component<Props, {}> {
     if(user) {
       // get the initial entries
       getInitialEntries(user.uid);
+      // get total number of entries
+      getEntriesCount(user.uid);
+      // get the array with dates of all the entries
+      getEntriesDates(user.uid);
       // get the newly added entry
       getEntryOnChildAdded(user.uid);
       // get all labels 
@@ -84,6 +95,8 @@ export default connect<StateProps, {}, RequiredProps & OptionalProps>(
   {
     getInitialEntries,
     getEntryOnChildAdded,
+    getEntriesCount,
+    getEntriesDates,
     getLabels,
     receiveLabel,
     getLocation,

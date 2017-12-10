@@ -1,11 +1,10 @@
 import * as React from 'react';
 import { StateProps, DispatchProps, OwnProps } from './FiltersContainer';
 import { 
-  // TextField,
   Checkbox, 
   DatePicker,
 } from 'redux-form-material-ui';
-import { RaisedButton } from 'material-ui';
+import { RaisedButton, IconButton } from 'material-ui';
 import Popover, {PopoverAnimationVertical} from 'material-ui/Popover';
 import * as moment from 'moment';
 import { Field, FieldArray } from 'redux-form';
@@ -13,6 +12,7 @@ import { Field, FieldArray } from 'redux-form';
 import LabelFilled from 'material-ui/svg-icons/action/label';
 import ArrowDropDown from 'material-ui/svg-icons/navigation/arrow-drop-down';
 import LablesPicker from '../forms/AddEntry/labelsPicker/';
+import Close from 'material-ui/svg-icons/navigation/close';
 import styled from 'styled-components';
 
 export type ContainerProps = StateProps & DispatchProps & OwnProps;
@@ -30,10 +30,44 @@ export default class Filters extends React.PureComponent<ContainerProps, OtherPr
     };
   }
 
+  componentWillMount() {
+    const {
+      auth,
+      getAllEntries
+    } = this.props;
+
+    getAllEntries(auth.user.uid);
+  }
+
   handleLablelsPopoverClose = () => {
     this.setState({
       labelsPopoverOpen: false,
     });
+  }
+
+  clearAllFilters = () => {
+    const {
+      filterEntries,
+    } = this.props;
+
+    const filters = {
+      date: {
+        from: null,
+        to: null,
+      },
+      kind: '',
+      labels: [],
+      hasChecklist: null,
+      hasDescription: null,
+    };
+    filterEntries(filters);
+  }
+
+  closeFiltersPopover = () => {
+    const {
+      toggleFilterDrawer,
+    } = this.props;
+    toggleFilterDrawer();
   }
 
   handleLablelsPopoverOpen = (event: any) => {    
@@ -47,10 +81,8 @@ export default class Filters extends React.PureComponent<ContainerProps, OtherPr
 
   handleSubmit = (values: any) => {
     const {
-      // auth,
       filterEntries,
       toggleFilterDrawer,
-      // getAllEntries
     } = this.props;
 
     const dateFromIsEmpty = Object.keys(values.dateFrom).length === 0 && values.dateFrom.constructor === Object;
@@ -65,17 +97,11 @@ export default class Filters extends React.PureComponent<ContainerProps, OtherPr
       labels: values.labels || [],
       hasChecklist: values.hasChecklist || null,
       hasDescription: values.hasDescription || null,
-    }
-    // getAllEntries(auth.user.uid);
+    };
+    
     filterEntries(filters);
     toggleFilterDrawer();
   }
-
-  componentWillReceiveProps(next: any) {
-    console.log('new props: ', next, next.filtersDrawerOpen);
-  }
-
-  
 
   render() {
     const { 
@@ -88,6 +114,12 @@ export default class Filters extends React.PureComponent<ContainerProps, OtherPr
 
     return  filtersDrawerOpen ? (
       <Wrap>
+        <IconButton 
+          onClick={() => this.closeFiltersPopover()}
+          style={{color: 'crimson', position: 'absolute', right: '20px'}}
+        >
+          <Close />
+        </IconButton>
         <form onSubmit={handleSubmit(this.handleSubmit.bind(this))}>
            {/* <Label>Date Range</Label> */}
            <DateRange>
@@ -180,7 +212,14 @@ export default class Filters extends React.PureComponent<ContainerProps, OtherPr
               />
             </InputWrap>
           </section>
-
+          
+          <RaisedButton
+            label="Clear filters" 
+            secondary={true}
+            className="dangerButton"
+            onClick={() => this.clearAllFilters()}
+            style={{margin: '10px 10px 0 0'}}
+          />
           <RaisedButton 
             label="Apply filters" 
             secondary={true}
@@ -200,7 +239,7 @@ const Wrap = styled.div`
   flex: 1;
   overflow: scroll;
   display: flex;
-  width: 100%;
+  width: calc(100% - 200px);;
   z-index: 1;
   background: #fff;
   margin-right: 20px;
@@ -217,6 +256,11 @@ const DateRange = styled.section`
   flex-direction: row;
   flex: 1;
 `;
+// const ClearFiltersButton = styled(RaisedButton)`
+//   position: absolute;
+//   right: 20px;
+//   top: 10px;
+// `;
 // const Label = styled.h5`  
 //   margin-bottom: 10px;
 //   margin-top: 0;

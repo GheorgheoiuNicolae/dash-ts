@@ -10,8 +10,10 @@ interface Props {
   hideModal: Function;
   removeEntry: Function;
   activeModal: any;
-  entry: string;
+  entry: any;
   uid: string;
+  allDates: number[];
+  entriesCount: number;
 }
 
 export default class DeleteEntryModal extends React.Component<Props, {}> {
@@ -21,8 +23,10 @@ export default class DeleteEntryModal extends React.Component<Props, {}> {
   }
 
   deleteEntry = () => {
-    const { entry, removeEntry, uid} = this.props;
-    removeEntry(entry, uid);
+    const { entry, entriesCount, allDates, removeEntry, uid} = this.props;
+    let idx = allDates.indexOf(entry.dateTime.getTime());
+    allDates.splice(idx,1);
+    removeEntry(uid, entry, entriesCount - 1 , allDates);
   }
 
   render() {

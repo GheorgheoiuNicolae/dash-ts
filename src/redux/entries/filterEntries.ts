@@ -25,22 +25,16 @@ const filterEntries = (days: any, filters: any): any[] => {
         if(entry.labels) { 
           return filters.labels.map((filterLabel: string) => {
             return entry.labels.find((label: any) => {
-              console.log('compare ', filterLabel, label, filterLabel === label);
-              
-              return label === filterLabel
-            })
-          })
+              return label === filterLabel;
+            });
+          });
         }
       });
-      console.log('day entries: ', entries);
-      
       day.entries = entries;
     });
   }
 
   days = days.filter((day: any) => day.entries.length);
-
-  console.log('days: ', days);
   
   const filteredByDate = _.sortBy(days, [(o: any) => {
     return o.date;

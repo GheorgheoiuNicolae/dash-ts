@@ -57,6 +57,8 @@ export default class AddEntryForm extends React.PureComponent<Props, OtherProps>
       resetForm, 
       hideModal,
       location,
+      allDates,
+      entriesCount,
     } = this.props;
     
     values.dateTime = new Date(values.date).getTime();
@@ -65,8 +67,10 @@ export default class AddEntryForm extends React.PureComponent<Props, OtherProps>
       latitude: location ? location.coords.latitude : 0,
       longitude: location ? location.coords.longitude : 0
     };
+
+    allDates.push(values.dateTime);
     
-    createEntry(values, auth.user.uid);
+    createEntry(auth.user.uid, values, allDates.sort(), entriesCount+1);
     hideModal('addEntry');
     resetForm('addEntry');
   }

@@ -18,10 +18,12 @@ export interface StateProps {
   selectedLabels: any;
   labelsById: any;
   activeModal: string | null;
+  entriesCount: number;
+  allDates: number[];
 }
 
 export interface DispatchProps {
-  editEntry: (entry: any, user: any) => {};
+  editEntry: ( user: any, entry: any, allDates: number[]) => {};
   removeEntry: (entry: any, user: any) => {};
   hideModal: Function;
   showModal: Function;
@@ -47,6 +49,8 @@ export default connect<StateProps, DispatchProps, OwnProps>(
       selectedLabels: labels,
       labelsById: state.labels.byId,
       activeModal: state.ui.activeModal,
+      entriesCount: state.entries.entriesCount,
+      allDates: state.entries.allDates,
     };
   },
   {

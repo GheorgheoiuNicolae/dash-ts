@@ -87,6 +87,7 @@ export default function reducer(state: EntriesInitialState = initialState, actio
 
     case types.RECEIVE_ALL_ENTRIES: {
       const allEntries = {...state.byId, ...action.payload.entries};
+      console.log('action p', action.payload);
       return {
         ...state,
         byId: { 
@@ -106,6 +107,7 @@ export default function reducer(state: EntriesInitialState = initialState, actio
         ui: {
           ...state.ui,
           firstLoad: false,
+          allEntriesLoaded: true,
           isLoading: {
             loading: false,
             type: null,
@@ -155,6 +157,7 @@ export default function reducer(state: EntriesInitialState = initialState, actio
         byId: deleteFromById(state.byId, action.payload),
         allIds: deleteFromAllIds(state.allIds, action.payload),
         days: deleteFromDays(state.days, action.payload),
+        entriesCount: state.entriesCount - 1,
         ui: {
           ...state.ui,
           numberOfEntries: state.allIds.length + 1,
@@ -188,6 +191,27 @@ export default function reducer(state: EntriesInitialState = initialState, actio
       };
     }
 
+    case types.CREATE_ENTRY_SUCCESS: {
+      return {
+        ...state,
+        entriesCount: state.entriesCount + 1
+      };
+    }
+
+    case types.LOAD_ENTRIES_COUNT_SUCCESS: {
+      return {
+        ...state,
+        entriesCount: action.payload
+      };
+    }
+
+    case types.LOAD_ENTRIES_DATES_SUCCESS: {
+      return {
+        ...state,
+        allDates: action.payload
+      };
+    }
+
     case types.SELECT_ENTRY: {
       return {
         ...state,
@@ -214,13 +238,13 @@ export default function reducer(state: EntriesInitialState = initialState, actio
           ...state.ui,
           filtersDrawerOpen: !state.ui.filtersDrawerOpen,
         }
-      }
+      };
     }
 
     case uiTypes.TOGGLE_SEARCH: {
       return {
         ...state
-      }
+      };
     }
 
     case uiTypes.HIDE_MODAL: {

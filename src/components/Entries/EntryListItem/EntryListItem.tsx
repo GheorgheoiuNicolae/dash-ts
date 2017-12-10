@@ -23,7 +23,7 @@ interface StateProps {
 export default class EntryListItem extends React.PureComponent<Props, StateProps> {
   removeEntry() {
     const { user, entry, removeEntry } = this.props;
-    removeEntry(entry, user.uid);
+    removeEntry(user.uid, entry, 0, []);
   }
 
   selectEntry() {
