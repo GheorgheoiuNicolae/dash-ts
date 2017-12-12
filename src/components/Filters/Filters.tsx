@@ -33,10 +33,13 @@ export default class Filters extends React.PureComponent<ContainerProps, OtherPr
   componentWillMount() {
     const {
       auth,
-      getAllEntries
+      getAllEntries,
+      allEntriesLoaded,
     } = this.props;
 
-    getAllEntries(auth.user.uid);
+    if(!allEntriesLoaded) {
+      getAllEntries(auth.user.uid);
+    }
   }
 
   handleLablelsPopoverClose = () => {

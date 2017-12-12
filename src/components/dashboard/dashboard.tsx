@@ -36,7 +36,7 @@ class Dashboard extends React.Component<Props, {}> {
   componentWillMount() {
     const { 
       user,
-      getInitialEntries, 
+      // getInitialEntries, 
       getEntryOnChildAdded,
       getEntriesCount,
       getEntriesDates,
@@ -46,7 +46,7 @@ class Dashboard extends React.Component<Props, {}> {
     } = this.props;
     if(user) {
       // get the initial entries
-      getInitialEntries(user.uid);
+      // getInitialEntries(user.uid);
       // get total number of entries
       getEntriesCount(user.uid);
       // get the array with dates of all the entries

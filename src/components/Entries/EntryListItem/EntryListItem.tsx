@@ -52,8 +52,6 @@ export default class EntryListItem extends React.PureComponent<Props, StateProps
         }
         {!description && 
           !photos && 
-          geoPlace &&
-          !geoPlace.latitude && 
           !repeatEvery && 
           !checklistItems &&
           id !== 'injectedEntry' &&
@@ -65,18 +63,11 @@ export default class EntryListItem extends React.PureComponent<Props, StateProps
         }
         {description && 
           !photos && 
-          geoPlace &&
-          !geoPlace.latitude && 
           !repeatEvery && 
           !checklistItems &&
         <MainLabel className="icon icon-content">
           <FontAwesome
             name="align-left"
-          />
-        </MainLabel>}
-        {geoPlace && geoPlace.latitude && !checklistItems && <MainLabel className="icon icon-map">
-          <FontAwesome
-            name="map-marker"
           />
         </MainLabel>}
         {photos && photos.length && !checklistItems && !repeatEvery && 
