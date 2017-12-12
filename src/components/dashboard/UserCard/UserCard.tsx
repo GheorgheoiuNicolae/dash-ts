@@ -50,6 +50,10 @@ export default class UserCard extends React.PureComponent<Props, OtherProps> {
       open: false,
     });
   }
+
+  goToProfile = () => {
+    browserHistory.push('/my-profile')
+  }
   
   render () {
     const { open, anchorEl } = this.state;
@@ -89,9 +93,7 @@ export default class UserCard extends React.PureComponent<Props, OtherProps> {
           animation={PopoverAnimationVertical}
         >
           <Menu>
-            <MenuItem primaryText="Refresh" />
-            <MenuItem primaryText="Help &amp; feedback" />
-            <MenuItem primaryText="Settings" />
+            <MenuItem primaryText="Settings" onClick={() => this.goToProfile()} />
             <MenuItem primaryText="Sign out" onClick={() => this.logoutUser()} />
           </Menu>
         </Popover>

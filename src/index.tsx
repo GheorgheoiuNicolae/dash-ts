@@ -18,9 +18,10 @@ import Authentication from './App/Authentication';
 import Dashboard from './components/dashboard/dashboard';
 import NotFound from './App/notFound';
 import Entries from './components/Entries';
-import Labels from './components/Labels';
+import Goals from './components/Goals';
 import Entry from './components/Entry/';
 import Today from './components/Today/';
+import UserProfile from './components/UserProfile';
 
 import './index.css';
 injectTapEventPlugin();
@@ -33,9 +34,10 @@ export const routeList = {
   dashboard: '/dashboard',
   entries: '/entries',
   entry: '/entries/:entryId',
-  labels: '/labels',
+  goals: '/goals',
   today: '/today',
   notFound: '/notFound',
+  userProfile: '/my-profile',
   authentication: '/authentication',
 };
 
@@ -54,8 +56,8 @@ const router = (
               <Route path={routeList.entries} component={Entries} />
               <Route path={routeList.entry} component={Entry} />
               <Route path={routeList.today} component={Today} />
-              <Route path={routeList.labels} component={Labels} />
-              <Route path={routeList.labels} component={Labels} />
+              <Route path={routeList.goals} component={Goals} />
+              <Route path={routeList.userProfile} component={UserProfile} />
             </Route>
           </Route>
           <Route path={routeList.notFound} component={NotFound} />
