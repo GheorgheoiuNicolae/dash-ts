@@ -36,7 +36,7 @@ class Authentication extends React.Component<Props, {}> {
   componentWillReceiveProps(nextProps: any) {
     if(!nextProps.auth.user) {
       browserHistory.push('/login');
-    } 
+    }
   }
 
   render() {

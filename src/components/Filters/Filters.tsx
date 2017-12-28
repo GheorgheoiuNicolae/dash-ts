@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { StateProps, DispatchProps, OwnProps } from './FiltersContainer';
-import { 
-  Checkbox, 
+import {
+  Checkbox,
   DatePicker,
 } from 'redux-form-material-ui';
 import { RaisedButton, IconButton } from 'material-ui';
@@ -73,7 +73,7 @@ export default class Filters extends React.PureComponent<ContainerProps, OtherPr
     toggleFilterDrawer();
   }
 
-  handleLablelsPopoverOpen = (event: any) => {    
+  handleLablelsPopoverOpen = (event: any) => {
     event.preventDefault();
 
     this.setState({
@@ -101,23 +101,23 @@ export default class Filters extends React.PureComponent<ContainerProps, OtherPr
       hasChecklist: values.hasChecklist || null,
       hasDescription: values.hasDescription || null,
     };
-    
+
     filterEntries(filters);
     toggleFilterDrawer();
   }
 
   render() {
-    const { 
-      handleSubmit, 
+    const {
+      handleSubmit,
       filtersDrawerOpen,
-      array: { push, insert }, 
-      selectedLabels, 
-      labelsById, 
-    } = this.props;  
+      array: { push, insert },
+      selectedLabels,
+      labelsById,
+    } = this.props;
 
     return  filtersDrawerOpen ? (
       <Wrap>
-        <IconButton 
+        <IconButton
           onClick={() => this.closeFiltersPopover()}
           style={{color: 'crimson', position: 'absolute', right: '20px'}}
         >
@@ -125,7 +125,7 @@ export default class Filters extends React.PureComponent<ContainerProps, OtherPr
         </IconButton>
         <form onSubmit={handleSubmit(this.handleSubmit.bind(this))}>
            {/* <Label>Date Range</Label> */}
-           <DateRange>
+          <DateRange>
             <InputWrap>
               <Field
                 component={DatePicker}
@@ -148,7 +148,7 @@ export default class Filters extends React.PureComponent<ContainerProps, OtherPr
                 formatDate={(date: any) => moment(date).format('ll')}
               />
             </InputWrap>
-          </DateRange> 
+          </DateRange>
 
           {/* filter by labels  */}
           {/* <Label>Labels</Label> */}
@@ -167,24 +167,24 @@ export default class Filters extends React.PureComponent<ContainerProps, OtherPr
             >
               <LabelsPopover>
                   {/* <LablesPicker/>  */}
-                <FieldArray 
-                  name="labels" 
+                <FieldArray
+                  name="labels"
                   component={(props: any) => <LablesPicker {...props} selectedLabelIds={selectedLabels} />} 
                   push={push}
                   insert={insert}
-                /> 
+                />
               </LabelsPopover>
             </Popover>
 
             <SelectedLabelsWrapper className="selectedLabelsWrapper">
               {selectedLabels && selectedLabels.map((id: any) => {
               return (
-                <LabelSingle 
+                <LabelSingle
                   key={labelsById[id].id}
                   className="selectedLabel"
                 >
                   <StyledLabelFilled style={{color: labelsById[id].color}} />
-                  <LabelName 
+                  <LabelName
                     className="name"
                   >
                     {labelsById[id].name}
@@ -215,16 +215,16 @@ export default class Filters extends React.PureComponent<ContainerProps, OtherPr
               />
             </InputWrap>
           </section>
-          
+
           <RaisedButton
-            label="Clear filters" 
+            label="Clear filters"
             secondary={true}
             className="dangerButton"
             onClick={() => this.clearAllFilters()}
             style={{margin: '10px 10px 0 0'}}
           />
-          <RaisedButton 
-            label="Apply filters" 
+          <RaisedButton
+            label="Apply filters"
             secondary={true}
             className="successButton"
             onClick={handleSubmit(this.handleSubmit.bind(this))}
@@ -264,7 +264,7 @@ const DateRange = styled.section`
 //   right: 20px;
 //   top: 10px;
 // `;
-// const Label = styled.h5`  
+// const Label = styled.h5`
 //   margin-bottom: 10px;
 //   margin-top: 0;
 // `;

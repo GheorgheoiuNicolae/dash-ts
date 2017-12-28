@@ -1,6 +1,6 @@
 export interface UiState {
- entryListScrollFromTop: number;
- scrollDirection: string;
- location: null | {};
- activeModal: null | string;
-};
+  entryListScrollFromTop: number;
+  scrollDirection: string;
+  location: null | {};
+  activeModal: null | string;
+}

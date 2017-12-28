@@ -1,5 +1,6 @@
 import * as types from './types';
 import * as entryTypes from '../entries/types';
+import * as authTypes from '../auth/types';
 import { initialState } from './initialState';
 import { UiState } from './interface';
 
@@ -49,6 +50,12 @@ export default function reducer(state: UiState = initialState, action: any) {
             activeModal: null,
           };
         }
+        case 'requestAuth': {
+          return {
+            ...state,
+            activeModal: null,
+          };
+        }
         default: {
           return { ...state };
         }
@@ -59,6 +66,13 @@ export default function reducer(state: UiState = initialState, action: any) {
       return {
         ...state,
         activeModal: null
+      };
+    }
+
+    case authTypes.REQUEST_AUTH: {
+      return {
+        ...state,
+        activeModal: 'requestAuth'
       };
     }
 

@@ -65,3 +65,100 @@ export function logout() {
     type: types.LOGOUT
   };
 }
+
+export function uploadAvatarStart() {
+  return {
+    type: types.UPLOAD_AVATAR_START
+  };
+}
+export function uploadAvatarSuccess(downloadUrl: string) {
+  return {
+    type: types.UPLOAD_AVATAR_SUCCESS,
+    payload: downloadUrl
+  };
+}
+export function uploadAvatarError(e: any) {
+  return {
+    type: types.UPLOAD_AVATAR_ERROR,
+    payload: e
+  };
+}
+export function upadteUserPhotoURLSuccess() {
+  return {
+    type: types.UPDATE_USER_PHOTO_URL_SUCCESS
+  };
+}
+export function upadteUserPhotoURLError(e: any) {
+  return {
+    type: types.UPDATE_USER_PHOTO_URL_ERROR,
+    payload: e
+  };
+}
+export function validateAvatar() {
+  return {
+    type: types.VALIDATE_AVATAR
+  };
+}
+export function updateUserDisplayNameSuccess() {
+  return {
+    type: types.UPDATE_USER_DISPLAY_NAME_SUCCESS
+  };
+}
+export function updateUserDisplayNameError(e: any) {
+  return {
+    type: types.UPDATE_USER_DISPLAY_NAME_ERROR,
+    payload: e
+  };
+}
+export function updateUserEmailSuccess() {
+  return {
+    type: types.UPDATE_USER_EMAIL_SUCCESS
+  };
+}
+export function updateUserEmailError(e: any) {
+  return {
+    type: types.UPDATE_USER_EMAIL_ERROR,
+    payload: e
+  };
+}
+
+export function requestAuth() {
+  return {
+    type: types.REQUEST_AUTH
+  };
+}
+export function reAuthSuccess() {
+  return {
+    type: types.REAUTH_SUCCESS
+  };
+}
+export function reAuthError(e: any) {
+  return {
+    type: types.REAUTH_SUCCESS,
+    payload: e,
+  };
+}
+
+export function sendConfirmationEmailSuccess() {
+  return {
+    type: types.SEND_CONFIRMATION_EMAIL_SUCCESS
+  };
+}
+export function sendConfirmationEmailError(e: any) {
+  return {
+    type: types.SEND_CONFIRMATION_EMAIL_ERROR,
+    payload: e,
+  };
+}
+
+export function changePasswordSuccess() {
+  return {
+    type: types.UPDATE_PASSWORD_SUCCESS
+  };
+}
+export function changePasswordError(e: any) {
+  return {
+    type: types.UPDATE_PASSWORD_ERROR,
+    payload: e,
+  };
+}

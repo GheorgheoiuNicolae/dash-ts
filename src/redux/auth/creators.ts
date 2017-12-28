@@ -1,6 +1,8 @@
 import { browserHistory } from 'react-router';
 import * as actions from './actions';
-import { firebaseDb, firebaseAuth } from '../../firebase';
+import * as firebase from 'firebase';
+import * as uiActions from '../ui/actions';
+import { firebaseDb, firebaseAuth, firebaseStorage } from '../../firebase';
 
 // import * as types from './types';
 
@@ -17,7 +19,7 @@ export function login(user: any) {
   return function (dispatch: any) {
     dispatch(actions.loginStart());
     firebaseAuth.signInWithEmailAndPassword(user.email, user.password)
-    .then((res) => { 
+    .then((res) => {
       dispatch(actions.loginSuccess(res));
       browserHistory.push('/entries');
     })
@@ -50,7 +52,7 @@ export function fetchUser() {
   };
   // // dispatch(fetchUserStart()); STEP 1
   // console.log('fetchUser called');
-  
+
   // return (dispatch: any, getState: any) => {
   //   fetchUserWatcher().then((res: any) => {
   //     console.log('fetchUserWatcher()')
@@ -80,3 +82,121 @@ export const logoutUser = () => {
     firebaseAuth.signOut().then(() => dispatch(actions.logout()) );
   };
 };
+
+export function uploadAvatar(file: any) {
+  return function (dispatch: any) {
+    dispatch(actions.uploadAvatarStart());
+    const user = firebaseAuth.currentUser;
+    if(user) {
+      var uploadTask = firebaseStorage.ref().child(`avatars/${user.uid}`).put(file, {});
+
+      uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, // or 'state_changed'
+        function(snapshot: any) {
+          // var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          // console.log('Upload is ' + progress + '% done');
+        }, function(error: any) {
+          dispatch(actions.uploadAvatarError(error));
+      }, function() {
+        var downloadURL = uploadTask.snapshot.downloadURL || '';
+        updateUserImageUrl(dispatch, {
+          photoURL: downloadURL
+        });
+        dispatch(actions.uploadAvatarSuccess(downloadURL));
+      });
+    }
+  };
+}
+
+export function updateUserImageUrl(dispatch: any, data: any) {
+  const user = firebaseAuth.currentUser;
+  if(user) {
+    user.updateProfile(data).then(function() {
+      dispatch(actions.upadteUserPhotoURLSuccess());
+    }).catch(function(error: any) {
+      dispatch(actions.upadteUserPhotoURLError(error));
+    });
+  }
+}
+
+export function updateUserDisplayName(data: any) {
+  const user = firebaseAuth.currentUser;
+  console.log('update data: ', data);
+  return (dispatch: any) => {
+    if(user) {
+      user.updateProfile(data).then(function() {
+        dispatch(actions.updateUserDisplayNameSuccess());
+      }).catch(function(error: any) {
+        dispatch(actions.updateUserDisplayNameError(error));
+      });
+    }
+  };
+}
+
+export function updateUserEmail(email: string) {
+  const user = firebaseAuth.currentUser;
+  return (dispatch: any) => {
+    if(user) {
+      user.updateEmail(email).then(function() {
+        dispatch(actions.updateUserEmailSuccess());
+      }).catch(function(error: any) {
+        if(error.code === 'auth/requires-recent-login') {
+          dispatch(actions.requestAuth());
+        }
+        dispatch(actions.updateUserEmailError(error));
+      });
+    }
+  };
+}
+
+export function reauthenticateUser(email: string, password: string) {
+  const user = firebaseAuth.currentUser;
+  return (dispatch: any) => {
+    if(user) {
+      var credential = firebase.auth.EmailAuthProvider.credential(
+        email,
+        password
+      );
+      user.reauthenticateWithCredential(credential).then(function() {
+        console.log('reauth success');
+        dispatch(actions.reAuthSuccess());
+        dispatch(uiActions.hideModal('requestAuth'));
+      }).catch(function(error: any) {
+        // An error happened.
+        dispatch(actions.reAuthError(error));
+      });
+    }
+  };
+}
+
+export function sendConfirmationEmail() {
+  const user = firebaseAuth.currentUser;
+  return (dispatch: any) => {
+    if(user) {
+      user.sendEmailVerification().then(function() {
+        // Email sent.
+        dispatch(actions.sendConfirmationEmailSuccess());
+      }).catch(function(error: any) {
+        // An error happened.
+        dispatch(actions.sendConfirmationEmailError(error));
+      });
+    }
+  };
+}
+
+export function changePassword(newPassword: string) {
+  const user = firebaseAuth.currentUser;
+  return (dispatch: any) => {
+    if(user) {
+      user.updatePassword(newPassword).then(function() {
+        // Update successful.
+        dispatch(actions.changePasswordSuccess());
+      }).catch(function(error: any) {
+        // An error happened.
+        if(error.code === 'auth/requires-recent-login') {
+          dispatch(actions.requestAuth());
+        }
+        dispatch(actions.changePasswordError(error));
+      });
+    }
+  };
+}

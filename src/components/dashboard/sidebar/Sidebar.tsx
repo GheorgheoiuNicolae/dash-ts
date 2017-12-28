@@ -47,7 +47,7 @@ export default class Sidebar extends React.Component<Props, {}> {
             </StyledRouterLink>
           }
         />
-        
+
         <StyledFlatButton
           style={{maxWidth: '100%', minWidth: 'initial', width: '100%', height: '50px'}}
           children={
@@ -65,9 +65,9 @@ export default class Sidebar extends React.Component<Props, {}> {
         <AddEntryForm />
 
         <AddButtonWrapper>
-          <RaisedButton 
+          <RaisedButton
             style={{color: '#fff'}}
-            primary={true} 
+            primary={true}
             label="Add Entry"
             labelPosition="after"
             onTouchTap={() => showModal('addEntry')}

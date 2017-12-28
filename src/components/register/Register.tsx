@@ -25,9 +25,9 @@ export default class Login extends React.Component<Props, {} > {
       browserHistory.push('/entries');
     }
   }
-  
+
   render () {
-    const { handleSubmit } = this.props;
+    const { handleSubmit, auth } = this.props;
     return (
       <RegisterWrap>
         <Logo>
@@ -38,6 +38,11 @@ export default class Login extends React.Component<Props, {} > {
             <h6 className="h6">Register</h6>
           </Header>
           <form onSubmit={handleSubmit(this.submitForm)}>
+            {auth.registerError && (
+              <ErrorText>
+                {auth.registerError.message}
+              </ErrorText>
+            )}
             <InputWrap>
               <Field
                 component={TextField}
@@ -116,4 +121,8 @@ const LogoImg = styled.img`
   position: relative;
   top: -50px;
   left: 80px;
+`;
+const ErrorText = styled.h5`
+  color: crimson;
+  margin: 5px 0;
 `;

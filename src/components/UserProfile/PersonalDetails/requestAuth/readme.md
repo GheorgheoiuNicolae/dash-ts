@@ -1,0 +1,1 @@
+Modal to reauthenticate the user for certain actions like change email and reset password.
