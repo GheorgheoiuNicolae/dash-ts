@@ -7,6 +7,8 @@ import FileUploadIcon from 'material-ui/svg-icons/file/file-upload';
 import { StateProps, DispatchProps, OwnProps } from './PersonalDetailsContainer';
 import RequestAuth from './requestAuth';
 
+const defaultAvatar = require('../../../assets/defaultAvatar-square.jpg');
+
 // import ChangePassword from './changePassword';
 var FontAwesome = require('react-fontawesome');
 import '../style.css';
@@ -105,7 +107,7 @@ export default class PersonalDetails extends React.PureComponent<Props, OtherPro
               <input
                 type="file"
                 onChange={(e) => this.handleFile(e)}
-                style={{width: '100%', height: '100%', opacity: 0, position: 'absolute', zIndex: 2}}
+                style={{width: '100%', height: '100%', opacity: 0, position: 'absolute', zIndex: 3}}
               />
               <IconWrap className="upload-icon-wrap">
                 <StyledFileUploadIcon />
@@ -120,6 +122,7 @@ export default class PersonalDetails extends React.PureComponent<Props, OtherPro
                   style={{ color: '#fff' }}
                 />
               </div>)}
+              {!auth.user.photoURL && <img src={defaultAvatar} alt="defaultAvatar" className="defaultAvatar" />}
             </div>
           )}
         </Avatar>

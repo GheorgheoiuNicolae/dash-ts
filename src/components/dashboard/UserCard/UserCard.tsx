@@ -7,6 +7,7 @@ import { browserHistory } from 'react-router';
 // import Avatar from 'material-ui/Avatar';
 // const userAvatar = require('../../../assets/user-avatar.png');
 var FontAwesome = require('react-fontawesome');
+const defaultAvatar = require('../../../assets/defaultAvatar-square.jpg');
 import './UserCard.css';
 
 export type Props = StateProps & OwnProps & DispatchProps;
@@ -74,13 +75,15 @@ export default class UserCard extends React.PureComponent<Props, OtherProps> {
     var maxHeight = {
       maxHeight: '100%',
     };
-    return (
+    return auth.user.photoURL ? (
     <AvatarImage
       className="avatar"
       src={auth.user.photoURL}
       onLoad={(e) => this.onLoad(e)}
       style={heightLarger? maxWidth : maxHeight}
-    />);
+    />) : (
+      <img src={defaultAvatar} alt="defaultAvatar" className="defaultAvatar" />
+    );
   }
 
   render () {

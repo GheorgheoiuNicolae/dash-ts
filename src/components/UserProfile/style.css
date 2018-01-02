@@ -16,6 +16,10 @@
   transition: all .5s linear;
   opacity: 1;
 }
+.avatar-input > div:hover .upload-icon-wrap  {
+  transition: all .5s linear;
+  background: rgba(0,0,0, .8);
+}
 .upload-icon-wrap svg {
   transition: all .5s linear;
   opacity: 0;
