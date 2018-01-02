@@ -44,9 +44,9 @@ export default class EditEntryForm extends React.PureComponent<Props, OtherProps
 
     values.dateTime = new Date(
       values.date.setHours(
-        values.dateTime.getHours(), 
-        values.dateTime.getMinutes(), 
-        values.dateTime.getSeconds(), 
+        values.dateTime.getHours(),
+        values.dateTime.getMinutes(),
+        values.dateTime.getSeconds(),
         values.dateTime.getMilliseconds()
       )
     );
@@ -57,7 +57,7 @@ export default class EditEntryForm extends React.PureComponent<Props, OtherProps
       allDates[idx] = values.dateTime.getTime();
     }
     let entryData = {...values};
-    
+
     entryData.dateTime = values.dateTime.getTime(),
     entryData.date = values.date.getTime(),
     editEntry(auth.user.uid, entryData, allDates);
@@ -69,7 +69,7 @@ export default class EditEntryForm extends React.PureComponent<Props, OtherProps
     this.handleLablelsPopoverClose();
   }
 
-  handleLablelsPopoverOpen = (event: any) => {    
+  handleLablelsPopoverOpen = (event: any) => {
     event.preventDefault();
 
     this.setState({
@@ -90,16 +90,16 @@ export default class EditEntryForm extends React.PureComponent<Props, OtherProps
   }
 
   render () {
-    const { 
-      auth, 
-      handleSubmit, 
-      entry,  
-      array: { push, insert }, 
-      selectedLabels, 
-      labelsById, 
-      showModal, 
-      hideModal, 
-      activeModal, 
+    const {
+      auth,
+      handleSubmit,
+      entry,
+      array: { push,insert },
+      selectedLabels,
+      labelsById,
+      showModal,
+      hideModal,
+      activeModal,
       removeEntry,
       allDates,
       entriesCount,
@@ -138,9 +138,9 @@ export default class EditEntryForm extends React.PureComponent<Props, OtherProps
                 />
               </InputWrap>
 
-              <FieldArray 
-                name="checklistItems" 
-                component={CheckList} 
+              <FieldArray
+                name="checklistItems"
+                component={CheckList}
                 push={push}
                 insert={insert}
               />
@@ -194,7 +194,7 @@ export default class EditEntryForm extends React.PureComponent<Props, OtherProps
                   <LabelsPopover>
                     <LabelsPopoverHeader>
                       <strong>Assign labels</strong>
-                      <small 
+                      <small
                         onClick={() => this.handleManageLabels()}
                         style={{cursor: 'pointer', color: '#3f51b5'}}
                       >
@@ -202,23 +202,23 @@ export default class EditEntryForm extends React.PureComponent<Props, OtherProps
                       </small>
                     </LabelsPopoverHeader>
                      {/* <LablesPicker/>  */}
-                    <FieldArray 
-                      name="labels" 
+                    <FieldArray
+                      name="labels"
                       component={(props: any) => <LablesPicker {...props} selectedLabelIds={selectedLabels} />} 
                       push={push}
                       insert={insert}
-                    /> 
+                    />
                   </LabelsPopover>
                 </Popover>
 
                 {selectedLabels && labelsById && selectedLabels.map((id: any) => {
                   return labelsById[id] && (
-                    <LabelSingle 
+                    <LabelSingle
                       key={labelsById[id].id}
                       className="selectedLabel"
                     >
                       <StyledLabelFilled style={{color: labelsById[id].color}} />
-                      <LabelName 
+                      <LabelName
                         className="name"
                       >
                         {labelsById[id].name}
@@ -234,7 +234,7 @@ export default class EditEntryForm extends React.PureComponent<Props, OtherProps
                   <LocationIcon />
                   <LocationLabel>Location</LocationLabel>
                 </div>
-                <Map lat={latitude} lng={longitude} width={'100%'} /> 
+                <Map lat={latitude} lng={longitude} width={'100%'} />
               </div> }
             </RightSide>
           </Content>
@@ -256,9 +256,9 @@ export default class EditEntryForm extends React.PureComponent<Props, OtherProps
           </Footer>
         </Form>
         <ManageLabels />
-        <DeleteEntryModal 
-          showModal={showModal} 
-          hideModal={hideModal} 
+        <DeleteEntryModal
+          showModal={showModal}
+          hideModal={hideModal}
           removeEntry={removeEntry}
           activeModal={activeModal}
           uid={auth.user.uid}
@@ -316,7 +316,7 @@ const SaveButton = styled(RaisedButton)`
   max-width: 120px;
 `;
 const DeleteButton = styled(RaisedButton)`
-  
+
 `;
 
 const LabelsSelect = styled.div`

@@ -4,9 +4,10 @@ import { Menu, MenuItem, IconButton } from 'material-ui';
 import Popover, {PopoverAnimationVertical} from 'material-ui/Popover';
 import { StateProps, DispatchProps, OwnProps } from './UserCardContainer';
 import { browserHistory } from 'react-router';
-import Avatar from 'material-ui/Avatar';
-const userAvatar = require('../../../assets/user-avatar.png');
+// import Avatar from 'material-ui/Avatar';
+// const userAvatar = require('../../../assets/user-avatar.png');
 var FontAwesome = require('react-fontawesome');
+const defaultAvatar = require('../../../assets/defaultAvatar-square.jpg');
 import './UserCard.css';
 
 export type Props = StateProps & OwnProps & DispatchProps;
@@ -14,6 +15,7 @@ export type Props = StateProps & OwnProps & DispatchProps;
 interface OtherProps {
   open: boolean;
   anchorEl: any;
+  heightLarger: boolean;
 }
 
 export default class UserCard extends React.PureComponent<Props, OtherProps> {
@@ -21,7 +23,8 @@ export default class UserCard extends React.PureComponent<Props, OtherProps> {
     super();
     this.state = {
       open: false,
-      anchorEl: null
+      anchorEl: null,
+      heightLarger: true,
     };
   }
 
@@ -50,17 +53,50 @@ export default class UserCard extends React.PureComponent<Props, OtherProps> {
       open: false,
     });
   }
-  
-  render () {
-    const { open, anchorEl } = this.state;
+
+  goToProfile = () => {
+    browserHistory.push('/my-profile');
+  }
+
+  onLoad = (item: any) => {
+    const { validateAvatar } = this.props;
+    this.setState({
+      heightLarger: item.target.clientHeight > item.target.clientWidth
+    });
+    validateAvatar();
+  }
+
+  renderAvatarImage() {
     const { auth } = this.props;
+    const { heightLarger } = this.state;
+    var maxWidth = {
+      maxWidth: '100%'
+    };
+    var maxHeight = {
+      maxHeight: '100%',
+    };
+    return auth.user.photoURL ? (
+    <AvatarImage
+      className="avatar"
+      src={auth.user.photoURL}
+      onLoad={(e) => this.onLoad(e)}
+      style={heightLarger? maxWidth : maxHeight}
+    />) : (
+      <img src={defaultAvatar} alt="defaultAvatar" className="defaultAvatar" />
+    );
+  }
+
+  render () {
+    const { open, anchorEl, heightLarger} = this.state;
+    const { auth } = this.props;
+
     return (
       <UserAccountDropdown>
-        <AvatarWrap>
-          <Avatar className="avatar" src={`${userAvatar}`} size={100} />
+        <AvatarWrap className="avatarWrap" style={{flexDirection: heightLarger ? 'column' : 'row'}}>
+          {this.renderAvatarImage()}
         </AvatarWrap>
-        <StyledIconButton 
-          iconClassName="muidocs-icon-custom-github" 
+        <StyledIconButton
+          iconClassName="muidocs-icon-custom-github"
           onTouchTap={this.handleTouchTap}
           style={{
             width: 30,
@@ -75,7 +111,7 @@ export default class UserCard extends React.PureComponent<Props, OtherProps> {
           />
         </StyledIconButton>
         <UserName>
-          {auth.user.displayName 
+          {auth.user.displayName
             ? <Text> {auth.user.displayName} </Text>
             : <UserEmail>{auth.user.email}</UserEmail>
           }
@@ -89,9 +125,7 @@ export default class UserCard extends React.PureComponent<Props, OtherProps> {
           animation={PopoverAnimationVertical}
         >
           <Menu>
-            <MenuItem primaryText="Refresh" />
-            <MenuItem primaryText="Help &amp; feedback" />
-            <MenuItem primaryText="Settings" />
+            <MenuItem primaryText="Settings" onClick={() => this.goToProfile()} />
             <MenuItem primaryText="Sign out" onClick={() => this.logoutUser()} />
           </Menu>
         </Popover>
@@ -114,6 +148,7 @@ const UserName = styled.div`
 `;
 const Text = styled.p`
   font-size: 14px;
+  color: #84838b;
 `;
 const UserEmail = styled.p`
   font-size: 12px;
@@ -122,9 +157,17 @@ const UserEmail = styled.p`
   text-shadow: 0px 0px 1px #000;
 `;
 const AvatarWrap = styled.div`
-  padding: 0 10px;
   display: flex;
-  align-items: center;
+  justify-content: center;
+  border: 2px solid #3b4360;
+  border-radius: 100%;
+  overflow: hidden;
+  width: 100px;
+  height: 100px;
+`;
+const AvatarImage = styled.img`
+  width: auto;
+  height: auto;
 `;
 const StyledIconButton = styled(IconButton)`
   position: absolute!important;

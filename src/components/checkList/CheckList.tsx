@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { StateProps, DispatchProps, OwnProps } from './CheckListContainer';
 import { TextField } from 'redux-form-material-ui';
-import { IconButton, 
-  List, ListItem, Checkbox 
+import { IconButton,
+  List, ListItem, Checkbox
 } from 'material-ui';
 import { Field } from 'redux-form';
 import styled from 'styled-components';
@@ -59,11 +59,11 @@ export default class Entries extends React.PureComponent<Props & OtherProps, {}>
         <List>
           {fields.map((member: any, index: any) => (
             <div key={index}>
-              <ListItem 
+              <ListItem
                 primaryText={items[index].text}
                 className="checklist-item"
                 rightIconButton={
-                  <IconButton 
+                  <IconButton
                     onClick={() => fields.remove(index)}
                     className="checklist-item-remove"
                     style={{marginRight: '20px', color: 'crimson'}}
@@ -73,8 +73,8 @@ export default class Entries extends React.PureComponent<Props & OtherProps, {}>
                   </IconButton>
                 }
                 leftCheckbox={
-                  <Checkbox 
-                    onCheck={() => this.toggleCheck(index)} 
+                  <Checkbox
+                    onCheck={() => this.toggleCheck(index)}
                     className="checklist-item-checkbox"
                   />}
               >

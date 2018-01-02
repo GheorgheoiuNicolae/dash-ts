@@ -23,6 +23,7 @@ export interface StateProps {
   selectedLabels: any;
   labelsById: any;
   filterBy: EntriesFilterBy;
+  allEntriesLoaded: boolean;
 }
 export interface DispatchProps {
   resetForm: Function;
@@ -43,6 +44,7 @@ export default connect<StateProps, DispatchProps, OwnProps>(
       selectedLabels: labels,
       labelsById: state.labels.byId,
       filterBy: state.entries.ui.filterBy,
+      allEntriesLoaded: state.entries.ui.allEntriesLoaded,
     };
   },
   {

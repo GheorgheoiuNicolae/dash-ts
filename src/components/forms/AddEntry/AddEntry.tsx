@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { 
-  TextField, 
+import {
+  TextField,
   DatePicker,
   TimePicker
 } from 'redux-form-material-ui';
@@ -43,7 +43,7 @@ export default class AddEntryForm extends React.PureComponent<Props, OtherProps>
     });
   }
 
-  handleLablelsPopoverOpen = (event: any) => {    
+  handleLablelsPopoverOpen = (event: any) => {
     event.preventDefault();
 
     this.setState({
@@ -53,14 +53,14 @@ export default class AddEntryForm extends React.PureComponent<Props, OtherProps>
   }
 
   handleSubmit = (values: any) => {
-    const { createEntry, auth, 
-      resetForm, 
+    const { createEntry, auth,
+      resetForm,
       hideModal,
       location,
       allDates,
       entriesCount,
     } = this.props;
-    
+
     values.dateTime = new Date(values.date).getTime();
     values.date = new Date(values.date).setHours(0,0,0,0);
     values.geoPlace = {
@@ -69,7 +69,7 @@ export default class AddEntryForm extends React.PureComponent<Props, OtherProps>
     };
 
     allDates.push(values.dateTime);
-    
+
     createEntry(auth.user.uid, values, allDates.sort(), entriesCount+1);
     hideModal('addEntry');
     resetForm('addEntry');
@@ -87,13 +87,13 @@ export default class AddEntryForm extends React.PureComponent<Props, OtherProps>
   }
 
   render () {
-    const { handleSubmit, 
-      showAddModal, 
-      array: { push, insert }, 
-      selectedLabels, 
-      labelsById, 
-      location 
-    } = this.props;    
+    const { handleSubmit,
+      showAddModal,
+      array: { push, insert },
+      selectedLabels,
+      labelsById,
+      location
+    } = this.props;
     return (
       <Dialog
         modal={true}
@@ -120,7 +120,7 @@ export default class AddEntryForm extends React.PureComponent<Props, OtherProps>
                   autoFocus={true}
                 />
               </InputWrap>
-              
+
               <InputWrap>
                 <Field
                   component={TextField}
@@ -132,10 +132,10 @@ export default class AddEntryForm extends React.PureComponent<Props, OtherProps>
                   multiLine={true}
                 />
               </InputWrap>
-              
-              <FieldArray 
-                name="checklistItems" 
-                component={CheckList} 
+
+              <FieldArray
+                name="checklistItems"
+                component={CheckList}
                 push={push}
                 insert={insert}
               />
@@ -183,7 +183,7 @@ export default class AddEntryForm extends React.PureComponent<Props, OtherProps>
                   <LabelsPopover>
                     <LabelsPopoverHeader>
                       <strong>Assign labels</strong>
-                      <small 
+                      <small
                         onClick={() => this.handleManageLabels()}
                         style={{cursor: 'pointer', color: '#3f51b5'}}
                       >
@@ -191,23 +191,23 @@ export default class AddEntryForm extends React.PureComponent<Props, OtherProps>
                       </small>
                     </LabelsPopoverHeader>
                      {/* <LablesPicker/>  */}
-                    <FieldArray 
-                      name="labels" 
-                      component={(props: any) => <LablesPicker {...props} selectedLabelIds={selectedLabels} />} 
+                    <FieldArray
+                      name="labels"
+                      component={(props: any) => <LablesPicker {...props} selectedLabelIds={selectedLabels} />}
                       push={push}
                       insert={insert}
-                    /> 
+                    />
                   </LabelsPopover>
                 </Popover>
 
                 {selectedLabels && selectedLabels.map((id: any) => {
                   return (
-                    <LabelSingle 
+                    <LabelSingle
                       key={labelsById[id].id}
                       className="selectedLabel"
                     >
                       <StyledLabelFilled style={{color: labelsById[id].color}} />
-                      <LabelName 
+                      <LabelName
                         className="name"
                       >
                         {labelsById[id].name}
@@ -226,14 +226,14 @@ export default class AddEntryForm extends React.PureComponent<Props, OtherProps>
             </RightSide>
           </ModalContent>
           <ModalFooter>
-            <FlatButton 
-              label="Cancel" 
-              primary={false} 
+            <FlatButton
+              label="Cancel"
+              primary={false}
               onClick={() => this.closeModal('addEntry')}
               style={{margin: '10px 10px 0 0'}}
             />
-            <RaisedButton 
-              label="Add" 
+            <RaisedButton
+              label="Add"
               secondary={true}
               className="successButton"
               onClick={handleSubmit(this.handleSubmit.bind(this))}

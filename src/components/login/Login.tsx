@@ -15,12 +15,12 @@ export default class Login extends React.Component<Props, {} > {
   submitForm = (v: any) => {
     const { login } = this.props;
     const user = {
-      email: v.email, 
+      email: v.email,
       password: v.password
     };
     login(user);
   }
-  
+
   componentWillReceiveProps(nextProps: any) {
     if (nextProps.auth.user) {
       browserHistory.push('/authentication');
@@ -28,7 +28,7 @@ export default class Login extends React.Component<Props, {} > {
   }
 
   render () {
-    const { handleSubmit } = this.props;
+    const { handleSubmit, auth } = this.props;
     return (
       <LoginWrap>
         <Logo>
@@ -39,6 +39,19 @@ export default class Login extends React.Component<Props, {} > {
             <h6 className="h6">Log into your account</h6>
           </Header>
           <form onSubmit={handleSubmit(this.submitForm)}>
+            {auth.loginError && (
+              <div>
+                {auth.loginError.code === 'auth/wrong-password'  ? (
+                  <ErrorText>
+                    Wrong password
+                  </ErrorText>
+                ) : (
+                  <ErrorText>
+                    {auth.loginError.message}
+                  </ErrorText>
+                )}
+              </div>
+            )}
             <InputWrap>
               <Field
                 component={TextField}
@@ -60,11 +73,11 @@ export default class Login extends React.Component<Props, {} > {
                 className="input-wrapper input"
               />
             </InputWrap>
-            <RaisedButton 
-              fullWidth={true} 
-              type="submit" 
-              label="Sign in" 
-              primary={true} 
+            <RaisedButton
+              fullWidth={true}
+              type="submit"
+              label="Sign in"
+              primary={true}
               style={{marginTop: '20px'}}
             />
           </form>
@@ -92,7 +105,6 @@ const Header = styled.div`
   border-bottom: 1px solid #f7f7f7;
 `;
 const InputWrap = styled.div`
-  
 `;
 const Footer = styled.footer`
   padding: 20px;
@@ -101,6 +113,10 @@ const Footer = styled.footer`
   flex-direction: row;
   align-items: center;
   background-color: #eee;
+`;
+const ErrorText = styled.h5`
+  color: crimson;
+  margin: 5px 0;
 `;
 const StyledRouterLink = styled(Link)`
 	color: #333;

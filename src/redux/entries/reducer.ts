@@ -87,16 +87,13 @@ export default function reducer(state: EntriesInitialState = initialState, actio
 
     case types.RECEIVE_ALL_ENTRIES: {
       const allEntries = {...state.byId, ...action.payload.entries};
-      console.log('action p', action.payload);
       return {
         ...state,
         byId: { 
-          ...state.byId,
           ...action.payload.entries 
         },
 
         allIds: [
-          ...state.allIds,
           ...Object.keys(action.payload.entries).map((key) => {
             return key;
           }),

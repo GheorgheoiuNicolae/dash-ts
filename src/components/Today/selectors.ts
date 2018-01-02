@@ -19,7 +19,7 @@ const getTodayEntries = (state: any): any[] => {
   const filteredByDate = _.sortBy(entryList, [(o: any) => {
     return o.dateTime;
   }]);
-
+  
   return filteredByDate.reverse();
 };
 
